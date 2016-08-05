@@ -25,4 +25,12 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
+})
+
+.controller("IntroBoxController", function ($scope) {
+  var ctrl = this;
+
+  ctrl.showIntro = function () {
+    angular.element(document.getElementById('intro-box')).addClass("intro-box-full");
+  }
 });

@@ -1,1 +1,36 @@
 /* Empty. Add your own CSS if you like */
+.header-images{
+  background-color: lightgrey;
+  height: 200px;
+  clear: both;
+}
+.slider {
+  height: 100%;
+}
+.slider-slide {
+  text-align: center;
+  font-weight: 300;
+}
+
+.intro-box {
+  height: 197px;
+  overflow: hidden;
+  display: block;
+}
+
+.intro-box-full {
+  height:auto;
+}
+.intro-box-btn {
+  -moz-box-shadow: 0px 0px 5px ghostwhite; /* 老的 Firefox */
+  box-shadow:0px 0px 5px 5px ghostwhite inset;
+}
+.hot-products {
+  display: block;
+}
+.hot-products ul li {
+  float: left;
+}
+.hot-products img {
+  border: lightgrey solid 1px;
+}
