@@ -1,6 +1,11 @@
 angular.module('starter.controllers', [])
-
-.controller('DashCtrl', function($scope) {})
+.controller('AppCtrl', function($scope) {
+  $scope.home     = 'Home';
+  $scope.about_us = 'About Us';
+})
+.controller('DashCtrl', function($scope) {
+})
+.controller('DashIntroCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
@@ -28,9 +33,32 @@ angular.module('starter.controllers', [])
 })
 
 .controller("IntroBoxController", function ($scope) {
-  var ctrl = this;
+  //var ctrl = this;
 
-  ctrl.showIntro = function () {
-    angular.element(document.getElementById('intro-box')).addClass("intro-box-full");
+  //ctrl.showIntro = function () {
+    //angular.element(document.getElementById('intro-box')).addClass("intro-box-full");
+  //}
+  $scope.showIntro = function () {
+    return 'yes';
   }
+})
+.directive('hideTabs', function ($rootScope) {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attributes) {
+      scope.$on('$ionicView.beforeEnter', function () {
+        scope.$watch(attributes.hideTabs, function (value) {
+          $rootScope.hideTabs = 'tabs-item-hide';
+        });
+      });
+      scope.$on('$ionicView.beforeLeave', function () {
+        scope.$watch(attributes.hideTabs, function (value) {
+          $rootScope.hideTabs = 'tabs-item-hide';
+        });
+        scope.$watch('$destroy', function () {
+          $rootScope.hideTabs = false;
+        })
+      });
+    }
+  };
 });

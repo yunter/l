@@ -1,18 +1,10 @@
-<ion-view view-title="{{home}}" hide-nav-bar="true" hide-back-button="true">
+<ion-view view-title="{{about_us}}" hide-tabs="true">
   <ion-content>
-    <ion-slide-box>
-      <ion-slide>
-        <div><img src="img/ionic.png" /></div>
-      </ion-slide>
-      <ion-slide>
-        <div><img src="img/375-200.png" /></div>
-      </ion-slide>
-    </ion-slide-box>
-    <div class="intro-box padding" id="intro-box" ng-controller="IntroBoxController as ibc">
-      <h3 class="text-center">Welcome to Ionic</h3>
-      <hr class="stable"/>
+    <div class="intro-box padding" id="intro-box" ng-controller="DashIntroCtrl">
       <p>
-        <a href="#/tab/dash/intro" >{{showIntro()}}</a>
+        <img src="img/355-100.png" />
+      </p>
+      <p>
         This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
       </p>
       <p>
@@ -25,11 +17,8 @@
         For help sending push notifications, join the <a href="https://apps.ionic.io/signup" target="_blank">Ionic Platform</a> and check out <a href="http://docs.ionic.io/docs/push-overview" target="_blank">Ionic Push</a>. We also have other services available.
       </p>
     </div>
-    <div class="hot-products padding" id="hot-products">
-      <ul>
-        <li><img src="img/170-120.png" /></li>
-        <li class="padding-left"><img src="img/170-120.png" /></li>
-      </ul>
+    <div class="padding text-center">
+      <img src="img/120-120.png" />
     </div>
   </ion-content>
 </ion-view>
