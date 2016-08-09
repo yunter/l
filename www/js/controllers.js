@@ -1,11 +1,25 @@
 angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope) {
+  $scope.platform = ionic.Platform.platform();
   $scope.home     = 'Home';
   $scope.about_us = 'About Us';
 })
 .controller('DashCtrl', function($scope) {
 })
 .controller('DashIntroCtrl', function($scope) {})
+.controller('DashHotProductsCtrl', function($scope, $http) {
+  $scope.items = [1,2,3];
+  $scope.doRefresh = function() {
+    $http.get('/')
+      .success(function(newItems) {
+        $scope.items = newItems;
+      })
+      .finally(function() {
+        // Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  };
+})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called

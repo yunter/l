@@ -2,34 +2,44 @@
   <ion-content>
     <ion-slide-box>
       <ion-slide>
-        <div><img src="img/ionic.png" /></div>
+        <div class="slider-slide-image"><img src="img/375-200.png" /></div>
       </ion-slide>
       <ion-slide>
-        <div><img src="img/375-200.png" /></div>
+        <div class="slider-slide-image"><img src="img/375-200.png" /></div>
       </ion-slide>
     </ion-slide-box>
-    <div class="intro-box padding" id="intro-box" ng-controller="IntroBoxController as ibc">
+    <div class="intro-box padding dark" id="intro-box" ng-controller="IntroBoxController as ibc">
       <h3 class="text-center">Welcome to Ionic</h3>
-      <hr class="stable"/>
       <p>
-        <a href="#/tab/dash/intro" >{{showIntro()}}</a>
+
         This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
       </p>
       <p>
-        To edit the content of each tab, edit the corresponding template file in <code>www/templates/</code>. This template is <code>www/templates/tab-dash.html</code>
+         template is <code>www/templates/tab-dash.html</code>
       </p>
-      <p>
-        If you need help with your app, join the Ionic Community on the <a href="http://forum.ionicframework.com" target="_blank">Ionic Forum</a>. Make sure to <a href="http://twitter.com/ionicframework" target="_blank">follow us</a> on Twitter to get important updates and announcements for Ionic developers.
-      </p>
-      <p>
-        For help sending push notifications, join the <a href="https://apps.ionic.io/signup" target="_blank">Ionic Platform</a> and check out <a href="http://docs.ionic.io/docs/push-overview" target="_blank">Ionic Push</a>. We also have other services available.
-      </p>
+
+      <a class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more" ></i></a>
     </div>
-    <div class="hot-products padding" id="hot-products">
-      <ul>
-        <li><img src="img/170-120.png" /></li>
-        <li class="padding-left"><img src="img/170-120.png" /></li>
-      </ul>
+    <div class="hot-products padding">
+      <div style="padding: 1px;">
+        <div class="item item-icon-left item-icon-right">
+          <i class="icon ion-bonfire energized"></i>
+          Hot Products
+          <a href="#/tab/hotProducts" nav-transition="none" class="icon {{platform != 'android' ? 'ion-ios-list-outline' : 'ion-android-list'}} dark"></a>
+        </div>
+      </div>
+      <div class="list">
+        <a class="item item-borderless" href="#">
+          <img src="img/170-120.png" />
+          <h2>Pretty Hate Machine</h2>
+          <p>Nine Inch Nails</p>
+        </a>
+        <a class="item item-borderless" href="#">
+          <img src="img/170-120.png" />
+          <h2>Pretty Hate Machine</h2>
+          <p>Nine Inch Nails</p>
+        </a>
+      </div>
     </div>
   </ion-content>
 </ion-view>

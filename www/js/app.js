@@ -50,11 +50,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
   .state('tab.dash-intro', {
-    url: '/dash/:Intro',
+    url: '/intro',
     views: {
       'tab-dash': {
         templateUrl: 'templates/dash-intro.html',
         controller: 'DashIntroCtrl'
+      }
+    }
+  })
+  .state('tab.dash-hotProducts', {
+    url: '/hotProducts',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/dash-hotProducts.html',
+        controller: 'DashHotProductsCtrl'
       }
     }
   })
