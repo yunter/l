@@ -20,6 +20,12 @@ angular.module('starter.controllers', [])
       });
   };
 })
+.controller('ProductsCtrl', function($scope) {
+  $scope.productId = 1;
+})
+.controller('ProductDetailCtrl', function($scope, $stateParams, Products) {
+  $scope.product = Products.get($stateParams.productId);
+})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
@@ -46,7 +52,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller("IntroBoxController", function ($scope) {
+.controller("IntroBoxCtrl", function ($scope) {
   //var ctrl = this;
 
   //ctrl.showIntro = function () {

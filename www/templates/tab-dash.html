@@ -8,7 +8,7 @@
         <div class="slider-slide-image"><img src="img/375-200.png" /></div>
       </ion-slide>
     </ion-slide-box>
-    <div class="intro-box padding dark" id="intro-box" ng-controller="IntroBoxController as ibc">
+    <div class="intro-box padding dark" id="intro-box" ng-controller="IntroBoxCtrl as ibc">
       <h3 class="text-center">Welcome to Ionic</h3>
       <p>
 
@@ -21,20 +21,20 @@
       <a class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more" ></i></a>
     </div>
     <div class="hot-products padding">
-      <div style="padding: 1px;">
+      <div>
         <div class="item item-icon-left item-icon-right">
           <i class="icon ion-bonfire energized"></i>
           Hot Products
           <a href="#/tab/hotProducts" nav-transition="none" class="icon {{platform != 'android' ? 'ion-ios-list-outline' : 'ion-android-list'}} dark"></a>
         </div>
       </div>
-      <div class="list">
-        <a class="item item-borderless" href="#">
+      <div class="list" ng-controller="ProductsCtrl">
+        <a class="item item-borderless row-no-padding" href="#/tab/products/{{productId}}">
           <img src="img/170-120.png" />
           <h2>Pretty Hate Machine</h2>
           <p>Nine Inch Nails</p>
         </a>
-        <a class="item item-borderless" href="#">
+        <a class="item item-borderless row-no-padding" href="#/tab/products/3">
           <img src="img/170-120.png" />
           <h2>Pretty Hate Machine</h2>
           <p>Nine Inch Nails</p>
