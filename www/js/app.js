@@ -58,19 +58,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
-  .state('tab.products', {
-    url: '/products',
+  .state('tab.product-list', {
+    url: '/product-list',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/products.html',
+      'tab-products': {
+        templateUrl: 'templates/product-list.html',
         controller: 'ProductsCtrl'
       }
     }
   })
-  .state('tab.product-detail', {
-    url: '/products/:productId',
+  .state('tab.products', {
+    url: '/products',
+    views: {
+      'tab-products': {
+        templateUrl: 'templates/tab-products.html',
+        controller: 'ProductsCtrl'
+      }
+    }
+  })
+
+  .state('tab.hot-product-detail', {
+    url: '/hot-product-detail/:productId',
     views: {
       'tab-dash': {
+        templateUrl: 'templates/product-detail.html',
+        controller: 'ProductDetailCtrl'
+      }
+    }
+  })
+  .state('tab.product-detail', {
+    url: '/product-detail/:productId',
+    views: {
+      'tab-products': {
         templateUrl: 'templates/product-detail.html',
         controller: 'ProductDetailCtrl'
       }

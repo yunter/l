@@ -1,4 +1,4 @@
-<ion-view view-title="Products List" hide-tabs>
+<ion-view view-title="Products">
   <ion-content ng-controller="ProductsCtrl">
     <ion-refresher
             pulling-text="Pull to refresh..."
@@ -11,7 +11,7 @@
       </label>
     </div>
     <div class="hot-products list padding">
-      <a class="item item-borderless row-no-padding" href="#/products/{{productId}}">
+      <a class="item item-borderless row-no-padding" href="#/tab/product-detail/{{productId}}">
         <img src="img/170-120.png" />
         <h2>Pretty Hate Machine</h2>
         <p>Nine Inch Nails</p>
