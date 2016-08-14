@@ -1,4 +1,7 @@
 /* Empty. Add your own CSS if you like */
+a {
+  text-decoration: none;
+}
 .header-images{
   background-color: lightgrey;
   height: 200px;
@@ -35,4 +38,15 @@
 }
 .hot-products a h2 {
   padding-top: 10px;
+}
+.gray, a.gray {
+  color: #d1d3d6;
+}
+
+.video-container {
+  padding: 1px;
+  height: auto;
+}
+.videoPlayer {
+  width: 100%;
 }

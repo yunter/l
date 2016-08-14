@@ -1,36 +1,30 @@
 <ion-view view-title="Products">
   <ion-content ng-controller="ProductsCtrl">
-    <ion-refresher
-            pulling-text="Pull to refresh..."
-            on-refresh="doRefresh()">
-    </ion-refresher>
-    <div class="bar bar-header item-input-inset">
-      <label class="item-input-wrapper">
-        <i class="icon ion-ios-search placeholder-icon"></i>
-        <input type="search" placeholder="Search">
-      </label>
+    <div id="product-video">
+      <div class="item item-icon-left item-icon-right">
+        <i class="icon ion-videocamera energized"></i>
+        Product Videos
+        <a href="#/tab/product-video-list" nav-transition="none" class="icon ion-more gray"></a>
+      </div>
+      <div class="video-container">
+        <video controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
+          <source src="http://www.w3school.com.cn/i/movie.ogg" type="video/mp4"/>
+        </video>
+      </div>
     </div>
-    <div class="hot-products list padding">
-      <a class="item item-borderless row-no-padding" href="#/tab/product-detail/{{productId}}">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
-      </a>
-      <a class="item item-borderless row-no-padding" href="#">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
-      </a>
-      <a class="item item-borderless row-no-padding" href="#">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
-      </a>
-      <a class="item item-borderless row-no-padding" href="#">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
-      </a>
+    <div class="product-category list">
+      <div class="item item-icon-left item-icon-right">
+        <i class="icon ion-ios-list"></i>
+        Product Categories
+        <a href="#/tab/product-category-list" nav-transition="none" class="icon ion-more gray"></a>
+      </div>
+      <div class="categories">
+        <ion-list>
+          <ion-item ng-repeat="item in items">
+            <a href="#/tab/product-list" class="dark"> Hello, {{item}}!</a>
+          </ion-item>
+        </ion-list>
+      </div>
     </div>
   </ion-content>
 </ion-view>

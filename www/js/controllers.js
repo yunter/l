@@ -22,6 +22,7 @@ angular.module('starter.controllers', [])
 })
 .controller('ProductsCtrl', function($scope) {
   $scope.productId = 1;
+  $scope.items = [1,2,3];
 })
 .controller('ProductDetailCtrl', function($scope, $stateParams, Products) {
   $scope.product = Products.get($stateParams.productId);
