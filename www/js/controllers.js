@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngCordova'])
 .controller('AppCtrl', function($scope) {
   $scope.platform = ionic.Platform.platform();
   $scope.home     = 'Home';
@@ -28,7 +28,42 @@ angular.module('starter.controllers', [])
   $scope.product = Products.get($stateParams.productId);
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, $ionicActionSheet, $timeout, Chats) {
+  // Triggered on a button click, or some other target
+  $scope.show = function() {
+
+    // Show the action sheet
+    var hideSheet = $ionicActionSheet.show({
+      buttons: [
+        { text: 'Choose form album' },
+        { text: 'Take Photos' },
+        { text: 'Take Capture' }
+      ],
+      //destructiveText: 'Delete',
+      titleText: 'Choose you action',
+      cancelText: 'Cancel',
+      cancel: function() {
+        // add cancel code..
+      },
+      buttonClicked: function(index) {
+        switch (index){
+          case 0:
+            alert('test');
+                break;
+          default:
+            alert(index);
+            break;
+        }
+        return true;
+      }
+    });
+
+    // For example's sake, hide the sheet after two seconds
+    $timeout(function() {
+      hideSheet();
+    }, 2500);
+
+  };
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),

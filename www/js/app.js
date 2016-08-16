@@ -124,6 +124,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
+    .state('tab.chat-history', {
+      url: '/chat-history',
+      views: {
+        'tab-chats': {
+          templateUrl: 'templates/chat-history.html',
+          controller: 'ChatsCtrl'
+        }
+      }
+    })
 
   .state('tab.account', {
     url: '/account',
