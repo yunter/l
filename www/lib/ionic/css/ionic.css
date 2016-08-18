@@ -64,7 +64,7 @@
 .ion-android-cancel:before,
 .ion-android-car:before,
 .ion-android-cart:before,
-.ion-android-chat:before,
+.ion-android-feedback:before,
 .ion-android-checkbox:before,
 .ion-android-checkbox-blank:before,
 .ion-android-checkbox-outline:before,
@@ -209,12 +209,12 @@
 .ion-camera:before,
 .ion-card:before,
 .ion-cash:before,
-.ion-chatbox:before,
-.ion-chatbox-working:before,
-.ion-chatboxes:before,
-.ion-chatbubble:before,
-.ion-chatbubble-working:before,
-.ion-chatbubbles:before,
+.ion-feedbackbox:before,
+.ion-feedbackbox-working:before,
+.ion-feedbackboxes:before,
+.ion-feedbackbubble:before,
+.ion-feedbackbubble-working:before,
+.ion-feedbackbubbles:before,
 .ion-checkmark:before,
 .ion-checkmark-circled:before,
 .ion-checkmark-round:before,
@@ -336,10 +336,10 @@
 .ion-ios-camera-outline:before,
 .ion-ios-cart:before,
 .ion-ios-cart-outline:before,
-.ion-ios-chatboxes:before,
-.ion-ios-chatboxes-outline:before,
-.ion-ios-chatbubble:before,
-.ion-ios-chatbubble-outline:before,
+.ion-ios-feedbackboxes:before,
+.ion-ios-feedbackboxes-outline:before,
+.ion-ios-feedbackbubble:before,
+.ion-ios-feedbackbubble-outline:before,
 .ion-ios-checkmark:before,
 .ion-ios-checkmark-empty:before,
 .ion-ios-checkmark-outline:before,
@@ -702,8 +702,8 @@
 .ion-social-sass:before,
 .ion-social-skype:before,
 .ion-social-skype-outline:before,
-.ion-social-snapchat:before,
-.ion-social-snapchat-outline:before,
+.ion-social-snapfeedback:before,
+.ion-social-snapfeedback-outline:before,
 .ion-social-tumblr:before,
 .ion-social-tumblr-outline:before,
 .ion-social-tux:before,
@@ -875,7 +875,7 @@
 .ion-android-cart:before {
   content: ""; }
 
-.ion-android-chat:before {
+.ion-android-feedback:before {
   content: ""; }
 
 .ion-android-checkbox:before {
@@ -1310,22 +1310,22 @@
 .ion-cash:before {
   content: ""; }
 
-.ion-chatbox:before {
+.ion-feedbackbox:before {
   content: ""; }
 
-.ion-chatbox-working:before {
+.ion-feedbackbox-working:before {
   content: ""; }
 
-.ion-chatboxes:before {
+.ion-feedbackboxes:before {
   content: ""; }
 
-.ion-chatbubble:before {
+.ion-feedbackbubble:before {
   content: ""; }
 
-.ion-chatbubble-working:before {
+.ion-feedbackbubble-working:before {
   content: ""; }
 
-.ion-chatbubbles:before {
+.ion-feedbackbubbles:before {
   content: ""; }
 
 .ion-checkmark:before {
@@ -1691,16 +1691,16 @@
 .ion-ios-cart-outline:before {
   content: ""; }
 
-.ion-ios-chatboxes:before {
+.ion-ios-feedbackboxes:before {
   content: ""; }
 
-.ion-ios-chatboxes-outline:before {
+.ion-ios-feedbackboxes-outline:before {
   content: ""; }
 
-.ion-ios-chatbubble:before {
+.ion-ios-feedbackbubble:before {
   content: ""; }
 
-.ion-ios-chatbubble-outline:before {
+.ion-ios-feedbackbubble-outline:before {
   content: ""; }
 
 .ion-ios-checkmark:before {
@@ -2789,10 +2789,10 @@
 .ion-social-skype-outline:before {
   content: ""; }
 
-.ion-social-snapchat:before {
+.ion-social-snapfeedback:before {
   content: ""; }
 
-.ion-social-snapchat-outline:before {
+.ion-social-snapfeedback-outline:before {
   content: ""; }
 
 .ion-social-tumblr:before {

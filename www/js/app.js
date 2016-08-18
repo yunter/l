@@ -106,30 +106,39 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.feedback', {
+      url: '/feedback',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-feedback': {
+          templateUrl: 'templates/tab-feedback.html',
+          controller: 'FeedbackCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.feedback-detail', {
+      url: '/feedback/:feedbackId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-feedback': {
+          templateUrl: 'templates/feedback-detail.html',
+          controller: 'FeedbackDetailCtrl'
         }
       }
     })
-    .state('tab.chat-history', {
-      url: '/chat-history',
+    .state('tab.feedback-attachments', {
+      url: '/feedback-attachments',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-history.html',
-          controller: 'ChatsCtrl'
+        'tab-feedback': {
+          templateUrl: 'templates/feedback-attachments.html',
+          controller: 'AttachmentsCtrl'
+        }
+      }
+    })
+    .state('tab.feedback-history', {
+      url: '/feedback-history',
+      views: {
+        'tab-feedback': {
+          templateUrl: 'templates/feedback-history.html',
+          controller: 'FeedbackCtrl'
         }
       }
     })

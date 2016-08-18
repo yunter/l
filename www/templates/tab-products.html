@@ -2,19 +2,21 @@
   <ion-content ng-controller="ProductsCtrl">
     <div id="product-video">
       <div class="item item-icon-left item-icon-right">
-        <i class="icon ion-videocamera energized"></i>
+        <i class="icon ion-videocamera"></i>
         Product Videos
         <a href="#/tab/product-video-list" nav-transition="none" class="icon ion-more gray"></a>
       </div>
       <div class="video-container">
         <video controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-          <source src="http://www.w3school.com.cn/i/movie.ogg" type="video/mp4"/>
+            <source type="video/mp4" src="http://www.w3schools.com/html/mov_bbb.mp4" />
+            <source type="video/ogg" src="http://www.w3schools.com/html/mov_bbb.ogg" />
+            HTML5 video does not support.
         </video>
       </div>
     </div>
     <div class="product-category list">
       <div class="item item-icon-left item-icon-right">
-        <i class="icon ion-ios-list"></i>
+        <i class="icon ion-ios-list energized"></i>
         Product Categories
         <a href="#/tab/product-category-list" nav-transition="none" class="icon ion-more gray"></a>
       </div>

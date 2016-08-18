@@ -28,7 +28,22 @@ angular.module('starter.controllers', ['ngCordova'])
   $scope.product = Products.get($stateParams.productId);
 })
 
-.controller('ChatsCtrl', function($scope, $ionicActionSheet, $timeout, Chats) {
+.controller('FeedbackCtrl', function($scope, $ionicActionSheet, $timeout, Feedback) {
+  // With the new view caching in Ionic, Controllers are only called
+  // when they are recreated or on app start, instead of every page change.
+  // To listen for when this page is active (for example, to refresh data),
+  // listen for the $ionicView.enter event:
+  //
+  //$scope.$on('$ionicView.enter', function(e) {
+  //});
+
+  $scope.feedback = Feedback.all();
+  $scope.remove = function(feedback) {
+    Feedback.remove(feedback);
+  };
+})
+
+.controller('AttachmentsCtrl', function($scope, $stateParams, $ionicActionSheet, $timeout) {
   // Triggered on a button click, or some other target
   $scope.show = function() {
 
@@ -36,9 +51,8 @@ angular.module('starter.controllers', ['ngCordova'])
     var hideSheet = $ionicActionSheet.show({
       buttons: [
         { text: 'Choose form album' },
-        { text: 'Take Photos' },
-        { text: 'Take Capture' }
-      ],
+        { text: 'Take Photos' }
+        ],
       //destructiveText: 'Delete',
       titleText: 'Choose you action',
       cancelText: 'Cancel',
@@ -49,7 +63,7 @@ angular.module('starter.controllers', ['ngCordova'])
         switch (index){
           case 0:
             alert('test');
-                break;
+            break;
           default:
             alert(index);
             break;
@@ -64,22 +78,10 @@ angular.module('starter.controllers', ['ngCordova'])
     }, 2500);
 
   };
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('FeedbackDetailCtrl', function($scope, $stateParams, Feedback) {
+  $scope.feedback = Feedback.get($stateParams.feedbackId);
 })
 
 .controller('AccountCtrl', function($scope) {

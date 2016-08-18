@@ -35,7 +35,7 @@
 .#{$ionicons-prefix}android-cancel:before,
 .#{$ionicons-prefix}android-car:before,
 .#{$ionicons-prefix}android-cart:before,
-.#{$ionicons-prefix}android-chat:before,
+.#{$ionicons-prefix}android-feedback:before,
 .#{$ionicons-prefix}android-checkbox:before,
 .#{$ionicons-prefix}android-checkbox-blank:before,
 .#{$ionicons-prefix}android-checkbox-outline:before,
@@ -180,12 +180,12 @@
 .#{$ionicons-prefix}camera:before,
 .#{$ionicons-prefix}card:before,
 .#{$ionicons-prefix}cash:before,
-.#{$ionicons-prefix}chatbox:before,
-.#{$ionicons-prefix}chatbox-working:before,
-.#{$ionicons-prefix}chatboxes:before,
-.#{$ionicons-prefix}chatbubble:before,
-.#{$ionicons-prefix}chatbubble-working:before,
-.#{$ionicons-prefix}chatbubbles:before,
+.#{$ionicons-prefix}feedbackbox:before,
+.#{$ionicons-prefix}feedbackbox-working:before,
+.#{$ionicons-prefix}feedbackboxes:before,
+.#{$ionicons-prefix}feedbackbubble:before,
+.#{$ionicons-prefix}feedbackbubble-working:before,
+.#{$ionicons-prefix}feedbackbubbles:before,
 .#{$ionicons-prefix}checkmark:before,
 .#{$ionicons-prefix}checkmark-circled:before,
 .#{$ionicons-prefix}checkmark-round:before,
@@ -307,10 +307,10 @@
 .#{$ionicons-prefix}ios-camera-outline:before,
 .#{$ionicons-prefix}ios-cart:before,
 .#{$ionicons-prefix}ios-cart-outline:before,
-.#{$ionicons-prefix}ios-chatboxes:before,
-.#{$ionicons-prefix}ios-chatboxes-outline:before,
-.#{$ionicons-prefix}ios-chatbubble:before,
-.#{$ionicons-prefix}ios-chatbubble-outline:before,
+.#{$ionicons-prefix}ios-feedbackboxes:before,
+.#{$ionicons-prefix}ios-feedbackboxes-outline:before,
+.#{$ionicons-prefix}ios-feedbackbubble:before,
+.#{$ionicons-prefix}ios-feedbackbubble-outline:before,
 .#{$ionicons-prefix}ios-checkmark:before,
 .#{$ionicons-prefix}ios-checkmark-empty:before,
 .#{$ionicons-prefix}ios-checkmark-outline:before,
@@ -673,8 +673,8 @@
 .#{$ionicons-prefix}social-sass:before,
 .#{$ionicons-prefix}social-skype:before,
 .#{$ionicons-prefix}social-skype-outline:before,
-.#{$ionicons-prefix}social-snapchat:before,
-.#{$ionicons-prefix}social-snapchat-outline:before,
+.#{$ionicons-prefix}social-snapfeedback:before,
+.#{$ionicons-prefix}social-snapfeedback-outline:before,
 .#{$ionicons-prefix}social-tumblr:before,
 .#{$ionicons-prefix}social-tumblr-outline:before,
 .#{$ionicons-prefix}social-tux:before,
@@ -771,7 +771,7 @@
 .#{$ionicons-prefix}android-cancel:before { content: $ionicon-var-android-cancel; }
 .#{$ionicons-prefix}android-car:before { content: $ionicon-var-android-car; }
 .#{$ionicons-prefix}android-cart:before { content: $ionicon-var-android-cart; }
-.#{$ionicons-prefix}android-chat:before { content: $ionicon-var-android-chat; }
+.#{$ionicons-prefix}android-feedback:before { content: $ionicon-var-android-feedback; }
 .#{$ionicons-prefix}android-checkbox:before { content: $ionicon-var-android-checkbox; }
 .#{$ionicons-prefix}android-checkbox-blank:before { content: $ionicon-var-android-checkbox-blank; }
 .#{$ionicons-prefix}android-checkbox-outline:before { content: $ionicon-var-android-checkbox-outline; }
@@ -916,12 +916,12 @@
 .#{$ionicons-prefix}camera:before { content: $ionicon-var-camera; }
 .#{$ionicons-prefix}card:before { content: $ionicon-var-card; }
 .#{$ionicons-prefix}cash:before { content: $ionicon-var-cash; }
-.#{$ionicons-prefix}chatbox:before { content: $ionicon-var-chatbox; }
-.#{$ionicons-prefix}chatbox-working:before { content: $ionicon-var-chatbox-working; }
-.#{$ionicons-prefix}chatboxes:before { content: $ionicon-var-chatboxes; }
-.#{$ionicons-prefix}chatbubble:before { content: $ionicon-var-chatbubble; }
-.#{$ionicons-prefix}chatbubble-working:before { content: $ionicon-var-chatbubble-working; }
-.#{$ionicons-prefix}chatbubbles:before { content: $ionicon-var-chatbubbles; }
+.#{$ionicons-prefix}feedbackbox:before { content: $ionicon-var-feedbackbox; }
+.#{$ionicons-prefix}feedbackbox-working:before { content: $ionicon-var-feedbackbox-working; }
+.#{$ionicons-prefix}feedbackboxes:before { content: $ionicon-var-feedbackboxes; }
+.#{$ionicons-prefix}feedbackbubble:before { content: $ionicon-var-feedbackbubble; }
+.#{$ionicons-prefix}feedbackbubble-working:before { content: $ionicon-var-feedbackbubble-working; }
+.#{$ionicons-prefix}feedbackbubbles:before { content: $ionicon-var-feedbackbubbles; }
 .#{$ionicons-prefix}checkmark:before { content: $ionicon-var-checkmark; }
 .#{$ionicons-prefix}checkmark-circled:before { content: $ionicon-var-checkmark-circled; }
 .#{$ionicons-prefix}checkmark-round:before { content: $ionicon-var-checkmark-round; }
@@ -1043,10 +1043,10 @@
 .#{$ionicons-prefix}ios-camera-outline:before { content: $ionicon-var-ios-camera-outline; }
 .#{$ionicons-prefix}ios-cart:before { content: $ionicon-var-ios-cart; }
 .#{$ionicons-prefix}ios-cart-outline:before { content: $ionicon-var-ios-cart-outline; }
-.#{$ionicons-prefix}ios-chatboxes:before { content: $ionicon-var-ios-chatboxes; }
-.#{$ionicons-prefix}ios-chatboxes-outline:before { content: $ionicon-var-ios-chatboxes-outline; }
-.#{$ionicons-prefix}ios-chatbubble:before { content: $ionicon-var-ios-chatbubble; }
-.#{$ionicons-prefix}ios-chatbubble-outline:before { content: $ionicon-var-ios-chatbubble-outline; }
+.#{$ionicons-prefix}ios-feedbackboxes:before { content: $ionicon-var-ios-feedbackboxes; }
+.#{$ionicons-prefix}ios-feedbackboxes-outline:before { content: $ionicon-var-ios-feedbackboxes-outline; }
+.#{$ionicons-prefix}ios-feedbackbubble:before { content: $ionicon-var-ios-feedbackbubble; }
+.#{$ionicons-prefix}ios-feedbackbubble-outline:before { content: $ionicon-var-ios-feedbackbubble-outline; }
 .#{$ionicons-prefix}ios-checkmark:before { content: $ionicon-var-ios-checkmark; }
 .#{$ionicons-prefix}ios-checkmark-empty:before { content: $ionicon-var-ios-checkmark-empty; }
 .#{$ionicons-prefix}ios-checkmark-outline:before { content: $ionicon-var-ios-checkmark-outline; }
@@ -1409,8 +1409,8 @@
 .#{$ionicons-prefix}social-sass:before { content: $ionicon-var-social-sass; }
 .#{$ionicons-prefix}social-skype:before { content: $ionicon-var-social-skype; }
 .#{$ionicons-prefix}social-skype-outline:before { content: $ionicon-var-social-skype-outline; }
-.#{$ionicons-prefix}social-snapchat:before { content: $ionicon-var-social-snapchat; }
-.#{$ionicons-prefix}social-snapchat-outline:before { content: $ionicon-var-social-snapchat-outline; }
+.#{$ionicons-prefix}social-snapfeedback:before { content: $ionicon-var-social-snapfeedback; }
+.#{$ionicons-prefix}social-snapfeedback-outline:before { content: $ionicon-var-social-snapfeedback-outline; }
 .#{$ionicons-prefix}social-tumblr:before { content: $ionicon-var-social-tumblr; }
 .#{$ionicons-prefix}social-tumblr-outline:before { content: $ionicon-var-social-tumblr-outline; }
 .#{$ionicons-prefix}social-tux:before { content: $ionicon-var-social-tux; }

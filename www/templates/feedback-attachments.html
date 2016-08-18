@@ -1,0 +1,23 @@
+<ion-view view-title="Attachments" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
+  <ion-header-bar align-title="center">
+    <div class="buttons">
+      <a class="button button-clear" href="#/tab/feedback">Confirm</a>
+    </div>
+    <h1 class="title">Attachments</h1>
+    <div class="buttons">
+      <a class="button button-clear" href="#/tab/feedback">Cancel</a>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-controller="AttachmentsCtrl">
+    <div class="list text-center">
+      <label class="item item-button-right" ng-click="show()">
+        <i class="icon ion-camera"></i>
+        Photo
+      </label>
+      <label class="item item-button-right">
+        <i class="icon ion-videocamera"></i>
+        Video
+      </label>
+    </div>
+  </ion-content>
+</ion-view>

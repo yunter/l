@@ -1,0 +1,24 @@
+<ion-view view-title="Feedback" hide-nav-bar="true" hide-back-button="true">
+  <ion-header-bar class="row-no-padding stable-bg" >
+    <div class="tabs-striped has-tabs-top tabs-background-stable">
+      <div class="tabs">
+        <a class="tab-item" href="#/tab/feedback">Test</a>
+        <a class="tab-item active" href="#/tab/feedback-history">Favorites</a>
+      </div>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="feedback in feedback" type="item-text-wrap" href="#/tab/feedback/{{feedback.id}}">
+        <img ng-src="{{feedback.face}}">
+        <h2>{{feedback.name}}</h2>
+        <p>{{feedback.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(feedback)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
