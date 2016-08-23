@@ -8,7 +8,7 @@
     </div>
   </ion-header-bar>
   <ion-content>
-    <div class="text-center padding">Please tell us about you knows</div>
+    <div class="text-center padding block">Please tell us about you knows</div>
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label">test</span>
@@ -20,10 +20,28 @@
       </label>
       <a class="dark" href="#/tab/feedback-attachments">
         <label class="item item-icon-right">
-          <p>attachments</p>
+          <p>Attachments</p>
           <i class="icon  ion-chevron-right icon-accessory"></i>
         </label>
       </a>
+      <label class="item item-input">
+        <span class="input-label ">Username</span>
+        <input name="feedback_username" type="text" placeholder="username" />
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Phone Number</span>
+        <input name="feedback_phone_number" type="text" placeholder="Phone Number"/>
+      </label>
+      <a class="dark" href="#/tab/feedback-address">
+        <label class="item item-icon-right">
+          <p>Address</p>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </label>
+      </a>
+    </div>
+    <div class="row text-center">
+      <div class="col col-33"><a class="button button-block button-outline button-stable">Cancel</a></div>
+      <div class="col col-67"><a class="button button-block button-energized">Submit</a></div>
     </div>
   </ion-content>
 </ion-view>

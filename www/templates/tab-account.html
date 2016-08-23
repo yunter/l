@@ -1,9 +1,72 @@
-<ion-view view-title="Account">
-  <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
+<ion-view view-title="Me">
+  <ion-content ng-controller="AccountCtrl">
+    <div class="list">
+
+      <a href="#/tab/account-avatar">
+        <label class="item item-icon-right">
+          <div class="row row-no-padding">
+            <div class="col col-67">
+              test
+            </div>
+            <div class="col col-33 text-right">
+              <img src="img/120-120.png" width="80" height="80"/>
+            </div>
+          </div>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </label>
+      </a>
+      <a href="#/tab/account-username">
+        <label class="item item-icon-right">
+          <div class="row row-no-padding">
+            <div class="col col-67">
+              Username
+            </div>
+            <div class="col col-33 text-right">
+              text
+            </div>
+          </div>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </label>
+      </a>
+      <a href="#/tab/account-address">
+        <label class="item item-icon-right">
+          <div class="row row-no-padding">
+            <div class="col col-67">
+              Address
+            </div>
+            <div class="col col-33 text-right">
+              text
+            </div>
+          </div>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </label>
+      </a>
+      <a href="#/tab/account-language">
+        <label class="item item-icon-right">
+          <div class="row row-no-padding">
+            <div class="col col-67">
+              Language
+            </div>
+            <div class="col col-33 text-right">
+              text
+            </div>
+          </div>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </label>
+      </a>
+      <a href="#/tab/account-about">
+        <label class="item item-icon-right">
+          <div class="row row-no-padding">
+            <div class="col col-67">
+              About
+            </div>
+            <div class="col col-33 text-right">
+              text
+            </div>
+          </div>
+          <i class="icon ion-chevron-right icon-accessory"></i>
+        </label>
+      </a>
+    </div>
   </ion-content>
 </ion-view>
