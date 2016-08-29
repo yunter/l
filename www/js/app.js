@@ -7,8 +7,24 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives', 'starter.services'])
 
-    .run(function ($ionicPlatform) {
+    .run(function ($ionicPlatform, $state, $cordovaDevice, Api) {
+        var init = function () {
+            console.log("initializing device");
+            try {
+              console.log("UUID: " + $cordovaDevice.getUUID());
+              return $cordovaDevice.getUUID();
+            } catch (err) {
+              console.log("Error: " + err.message);
+              return 'local';
+            }
+
+        };
         $ionicPlatform.ready(function () {
+            //
+            var uuid = init();
+
+            Api.registerDevice(uuid);
+
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

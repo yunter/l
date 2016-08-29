@@ -1,5 +1,66 @@
 angular.module('starter.services', [])
+  .constant('ApiHost', {
+    url: 'http://ok.cms.debug/index.php?route=openapi'
+  })
+  // For the real endpoint, we'd use this
+  // .constant('ApiEndpoint', {
+  //  url: 'http://cors.api.com/api'
+  // })
+  .factory('Api', function ($http, $httpParamSerializer, ApiHost) {
+    function registerDevice (uuid) {
+      try {
+        var request = {
+          method: 'POST',
+          url: ApiHost.url + '/account/registerdevice',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Deviceid': 'deviceid',
+            'Token': 'token',
+            'Sysversion': 'com.lamsin.starter',
+            'Sysname': 'iOS'
+          },
+          data: $httpParamSerializer({
+            uuid: uuid,
+            appversion: '0.0.0.1',
+            sysversion: '9.3',
+            bundleid: 'com.lamsin.starter',
+            sysname: 'iOS'
+          })
+        };
+        var ret = false;
+        $http(request).then(function (response) {
+          ret = true;
+          console.log(response.message);
+        }, function (response) {
+          console.log(response.message);
+        });
 
+        return ret;
+
+      } catch (err) {
+        console.log("Error: " + err.message);
+        return err.message;
+      }
+    }
+    return {
+      registerDevice: function(uuid){
+        return registerDevice(uuid);
+      }
+    };
+
+    /**
+     var getApiData = function () {
+      return $http.get(ApiEndpoint.url + '/tasks')
+        .then(function (data) {
+          console.log('Got some data: ', data);
+          return data;
+        });
+    };
+
+     return {
+      getApiData: getApiData
+    };**/
+  })
 .factory('Feedback', function() {
   // Might use a resource here that returns a JSON array
 
