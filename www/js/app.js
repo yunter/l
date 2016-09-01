@@ -23,7 +23,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
             //
             var uuid = init();
 
-            Api.registerDevice(uuid);
+            if(uuid != '' && uuid != undefined) {
+                var AppVersion = '1.0';
+                Api.registerDevice(uuid, $cordovaDevice.getPlatform(), $cordovaDevice.getVersion(), AppVersion);
+            }
 
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
