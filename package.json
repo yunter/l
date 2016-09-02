@@ -25,7 +25,8 @@
     "cordova-plugin-compat",
     "cordova-plugin-media-capture",
     "cordova-plugin-file",
-    "cordova-plugin-globalization"
+    "cordova-plugin-globalization",
+    "cordova-plugin-app-preferences"
   ],
   "cordovaPlatforms": [
     {

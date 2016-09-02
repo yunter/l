@@ -6,8 +6,8 @@ angular.module('starter.services', [])
     // .constant('ApiEndpoint', {
     //  url: 'http://cors.api.com/api'
     // })
-    .factory('Api', function ($http, $httpParamSerializer, ApiHost) {
-        function registerDevice(uuid, Platform, sysVersion, AppVersion) {
+    .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, ApiHost) {
+        function regDevice(uuid, Platform, sysVersion, AppVersion) {
             try {
                 var request = {
                     method: 'POST',
@@ -26,15 +26,20 @@ angular.module('starter.services', [])
                         sysname: Platform
                     })
                 };
-                var ret = false;
-                $http(request).then(function (response) {
-                    ret = true;
-                    console.log(response.message);
-                }, function (response) {
-                    console.log(response.message);
-                });
+              var deferred = $q.defer();       // This will handle your promise
 
-                return ret;
+              $http(request).then(function (response) {
+                if (typeof response.data === 'object') {
+                  deferred.resolve(response.data);
+                } else {
+                  deferred.reject(response.data);
+                }
+              }, function (error) {
+                console.log(error.data);
+                return deferred.error(response.data);
+              });
+
+              return deferred.promise;
 
             } catch (err) {
                 console.log("Error: " + err.message);
@@ -43,8 +48,8 @@ angular.module('starter.services', [])
         }
 
         return {
-            registerDevice: function (uuid, Platform, sysVersion, AppVersion) {
-                return registerDevice(uuid, Platform, sysVersion, AppVersion);
+          regDevice: function (uuid, Platform, sysVersion, AppVersion) {
+                return regDevice(uuid, Platform, sysVersion, AppVersion);
             }
         }
     })
