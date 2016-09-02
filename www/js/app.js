@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
 
     };
 
-    $ionicPlatform.ready(function ($scope) {
+    $ionicPlatform.ready(function () {
       //
       var uuid = init();
       var AppVersion = '1.0';
@@ -36,7 +36,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
       } else {
         ApiRegDevice.regDevice('localtest', 'browser', '1.0', AppVersion).then(function (result) {
           console.log(result.data.deviceid);
-          $scope.deviceid = result.data.deviceid;
         }, function (error) {
           console.log(error);
         }, function (msg) {
