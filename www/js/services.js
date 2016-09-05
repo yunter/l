@@ -1,11 +1,7 @@
 angular.module('starter.services', [])
     .constant('ApiHost', {
-        url: 'http://ok.cms.debug/index.php?route=openapi'
+        url: 'http://lamsin.bluemorpho.cn/index.php?route=openapi'
     })
-    // For the real endpoint, we'd use this
-    // .constant('ApiEndpoint', {
-    //  url: 'http://cors.api.com/api'
-    // })
     .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, ApiHost) {
         function regDevice(uuid, Platform, sysVersion, AppVersion) {
             try {
@@ -35,15 +31,13 @@ angular.module('starter.services', [])
                   deferred.reject(response.data);
                 }
               }, function (error) {
-                console.log(error.data);
-                return deferred.error(response.data);
+                return deferred.error(error.data);
               });
 
               return deferred.promise;
 
             } catch (err) {
-                console.log("Error: " + err.message);
-                return err.message;
+                return err;
             }
         }
 
@@ -54,49 +48,43 @@ angular.module('starter.services', [])
         }
     })
 
-    .factory('ApiSlideShow', function ($http, $httpParamSerializer, ApiHost) {
-        function getShow(uuid, Platform, sysVersion, AppVersion) {
+    .factory('ApiHome', function ($http, $q, ApiHost) {
+        function getSlideShow() {
             try {
                 var request = {
                     method: 'POST',
-                    url: ApiHost.url + '/account/registerdevice',
+                    url: ApiHost.url + '/slideshow/getshow',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         //'Deviceid': 'deviceid',
-                        //'Token': 'token',
-                        'Sysversion': sysVersion,
-                        'Sysname': Platform
-                    },
-                    data: $httpParamSerializer({
-                        uuid: uuid,
-                        appversion: AppVersion,
-                        sysversion: sysVersion,
-                        sysname: Platform
-                    })
+                        //'Token': 'token'
+                    }
                 };
-                var ret = false;
-                $http(request).then(function (response) {
-                    ret = true;
-                    console.log(response.message);
-                }, function (response) {
-                    console.log(response.message);
-                });
+              var deferred = $q.defer();       // This will handle your promise
 
-                return ret;
+              $http(request).then(function (response) {
+                if (typeof response.data === 'object') {
+                  deferred.resolve(response.data);
+                } else {
+                  deferred.reject(response.data);
+                }
+              }, function (error) {
+                return deferred.error(error.data);
+              });
+
+              return deferred.promise;
 
             } catch (err) {
-                console.log("Error: " + err.message);
-                return err.message;
+                return err;
             }
         }
 
         return {
-            registerDevice: function (uuid, Platform, sysVersion, AppVersion) {
-                return registerDevice(uuid, Platform, sysVersion, AppVersion);
+          getSlideShow: function () {
+                return getSlideShow();
             }
         }
     })
-
 
     .factory('Feedback', function () {
         // Might use a resource here that returns a JSON array

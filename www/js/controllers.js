@@ -4,7 +4,16 @@ angular.module('starter.controllers', ['ngCordova'])
         $scope.home = 'Home';
         $scope.about_us = 'About Us';
     })
-    .controller('DashCtrl', function ($scope) {
+    .controller('DashCtrl', function ($scope, ApiHome) {
+        ApiHome.getSlideShow().then(function (result) {
+            if(result.banners != undefined) {
+                $scope.banners = result.banners;
+            }
+        }, function (error) {
+            console.log(error);
+        }, function (msg) {
+            console.log(msg);
+        });
     })
     .controller('DashIntroCtrl', function ($scope) {
     })
