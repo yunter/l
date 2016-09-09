@@ -1,19 +1,16 @@
-<ion-view view-title="{{home}}" hide-nav-bar="true" hide-back-button="true">
+<ion-view view-title="{{home}}" hide-nav-bar="true" hide-back-button="true" ng-controller="DashCtrl">
   <ion-content>
     <ion-slide-box>
       <ion-slide ng-repeat="banner in banners">
-        <div class="slider-slide-image"><a href="{{banner.link}}"><img src="{{banner.image}}" /></a></div>
+        <div class="slider-slide-image"><a ng-href="{{banner.link}}"><img ng-src="{{banner.image}}" /></a></div>
       </ion-slide>
     </ion-slide-box>
-    <div class="intro-box padding dark" id="intro-box" ng-controller="IntroBoxCtrl as ibc">
-      <h3 class="text-center">Welcome to Ionic</h3>
-      <p>
+    <div class="intro-box padding dark" id="intro-box">
+      <h4 class="text-center">{{IntroTitle}}</h4>
 
-        This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
-      </p>
-      <p>
-         template is <code>www/templates/tab-dash.html</code>
-      </p>
+      <div>
+        {{IntroDesc}}
+      </div>
 
       <a class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more gray" ></i></a>
     </div>
@@ -25,16 +22,11 @@
           <a href="#/tab/hotProducts" nav-transition="none" class="icon {{platform != 'android' ? 'ion-ios-list-outline' : 'ion-android-list'}} gray"></a>
         </div>
       </div>
-      <div class="list" ng-controller="ProductsCtrl">
-        <a class="item item-borderless row-no-padding" href="#/tab/hot-product-detail/{{productId}}">
-          <img src="img/170-120.png" />
-          <h2>Pretty Hate Machine</h2>
-          <div class="item-text-wrap"><p>Nine Inch NailsNine Inch NailsNine Inch NailsNine Inch Nails</p></div>
-        </a>
-        <a class="item item-borderless row-no-padding" href="#/tab/hot-product-detail/3">
-          <img src="img/170-120.png" />
-          <h2>Pretty Hate Machine</h2>
-          <div class="item-text-wrap"><p>Nine Inch NailsNine Inch NailsNine Inch NailsNine Inch Nails</p></div>
+      <div class="list" ng-controller="DashHotProductsCtrl">
+        <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}">
+          <img ng-src="{{latestProduct.thumbUrl}}" />
+          <h2>{{latestProduct.productName}}</h2>
+          <div class="item-text-wrap"><p>{{latestProduct.meta_title}}</p></div>
         </a>
       </div>
     </div>
