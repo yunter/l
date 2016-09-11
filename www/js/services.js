@@ -149,7 +149,7 @@ angular.module('starter.services', [])
       }
     }
 
-    function getLatestProducts(limit) {
+    function getLatestProducts(start, limit) {
       try {
         var request = {
           method: 'POST',
@@ -160,7 +160,8 @@ angular.module('starter.services', [])
             //'Token': 'token'
           },
           data: $httpParamSerializer({
-            limit: limit,
+            start: start,
+            limit: limit
           })
         };
         var deferred = $q.defer();       // This will handle your promise
@@ -191,8 +192,8 @@ angular.module('starter.services', [])
       getIntro: function (articleId) {
         return getIntro(articleId);
       },
-      getLatestProducts: function (limit) {
-        return getLatestProducts(limit);
+      getLatestProducts: function (start, limit) {
+        return getLatestProducts(start, limit);
       }
     };
   })
@@ -284,4 +285,24 @@ angular.module('starter.services', [])
         return getProductInfo(productId);
       }
     }
-  });
+  })
+    .factory('localstorage', ['$window', '$localStorage','$q', function ($window, $localStorage,$q) {
+  return {
+    set: function (key, value) {
+      var deferred = $q.defer();
+      $window.localStorage[key] = value;
+      deferred.resolve(1);
+      return deferred.promise;
+    },
+    get: function (key, defaultValue) {
+      return $window.localStorage[key] || defaultValue;
+    },
+    setObject: function (key, value) {
+      $window.localStorage[key] = JSON.stringify(value);
+    },
+    getObject: function (key) {
+      return JSON.parse($window.localStorage[key] || '{}');
+    }
+  }
+
+}]);

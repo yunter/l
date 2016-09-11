@@ -1,13 +1,13 @@
-angular.module('starter.controllers', ['ngCordova'])
+angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
   .controller('AppCtrl', function ($scope) {
     $scope.platform = ionic.Platform.platform();
     $scope.home = 'Home';
     $scope.about_us = 'About Us';
   })
-  .controller('DashCtrl', function ($scope, ApiHome) {
+  .controller('DashCtrl', function ($scope, localstorage, ApiHome) {
+
     ApiHome.getLamsin().then(function (result) {
       if (typeof result == "object") {
-
         //banner
         ApiHome.getSlideShow(result.bannerConfig.id, result.bannerConfig.width, result.bannerConfig.height)
           .then(function (result) {
@@ -19,6 +19,8 @@ angular.module('starter.controllers', ['ngCordova'])
           });
 
         //intro
+        localstorage.set('IntroId', result.articleConfig.intro);
+
         ApiHome.getIntro(result.articleConfig.intro)
           .then(function (result) {
             if (typeof result == "object") {
@@ -36,12 +38,22 @@ angular.module('starter.controllers', ['ngCordova'])
         alert("ERR:02, Request error.");
     });
   })
-  .controller('DashIntroCtrl', function ($scope) {
-    alert($scope.IntroId);
+  .controller('DashIntroCtrl', function ($scope, localstorage, ApiHome) {
+    var IntroId = localstorage.get('IntroId');
+    ApiHome.getIntro(IntroId)
+        .then(function (result) {
+          if (typeof result == "object") {
+            $scope.IntroTitle = result.data.title;
+            $scope.IntroDesc  = result.data.meta_description;
+            $scope.IntroDescription  = result.data.description;
+          }
+        }, function (error) {
+          alert("ERROR:DashIntro, Request error.");
+        });
   })
   .controller('DashHotProductsCtrl', function ($scope, ApiHome) {
     //hot products
-    ApiHome.getLatestProducts(3).then(
+    ApiHome.getLatestProducts(0, 3).then(
       function (result) {
         if (typeof result == "object") {
           $scope.latestProducts = result.data;
@@ -50,11 +62,22 @@ angular.module('starter.controllers', ['ngCordova'])
           alert("ERR:GetLatestProducts, Request error.");
       });
   })
+    .controller('DashHotProductsListCtrl', function ($scope, ApiHome) {
+      //hot products
+      ApiHome.getLatestProducts(0, 10).then(
+          function (result) {
+            if (typeof result == "object") {
+              $scope.latestProducts = result.data;
+            }
+          }, function (error) {
+            alert("ERR:GetLatestProducts, Request error.");
+          });
+    })
   .controller('ProductsCtrl', function ($scope) {
     $scope.productId = 1;
     $scope.items = [1, 2, 3];
   })
-  .controller('ProductDetailCtrl', function ($scope, $stateParams, Products) {
+  .controller('ProductDetailCtrl', function ($scope, $stateParams, localstorage, Products) {
     //get product information
     Products.getProductInfo($stateParams.productId).then(
         function (result) {

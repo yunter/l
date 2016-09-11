@@ -1,5 +1,5 @@
 <ion-view view-title="Hot Products" hide-tabs="true">
-  <ion-content ng-controller="DashHotProductsCtrl">
+  <ion-content ng-controller="DashHotProductsListCtrl">
     <div class="bar bar-header item-input-inset">
       <label class="item-input-wrapper">
         <i class="icon ion-ios-search placeholder-icon"></i>
@@ -7,27 +7,10 @@
       </label>
     </div>
     <div class="hot-products list padding">
-      <a class="item item-borderless row-no-padding" href="#/tab/hot-product-detail/2">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <!-- div class="item-icon-right"><i class="icon ion-ios-arrow-right stable"></i> </div -->
-        <div class="item-text-wrap"><p>Nine Inch NailsNine Inch NailsNine Inch NailsNine Inch Nails</p></div>
-
-      </a>
-      <a class="item item-borderless row-no-padding" href="#/tab/hot-product-detail/3">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <div class="item-text-wrap"><p>Nine Inch NailsNine Inch NailsNine Inch NailsNine Inch Nails</p></div>
-      </a>
-      <a class="item item-borderless row-no-padding" href="#">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <div class="item-text-wrap"><p>Nine Inch NailsNine Inch NailsNine Inch NailsNine Inch Nails</p></div>
-      </a>
-      <a class="item item-borderless row-no-padding" href="#">
-        <img src="img/170-120.png" />
-        <h2>Pretty Hate Machine</h2>
-        <div class="item-text-wrap"><p>Nine Inch NailsNine Inch NailsNine Inch NailsNine Inch Nails</p></div>
+      <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}">
+        <img ng-src="{{latestProduct.thumbUrl}}" />
+        <h2>{{latestProduct.productName}}</h2>
+        <div class="item-text-wrap"><p>{{latestProduct.meta_title}}</p></div>
       </a>
     </div>
   </ion-content>
