@@ -64,14 +64,28 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
   })
     .controller('DashHotProductsListCtrl', function ($scope, ApiHome) {
       //hot products
-      ApiHome.getLatestProducts(0, 10).then(
-          function (result) {
-            if (typeof result == "object") {
-              $scope.latestProducts = result.data;
-            }
-          }, function (error) {
-            alert("ERR:GetLatestProducts, Request error.");
-          });
+        ApiHome.getLatestProducts(0, 10).then(
+            function (result) {
+                if (typeof result == "object") {
+                    $scope.latestProducts = result.data;
+                }
+            }, function (error) {
+                alert("ERR:GetLatestProducts, Request error.");
+            });
+        $scope.doRefresh = function() {
+            ApiHome.getLatestProducts(0, 10).then(
+                function (result) {
+                    if (typeof result == "object") {
+                        $scope.latestProducts = result.data;
+                    }
+                }, function (error) {
+                    alert("ERR:GetLatestProducts, Request error.");
+                })
+                .finally(function() {
+                    // Stop the ion-refresher from spinning
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+        }
     })
   .controller('ProductsCtrl', function ($scope) {
     $scope.productId = 1;
