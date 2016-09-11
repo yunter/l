@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
   .constant('ApiHost', {
-    domain: 'http://ok.cms.debug',
+    domain: 'http://lamsin.bluemorpho.cn',
     uri: '/index.php?route=openapi'
   })
   .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, ApiHost) {
@@ -48,7 +48,6 @@ angular.module('starter.services', [])
       }
     }
   })
-
   .factory('ApiHome', function ($http, $q, $httpParamSerializer, ApiHost) {
 
     function getLamsin() {
@@ -195,7 +194,7 @@ angular.module('starter.services', [])
       getLatestProducts: function (limit) {
         return getLatestProducts(limit);
       }
-    }
+    };
   })
 
   .factory('Feedback', function () {
@@ -247,51 +246,42 @@ angular.module('starter.services', [])
     };
   })
 
-  .factory('Products', function () {
-    // Might use a resource here that returns a JSON array
+  .factory('Products', function ($http, $q, $httpParamSerializer, ApiHost) {
+    function getProductInfo(productId) {
+      try {
+        var request = {
+          method: 'POST',
+          url: ApiHost.domain + ApiHost.uri + '/products/productInfo',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            //'Deviceid': 'deviceid',
+            //'Token': 'token'
+          },
+          data: $httpParamSerializer({
+            product_id: productId,
+          })
+        };
+        var deferred = $q.defer();       // This will handle your promise
+        $http(request).then(function (response) {
+          if (typeof response.data === 'object') {
+            deferred.resolve(response.data);
+          } else {
+            deferred.reject(response.data);
+          }
+        }, function (error) {
+          return deferred.reject(error.data);
+        });
 
-    // Some fake testing data
-    var products = [{
-      id: 0,
-      name: 'Ben Sparrow',
-      lastText: 'You on your way?',
-      face: 'img/ben.png'
-    }, {
-      id: 1,
-      name: 'Max Lynx',
-      lastText: 'Hey, it\'s me',
-      face: 'img/max.png'
-    }, {
-      id: 2,
-      name: 'Adam Bradleyson',
-      lastText: 'I should buy a boat',
-      face: 'img/adam.jpg'
-    }, {
-      id: 3,
-      name: 'Perry Governor',
-      lastText: 'Look at my mukluks!',
-      face: 'img/perry.png'
-    }, {
-      id: 4,
-      name: 'Mike Harrington',
-      lastText: 'This is wicked good ice cream.',
-      face: 'img/mike.png'
-    }];
+        return deferred.promise;
+
+      } catch (err) {
+        return err;
+      }
+    }
 
     return {
-      all: function () {
-        return products;
-      },
-      remove: function (feedback) {
-        products.splice(products.indexOf(feedback), 1);
-      },
-      get: function (productId) {
-        for (var i = 0; i < products.length; i++) {
-          if (products[i].id === parseInt(productId)) {
-            return products[i];
-          }
-        }
-        return null;
+      getProductInfo: function (productId) {
+        return getProductInfo(productId);
       }
-    };
+    }
   });

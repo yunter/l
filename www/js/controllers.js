@@ -15,9 +15,7 @@ angular.module('starter.controllers', ['ngCordova'])
               $scope.banners = result.data.banners;
             }
           }, function (error) {
-            console.log(error);
-          }, function (msg) {
-            console.log(msg);
+            alert("ERROR:GetSlideShow, Request error.");
           });
 
         //intro
@@ -28,19 +26,18 @@ angular.module('starter.controllers', ['ngCordova'])
               $scope.IntroDesc  = result.data.meta_description;
             }
           }, function (error) {
-            console.log(error);
-          }, function (msg) {
-            console.log(msg);
+            alert("ERROR:GetIntro, Request error.");
           });
 
+      } else {
+          alert("ERR:01, Service is not available.");
       }
     }, function (error) {
-      console.log(error);
-    }, function (msg) {
-      console.log(msg);
+        alert("ERR:02, Request error.");
     });
   })
   .controller('DashIntroCtrl', function ($scope) {
+    alert($scope.IntroId);
   })
   .controller('DashHotProductsCtrl', function ($scope, ApiHome) {
     //hot products
@@ -50,9 +47,7 @@ angular.module('starter.controllers', ['ngCordova'])
           $scope.latestProducts = result.data;
         }
       }, function (error) {
-        console.log(error);
-      }, function (msg) {
-        console.log(msg);
+          alert("ERR:GetLatestProducts, Request error.");
       });
   })
   .controller('ProductsCtrl', function ($scope) {
@@ -60,7 +55,15 @@ angular.module('starter.controllers', ['ngCordova'])
     $scope.items = [1, 2, 3];
   })
   .controller('ProductDetailCtrl', function ($scope, $stateParams, Products) {
-    $scope.product = Products.get($stateParams.productId);
+    //get product information
+    Products.getProductInfo($stateParams.productId).then(
+        function (result) {
+          if (typeof result == "object") {
+            $scope.productInfo = result.data;
+          }
+        }, function (error) {
+          alert("ERR:GetProductInfo, Request error.");
+        });
   })
 
   .controller('FeedbackCtrl', function ($scope, $ionicActionSheet, $timeout, Feedback) {
