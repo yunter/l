@@ -123,11 +123,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives',
         }
       })
       .state('tab.product-list', {
-        url: '/product-list',
+        url: '/product-list/:categoryId/:hasChild',
         views: {
           'tab-products': {
             templateUrl: 'templates/product-list.html',
-            controller: 'ProductsCtrl'
+            controller: 'ProductListCtrl'
           }
         }
       })

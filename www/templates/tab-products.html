@@ -6,24 +6,25 @@
         Product Videos
         <a href="#/tab/product-video-list" nav-transition="none" class="icon ion-more gray"></a>
       </div>
-      <div class="video-container">
+      <div class="video-container" ng-repeat="pVideo in ProductVideo">
         <video controls="controls" poster="img/375-200.png" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-            <source type="video/mp4" src="http://www.w3schools.com/html/mov_bbb.mp4" />
-            <source type="video/ogg" src="http://www.w3schools.com/html/mov_bbb.ogg" />
+            <source type="video/mp4" ng-src="{{pVideo.url}}" />
             HTML5 video does not support.
         </video>
       </div>
     </div>
     <div class="product-category list">
-      <div class="item item-icon-left item-icon-right">
+      <div class="item item-icon-left">
         <i class="icon ion-ios-list energized"></i>
         Product Categories
-        <a href="#/tab/product-list" nav-transition="none" class="icon ion-more gray"></a>
       </div>
       <div class="categories">
         <ion-list>
-          <ion-item ng-repeat="item in items">
-            <a href="#/tab/product-list" class="dark"> Hello, {{item}}!</a>
+          <ion-item ng-repeat="ProductCategory in ProductCategories" class="item-icon-right">
+            <a ng-href="#/tab/product-list/{{ProductCategory.categoryId}}/{{(ProductCategory.categories != null) ? 1 : 0}}" class="dark">
+              <label>{{ProductCategory.categoryName}}</label>
+              <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
           </ion-item>
         </ion-list>
       </div>

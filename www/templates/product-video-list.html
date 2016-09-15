@@ -1,53 +1,16 @@
 <ion-view view-title="Video List" hide-tabs>
-  <ion-content ng-controller="ProductsCtrl">
-    <div class="bar bar-header item-input-inset">
-      <label class="item-input-wrapper">
-        <i class="icon ion-ios-search placeholder-icon"></i>
-        <input type="search" placeholder="Search">
-      </label>
-    </div>
-    <div class="card">
+  <ion-content ng-controller="ProductVideoListCtrl">
+    <div class="card" ng-repeat="ProductVideo in ProductVideoList">
       <div class="item item-divider">
-        I'm a Header in a Card!
+        {{ProductVideo.name}}
       </div>
       <div class="item item-text-wrap row-no-padding">
         <video controls="controls" poster="img/375-200.png" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-          <source type="video/mp4" src="http://www.w3schools.com/html/mov_bbb.mp4" />
-          <source type="video/ogg" src="http://www.w3schools.com/html/mov_bbb.ogg" />
+          <source type="video/mp4" ng-src="{{ProductVideo.url}}" />
           HTML5 video does not support.
         </video>
         <div class="padding">
-          Explore our API docs for detailed information on the View Controllers and Javascript utilities available in Ionic.
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="item item-divider">
-        I'm a Header in a Card!
-      </div>
-      <div class="item item-text-wrap row-no-padding">
-        <video controls="controls" poster="img/375-200.png" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-          <source type="video/mp4" src="http://www.w3schools.com/html/mov_bbb.mp4" />
-          <source type="video/ogg" src="http://www.w3schools.com/html/mov_bbb.ogg" />
-          HTML5 video does not support.
-        </video>
-        <div class="padding">
-          Explore our API docs for detailed information on the View Controllers and Javascript utilities available in Ionic.
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="item item-divider">
-        I'm a Header in a Card!
-      </div>
-      <div class="item item-text-wrap row-no-padding">
-        <video controls="controls" poster="img/375-200.png" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-          <source type="video/mp4" src="http://www.w3schools.com/html/mov_bbb.mp4" />
-          <source type="video/ogg" src="http://www.w3schools.com/html/mov_bbb.ogg" />
-          HTML5 video does not support.
-        </video>
-        <div class="padding">
-          Explore our API docs for detailed information on the View Controllers and Javascript utilities available in Ionic.
+          {{ProductVideo.intro}}
         </div>
       </div>
     </div>
