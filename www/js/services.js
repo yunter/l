@@ -429,7 +429,7 @@ angular.module('starter.services', [])
     })
     .factory('Feedback', function ($http, $q, $httpParamSerializer, ApiHost) {
         // Might use a resource here that returns a JSON array
-        function addFeedback(uuid, usage, planting, username, phone_number, getAddress) {
+        function addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc) {
             try {
                 var request = {
                     method: 'POST',
@@ -445,7 +445,8 @@ angular.module('starter.services', [])
                         feedback_planting: planting,
                         feedback_username: username,
                         feedback_address: getAddress,
-                        feedback_phone_number: phone_number
+                        feedback_phone_number: phone_number,
+                        feedback_getImageSrc: getImageSrc,
                     })
                 };
                 var deferred = $q.defer();       // This will handle your promise
@@ -528,8 +529,8 @@ angular.module('starter.services', [])
             all: function () {
                 return feedback;
             },
-            addFeedback: function (uuid, usage, planting, username, phone_number, getAddress) {
-                return addFeedback(uuid, usage, planting, username, phone_number, getAddress);
+            addFeedback: function (uuid, usage, planting, username, phone_number, getAddress, getImageSrc) {
+                return addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc);
             },
             getFeedbackList: function (customerId) {
                 return getFeedbackList(customerId);

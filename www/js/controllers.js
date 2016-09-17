@@ -181,49 +181,69 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
             var phone_number = $scope.feedback.phone_number;
 
             var getAddress   = localstorage.get('getAddress');
+            var getImageSrc   = localstorage.get('getImageSrc');
+            if(typeof getImageSrc != "undefined" && getImageSrc != '') {
+                $scope.feedback.getImageSrc = getImageSrc;
+            } else {
+                getImageSrc = '';
+            }
             if(typeof getAddress != "undefined" && getAddress != '') {
                 $scope.feedback.address = getAddress;
             } else {
                 getAddress = '';
             }
 
+            console.log(UIHelper.getCurrentLanguage());
             if(typeof usage == "undefined" || usage == ''){
-                alert("Please fill the Usage.");
+                UIHelper.showAlert('Please fill the Usage.');
                 return false;
             }
             if(typeof planting == "undefined" || planting == ''){
-                alert("Please fill the planting.");
+                UIHelper.showAlert("Please fill the planting.");
                 return false;
             }
             UIHelper.confirmAndRun(title, msg, function () {
-                Feedback.addFeedback(uuid, usage, planting, username, phone_number, getAddress).then(
+                Feedback.addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc).then(
                     function (result) {
                         if (typeof result == "object") {
-                            UIHelper.blockScreen('OK', 3);
+                            $scope.resetForm('noConfirm');
+                            UIHelper.showAlert('Add success!');
                         }
                     }, function (error) {
                         UIHelper.blockScreen("ERR:AddFeedback, request error.", 3);
                     });
             });
-        }
+        };
 
-        $scope.resetForm = function () {
+        $scope.resetForm = function (hasConfirm) {
             var title    = 'Please Make a choice';
             var msg      = 'Are you sure cancel ? ';
-            UIHelper.confirmAndRun(title, msg, function () {
+
+            if(hasConfirm == 'noConfirm') {
                 $scope.feedback.usage        = '';
                 $scope.feedback.planting     = '';
                 $scope.feedback.username     = '';
                 $scope.feedback.phone_number = '';
 
+
+                localstorage.set('getImageSrc', '');
                 localstorage.set('getAddress', '');
-            });
-        }
+            } else {
+                UIHelper.confirmAndRun(title, msg, function () {
+                    $scope.feedback.usage        = '';
+                    $scope.feedback.planting     = '';
+                    $scope.feedback.username     = '';
+                    $scope.feedback.phone_number = '';
+
+                    localstorage.set('getAddress', '');
+                    localstorage.set('getImageSrc', '');
+                });
+            }
+        };
         var customerId = localstorage.get('customerId');
         if(typeof customerId == "undefined" || customerId == '') {
             customerId = localstorage.get('deviceid');
         }
-        console.log(customerId);
         if(typeof customerId != "undefined" && customerId != '') {
             Feedback.getFeedbackList(customerId).then(function (result) {
                 if (typeof result == "object") {
@@ -237,8 +257,18 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
         }
     })
 
-    .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $stateParams, $ionicActionSheet, $timeout) {
+    .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $state, UIHelper) {
         // Triggered on a button click, or some other target
+
+        $scope.saveImage = function () {
+            var title    = 'Please Make a choice';
+            var msg      = 'Are you sure ? ';
+            UIHelper.confirmAndRun(title, msg, function () {
+                $scope.feedback.attachment = '';
+                $state.go("tab.feedback");
+            });
+        };
+
         $scope.takePics = function () {
             var options = {
                 quality: 50,
@@ -246,53 +276,21 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: true,
                 encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 375,
-                targetHeight: 375,
+                targetWidth: 800,
+                targetHeight: 800,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
+                encodingType: 0,
                 correctOrientation:true
             };
 
             $cordovaCamera.getPicture(options).then(function(imageData) {
                 var image = document.getElementById('showImage');
                 image.src = "data:image/jpeg;base64," + imageData;
+                localstorage.set('getImageSrc', "data:image/jpeg;base64," + imageData);
             }, function(err) {
-                // error
+                alert("ERR:" + err);
             });
-
-        }
-        $scope.showCam = function () {
-
-            // Show the action sheet
-            var hideSheet = $ionicActionSheet.show({
-                buttons: [
-                    {text: 'Choose form album'},
-                    {text: 'Take Video'}
-                ],
-                //destructiveText: 'Delete',
-                titleText: 'Choose you action',
-                cancelText: 'Cancel',
-                cancel: function () {
-                    // add cancel code..
-                },
-                buttonClicked: function (index) {
-                    switch (index) {
-                        case 0:
-                            alert('test');
-                            break;
-                        default:
-                            alert(index);
-                            break;
-                    }
-                    return true;
-                }
-            });
-
-            // For example's sake, hide the sheet after two seconds
-            $timeout(function () {
-                hideSheet();
-            }, 2500);
-
         }
     })
     .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage) {
@@ -301,6 +299,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
 
             if(getAddress != undefined && getAddress != '') {
                 localstorage.set('getAddress', $scope.feedback.editAddress);
+                $scope.feedback.editAddress = '';
             }
             $state.go("tab.feedback");
         }
