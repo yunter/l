@@ -46,7 +46,88 @@ angular.module('starter.services', [])
             regDevice: function (uuid, Platform, sysVersion, AppVersion) {
                 return regDevice(uuid, Platform, sysVersion, AppVersion);
             }
+        };
+    })
+    .factory('Customer', function ($http, $q, $httpParamSerializer, ApiHost) {
+        function login(telephone, password) {
+            try {
+                var request = {
+                    method: 'POST',
+                    url: ApiHost.domain + ApiHost.uri + '/account/login',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        //'Deviceid': 'deviceid',
+                        //'Token': 'token',
+                        'Sysversion': sysVersion,
+                        'Sysname': Platform
+                    },
+                    data: $httpParamSerializer({
+                        telephone:telephone,
+                        password: password
+                    })
+                };
+                var deferred = $q.defer();       // This will handle your promise
+
+                $http(request).then(function (response) {
+                    if (typeof response.data === 'object') {
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.reject(response.data);
+                    }
+                }, function (error) {
+                    return deferred.reject(error.data);
+                });
+
+                return deferred.promise;
+
+            } catch (err) {
+                return err;
+            }
         }
+        function register(telephone, password) {
+            try {
+                var request = {
+                    method: 'POST',
+                    url: ApiHost.domain + ApiHost.uri + '/account/register',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        //'Deviceid': 'deviceid',
+                        //'Token': 'token',
+                        'Sysversion': sysVersion,
+                        'Sysname': Platform
+                    },
+                    data: $httpParamSerializer({
+                        telephone:telephone,
+                        password: password
+                    })
+                };
+                var deferred = $q.defer();       // This will handle your promise
+
+                $http(request).then(function (response) {
+                    if (typeof response.data === 'object') {
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.reject(response.data);
+                    }
+                }, function (error) {
+                    return deferred.reject(error.data);
+                });
+
+                return deferred.promise;
+
+            } catch (err) {
+                return err;
+            }
+        }
+
+        return {
+            login: function (telephone, password) {
+                return login(telephone, password);
+            },
+            register: function (telephone, password) {
+                return register(telephone, password);
+            }
+        };
     })
     .factory('ApiHome', function ($http, $q, $httpParamSerializer, ApiHost) {
 
@@ -346,9 +427,75 @@ angular.module('starter.services', [])
             }
         };
     })
-    .factory('Feedback', function () {
+    .factory('Feedback', function ($http, $q, $httpParamSerializer, ApiHost) {
         // Might use a resource here that returns a JSON array
+        function addFeedback(uuid, usage, planting, username, phone_number, getAddress) {
+            try {
+                var request = {
+                    method: 'POST',
+                    url: ApiHost.domain + ApiHost.uri + '/feedback/addfeedback',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        //'Deviceid': 'deviceid',
+                        //'Token': 'token'
+                    },
+                    data: $httpParamSerializer({
+                        feedback_uuid: uuid,
+                        feedback_usage: usage,
+                        feedback_planting: planting,
+                        feedback_username: username,
+                        feedback_address: getAddress,
+                        feedback_phone_number: phone_number
+                    })
+                };
+                var deferred = $q.defer();       // This will handle your promise
+                $http(request).then(function (response) {
+                    if (typeof response.data === 'object') {
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.reject(response.data);
+                    }
+                }, function (error) {
+                    return deferred.reject(error.data);
+                });
 
+                return deferred.promise;
+
+            } catch (err) {
+                return err;
+            }
+        }
+        function getFeedbackList(customerId) {
+            try {
+                var request = {
+                    method: 'POST',
+                    url: ApiHost.domain + ApiHost.uri + '/feedback/getFeedbackList',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        //'Deviceid': 'deviceid',
+                        //'Token': 'token'
+                    },
+                    data: $httpParamSerializer({
+                        customer_id: customerId
+                    })
+                };
+                var deferred = $q.defer();       // This will handle your promise
+                $http(request).then(function (response) {
+                    if (typeof response.data === 'object') {
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.reject(response.data);
+                    }
+                }, function (error) {
+                    return deferred.reject(error.data);
+                });
+
+                return deferred.promise;
+
+            } catch (err) {
+                return err;
+            }
+        }
         // Some fake testing data
         var feedback = [{
             id: 0,
@@ -380,6 +527,12 @@ angular.module('starter.services', [])
         return {
             all: function () {
                 return feedback;
+            },
+            addFeedback: function (uuid, usage, planting, username, phone_number, getAddress) {
+                return addFeedback(uuid, usage, planting, username, phone_number, getAddress);
+            },
+            getFeedbackList: function (customerId) {
+                return getFeedbackList(customerId);
             },
             remove: function (feedback) {
                 feedback.splice(feedback.indexOf(feedback), 1);
@@ -413,4 +566,96 @@ angular.module('starter.services', [])
             }
         }
 
-    }]);
+    }])
+    .factory('UIHelper', function($rootScope, $ionicLoading, $ionicPopup, $timeout, $translate){
+    return {
+        showAlert: function (captionRes, plainSuffix) {
+            console.log(captionRes);
+            $translate(captionRes).then(function (caption) {
+                if (plainSuffix)
+                    caption+=plainSuffix;
+                $ionicLoading.hide();
+                $ionicPopup.alert({
+                    title: caption
+                })
+            });
+        },
+        promptForPassword: function (onOk, freeChoice) {
+            var titleText = freeChoice ? 'services.uiHelper.password.title.choose' : 'services.uiHelper.password.title.enter';
+            var placeholderText = freeChoice ? 'services.uiHelper.password.placeholder.choose' : 'services.uiHelper.password.placeholder.enter';
+            this.translate([titleText, placeholderText, 'general.btn.ok', 'general.btn.cancel']).then(function (t) {
+                $ionicPopup.prompt({
+                    title: t[0],
+                    inputType: 'password',
+                    inputPlaceholder: t[1],
+                    okText: t[2],
+                    cancelText: t[3]
+                }).then(function (res) {
+                    if (res || res == '') {
+                        onOk(res)
+                    }
+                });
+            });
+        },
+        confirmAndRun: function (captionRes, textRes, onConfirm) {
+            this.translate([captionRes, textRes, 'general.btn.ok', 'general.btn.cancel']).then(function (t) {
+                $ionicLoading.hide();
+                var popup = $ionicPopup.confirm({
+                    title: t[0],
+                    template: t[1],
+                    okText: t[2],
+                    cancelText: t[3]
+                });
+                popup.then(function (res) {
+                    if (res) {
+                        onConfirm();
+                    }
+                });
+            });
+        },
+        blockScreen: function (textRes, timeoutSec) {
+            $translate(textRes).then(function (text) {
+                $ionicLoading.show({
+                    template: text
+                });
+                $timeout(function () {
+                    $ionicLoading.hide();
+                }, timeoutSec * 1000);
+            });
+        },
+        shareText: function(captionRes, textRes){
+            $translate([captionRes, textRes]).then(function (translations) {
+                var caption = translations[captionRes];
+                var text = translations[textRes];
+                if (window.plugins) {
+                    window.plugins.socialsharing.share(text, caption);
+                }
+                else {
+                    var subject = caption.replace(' ', '%20').replace('\n', '%0A');
+                    var body = text.replace(' ', '%20').replace('\n', '%0A');
+                    window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+                }
+            });
+        },
+        translate : function(keys){
+            var promise = new Promise(function (resolve, reject) {
+                $translate(keys).then(function (translations) {
+                    var t = [];
+                    for (i = 0; i < keys.length; i++) {
+                        var key = keys[i];
+                        t.push(translations[key]);
+                    }
+                    resolve(t);
+                })
+                    .catch(reject);
+            });
+            return promise;
+        },
+        getCurrentLanguage: function () {
+            return $translate.use();
+        },
+        changeLanguage: function(newLang){
+            $translate.use(newLang);
+        }
+    };
+});

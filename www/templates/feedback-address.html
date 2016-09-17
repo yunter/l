@@ -1,19 +1,10 @@
-<ion-view view-title="Address" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
-  <ion-header-bar align-title="center" class="stable-bg">
-    <div class="buttons">
-      <a class="button" href="#/tab/feedback">Confirm</a>
-    </div>
-    <h1 class="title">Address</h1>
-    <div class="buttons">
-      <a class="button" href="#/tab/feedback">Cancel</a>
-    </div>
-  </ion-header-bar>
+<ion-view view-title="Address"  hide-tabs="true">
   <ion-content ng-controller="AddressCtrl">
     <div class="list text-center">
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Address</span>
-        <textarea name="feedback_planting" placeholder="Address" class="item-input-wrapper"></textarea>
+        <textarea ng-model="feedback.editAddress" name="feedback_editAddress" placeholder="Input Address here" class="item-input-wrapper"></textarea>
       </label>
+      <button class="button button-full button-balanced" ng-click="saveAddress()">Save Address</button>
     </div>
   </ion-content>
 </ion-view>

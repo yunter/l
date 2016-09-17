@@ -1,8 +1,11 @@
 angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
-    .controller('AppCtrl', function ($scope) {
+    .controller('AppCtrl', function ($scope, localstorage, $translate) {
         $scope.platform = ionic.Platform.platform();
         $scope.home = 'Home';
         $scope.about_us = 'About Us';
+        $scope.changeLanguage = function (key) {
+            $translate.use(key);
+        };
     })
     .controller('DashCtrl', function ($scope, localstorage, ApiHome) {
 
@@ -15,7 +18,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                             $scope.banners = result.data.banners;
                         }
                     }, function (error) {
-                        alert("ERROR:GetSlideShow, Request error.");
+                        alert("ERROR:GetSlideShow, request error.");
                     });
 
                 //intro
@@ -28,14 +31,14 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                             $scope.IntroDesc = result.data.meta_description;
                         }
                     }, function (error) {
-                        alert("ERROR:GetIntro, Request error.");
+                        alert("ERROR:GetIntro, request error.");
                     });
 
             } else {
                 alert("ERR:01, Service is not available.");
             }
         }, function (error) {
-            alert("ERR:02, Request error.");
+            alert("ERR:02, request error.");
         });
     })
     .controller('DashIntroCtrl', function ($scope, localstorage, ApiHome) {
@@ -48,10 +51,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                     $scope.IntroDescription = result.data.description;
                 }
             }, function (error) {
-                alert("ERROR:DashIntro, Request error.");
+                alert("ERROR:DashIntro, request error.");
             });
     })
-    .controller('DashHotProductsCtrl', function ($scope, ApiHome) {
+    .controller('DashHotProductsCtrl', function ($scope, localstorage, ApiHome) {
         //hot products
         ApiHome.getLatestProducts(0, 3).then(
             function (result) {
@@ -59,10 +62,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                     $scope.latestProducts = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetLatestProducts, Request error.");
+                alert("ERR:GetLatestProducts, request error.");
             });
     })
-    .controller('DashHotProductsListCtrl', function ($scope, ApiHome) {
+    .controller('DashHotProductsListCtrl', function ($scope, localstorage, ApiHome) {
         //hot products
         ApiHome.getLatestProducts(0, 10).then(
             function (result) {
@@ -70,7 +73,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                     $scope.latestProducts = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetLatestProducts, Request error.");
+                alert("ERR:GetLatestProducts, request error.");
             });
         $scope.doRefresh = function () {
             ApiHome.getLatestProducts(0, 30).then(
@@ -79,7 +82,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                         $scope.latestProducts = result.data;
                     }
                 }, function (error) {
-                    alert("ERR:GetLatestProducts, Request error.");
+                    alert("ERR:GetLatestProducts, request error.");
                 })
                 .finally(function () {
                     // Stop the ion-refresher from spinning
@@ -87,14 +90,14 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                 });
         }
     })
-    .controller('ProductsCtrl', function ($scope, $stateParams, localstorage,  Products) {
+    .controller('ProductsCtrl', function ($scope, $stateParams, localstorage, Products) {
         Products.getProductVideos('DESC', 1, 1).then(
             function (result) {
                 if (typeof result == "object") {
                     $scope.ProductVideo = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetProductVideo, Request error.");
+                alert("ERR:GetProductVideo, request error.");
             });
         Products.getProductCategories(0, 2).then(
             function (result) {
@@ -102,48 +105,49 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                     $scope.ProductCategories = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetProductCategories, Request error.");
+                alert("ERR:GetProductCategories, request error.");
             });
     })
-    .controller('ProductVideoListCtrl', function ($scope, $stateParams, localstorage,  Products) {
+    .controller('ProductVideoListCtrl', function ($scope, $stateParams, localstorage, Products) {
         Products.getProductVideos('DESC', 1, 100).then(
             function (result) {
                 if (typeof result == "object") {
                     $scope.ProductVideoList = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetProductVideoList, Request error.");
+                alert("ERR:GetProductVideoList, request error.");
             });
     })
-    .controller('ProductListCtrl', function ($scope, $stateParams, localstorage,  Products) {
-         var categoryId  = $stateParams.categoryId;
-         var hasChild    = $stateParams.hasChild;
+    .controller('ProductListCtrl', function ($scope, $stateParams, localstorage, Products, $ionicScrollDelegate, $rootScope) {
+        $rootScope.slideHeader = false;
+        $rootScope.slideHeaderPrevious = 0;
+        var categoryId = $stateParams.categoryId;
+        var hasChild = $stateParams.hasChild;
 
-         $scope.hasChild = hasChild;
-         if(categoryId){
-             console.log(hasChild);
-             if(hasChild == 1) {
-                 Products.getProductCategories(categoryId, 1).then(
-                     function (result) {
-                         if (typeof result == "object") {
-                             $scope.ProductCategories = result.data;
-                         }
-                     }, function (error) {
-                         alert("ERR:GetProductCategories, Request error.");
-                     });
-             } else {
-                 Products.getProducts('DESC', 1, 100, categoryId, '').then(
-                     function (result) {
-                         console.log(result.data);
-                         if (typeof result == "object") {
-                             $scope.Products = result.data;
-                         }
-                     }, function (error) {
-                         alert("ERR:GetProducts, Request error.");
-                     });
-             }
+        $scope.hasChild = hasChild;
+        if (categoryId) {
+            console.log(hasChild);
+            if (hasChild == 1) {
+                Products.getProductCategories(categoryId, 1).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.ProductCategories = result.data;
+                        }
+                    }, function (error) {
+                        alert("ERR:GetProductCategories, request error.");
+                    });
+            } else {
+                Products.getProducts('DESC', 1, 100, categoryId, '').then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.Products = result.data;
+                        }
+                    }, function (error) {
+                        alert("ERR:GetProducts, request error.");
+                    });
+            }
 
-         }
+        }
     })
     .controller('ProductDetailCtrl', function ($scope, $stateParams, localstorage, Products) {
         //get product information
@@ -153,11 +157,11 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                     $scope.productInfo = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetProductInfo, Request error.");
+                alert("ERR:GetProductInfo, request error.");
             });
     })
 
-    .controller('FeedbackCtrl', function ($scope, $ionicActionSheet, $timeout, Feedback) {
+    .controller('FeedbackCtrl', function ($scope, $stateParams, localstorage, $ionicActionSheet, $timeout, UIHelper, Feedback) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
         // To listen for when this page is active (for example, to refresh data),
@@ -166,47 +170,97 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
         //$scope.$on('$ionicView.enter', function(e) {
         //});
 
-        $scope.feedback = Feedback.all();
-        $scope.remove = function (feedback) {
-            Feedback.remove(feedback);
-        };
+        $scope.sendFeedback = function () {
+            var title    = 'Please Make a choice';
+            var msg      = 'Are you sure submit ? ';
+            var uuid     = localstorage.get('uuid');
+            var usage    = $scope.feedback.usage;
+            var planting = $scope.feedback.planting;
+
+            var username     = $scope.feedback.username;
+            var phone_number = $scope.feedback.phone_number;
+
+            var getAddress   = localstorage.get('getAddress');
+            if(typeof getAddress != "undefined" && getAddress != '') {
+                $scope.feedback.address = getAddress;
+            } else {
+                getAddress = '';
+            }
+
+            if(typeof usage == "undefined" || usage == ''){
+                alert("Please fill the Usage.");
+                return false;
+            }
+            if(typeof planting == "undefined" || planting == ''){
+                alert("Please fill the planting.");
+                return false;
+            }
+            UIHelper.confirmAndRun(title, msg, function () {
+                Feedback.addFeedback(uuid, usage, planting, username, phone_number, getAddress).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            UIHelper.blockScreen('OK', 3);
+                        }
+                    }, function (error) {
+                        UIHelper.blockScreen("ERR:AddFeedback, request error.", 3);
+                    });
+            });
+        }
+
+        $scope.resetForm = function () {
+            var title    = 'Please Make a choice';
+            var msg      = 'Are you sure cancel ? ';
+            UIHelper.confirmAndRun(title, msg, function () {
+                $scope.feedback.usage        = '';
+                $scope.feedback.planting     = '';
+                $scope.feedback.username     = '';
+                $scope.feedback.phone_number = '';
+
+                localstorage.set('getAddress', '');
+            });
+        }
+        var customerId = localstorage.get('customerId');
+        if(typeof customerId == "undefined" || customerId == '') {
+            customerId = localstorage.get('deviceid');
+        }
+        console.log(customerId);
+        if(typeof customerId != "undefined" && customerId != '') {
+            Feedback.getFeedbackList(customerId).then(function (result) {
+                if (typeof result == "object") {
+                    $scope.feedbacks = result.data;
+                }
+            }, function (error) {
+                alert("ERR:GetFeedbackList, request error.");
+            });
+        } else {
+            $scope.feedbacks = [];
+        }
     })
 
-    .controller('AttachmentsCtrl', function ($scope, $stateParams, $ionicActionSheet, $timeout) {
+    .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $stateParams, $ionicActionSheet, $timeout) {
         // Triggered on a button click, or some other target
-        $scope.show = function () {
+        $scope.takePics = function () {
+            var options = {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 375,
+                targetHeight: 375,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false,
+                correctOrientation:true
+            };
 
-            // Show the action sheet
-            var hideSheet = $ionicActionSheet.show({
-                buttons: [
-                    {text: 'Choose form album'},
-                    {text: 'Take Photos'}
-                ],
-                //destructiveText: 'Delete',
-                titleText: 'Choose you action',
-                cancelText: 'Cancel',
-                cancel: function () {
-                    // add cancel code..
-                },
-                buttonClicked: function (index) {
-                    switch (index) {
-                        case 0:
-                            alert('test');
-                            break;
-                        default:
-                            alert(index);
-                            break;
-                    }
-                    return true;
-                }
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                var image = document.getElementById('showImage');
+                image.src = "data:image/jpeg;base64," + imageData;
+            }, function(err) {
+                // error
             });
 
-            // For example's sake, hide the sheet after two seconds
-            $timeout(function () {
-                hideSheet();
-            }, 2500);
-
-        };
+        }
         $scope.showCam = function () {
 
             // Show the action sheet
@@ -239,18 +293,26 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                 hideSheet();
             }, 2500);
 
-        };
+        }
     })
-    .controller('AddressCtrl', function ($scope) {
+    .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage) {
+        $scope.saveAddress = function(){
+            var getAddress = $scope.feedback.editAddress;
+
+            if(getAddress != undefined && getAddress != '') {
+                localstorage.set('getAddress', $scope.feedback.editAddress);
+            }
+            $state.go("tab.feedback");
+        }
     })
-    .controller('FeedbackDetailCtrl', function ($scope, $stateParams, Feedback) {
+    .controller('FeedbackDetailCtrl', function ($scope, $stateParams, localstorage, Feedback) {
         $scope.feedback = Feedback.get($stateParams.feedbackId);
     })
 
-    .controller('AccountCtrl', function ($scope) {
+    .controller('AccountCtrl', function ($scope, $stateParams, localstorage) {
     })
 
-    .controller("IntroBoxCtrl", function ($scope) {
+    .controller("IntroBoxCtrl", function ($scope, $stateParams, localstorage) {
         //var ctrl = this;
 
         //ctrl.showIntro = function () {
@@ -259,4 +321,23 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
         $scope.showIntro = function () {
             return 'yes';
         }
+    })
+    .directive('scrollWatch', function ($rootScope) {
+        return function (scope, elem) {
+            var start = 0;
+            var threshold = 150;
+
+            elem.bind('scroll', function (e) {
+                if (e.detail.scrollTop - start > threshold) {
+                    $rootScope.slideHeader = true;
+                } else {
+                    $rootScope.slideHeader = false;
+                }
+                if ($rootScope.slideHeaderPrevious >= e.detail.scrollTop - start) {
+                    $rootScope.slideHeader = false;
+                }
+                $rootScope.slideHeaderPrevious = e.detail.scrollTop - start;
+                $rootScope.$apply();
+            });
+        };
     });

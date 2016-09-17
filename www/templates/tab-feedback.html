@@ -7,16 +7,16 @@
       </div>
     </div>
   </ion-header-bar>
-  <ion-content>
+  <ion-content ng-controller="FeedbackCtrl">
     <div class="text-center padding block">Please tell us about you knows</div>
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label">test</span>
-        <textarea name="feedback_usage" placeholder="John" class="item-input-wrapper"></textarea>
+        <textarea ng-model="feedback.usage" name="feedback_usage" placeholder="John" class="item-input-wrapper"></textarea>
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">info</span>
-        <textarea name="feedback_planting" placeholder="Suhr" class="item-input-wrapper"></textarea>
+        <textarea ng-model="feedback.planting" name="feedback_planting" placeholder="Suhr" class="item-input-wrapper"></textarea>
       </label>
       <a class="dark" href="#/tab/feedback-attachments">
         <label class="item item-icon-right">
@@ -26,22 +26,23 @@
       </a>
       <label class="item item-input">
         <span class="input-label ">Username</span>
-        <input name="feedback_username" type="text" placeholder="username" />
+        <input ng-model="feedback.username" name="feedback_username" type="text" placeholder="username" />
       </label>
       <label class="item item-input">
         <span class="input-label">Phone Number</span>
-        <input name="feedback_phone_number" type="text" placeholder="Phone Number"/>
+        <input ng-model="feedback.phone_number" name="feedback_phone_number" type="text" placeholder="Phone Number"/>
       </label>
       <a class="dark" href="#/tab/feedback-address">
         <label class="item item-icon-right">
           <p>Address</p>
+          <p ng-model="feedback.address"></p>
           <i class="icon ion-chevron-right icon-accessory"></i>
         </label>
       </a>
     </div>
     <div class="row text-center">
-      <div class="col col-33"><a class="button button-block button-outline button-stable">Cancel</a></div>
-      <div class="col col-67"><a class="button button-block button-energized">Submit</a></div>
+      <div class="col col-33"><a class="button button-block button-outline button-stable" ng-click="resetForm()">Cancel</a></div>
+      <div class="col col-67"><a class="button button-block button-energized" ng-click="sendFeedback()">Submit</a></div>
     </div>
   </ion-content>
 </ion-view>

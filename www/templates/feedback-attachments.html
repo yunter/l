@@ -1,5 +1,5 @@
-<ion-view view-title="Attachments" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
-  <ion-header-bar align-title="center" class="stable-bg">
+<ion-view view-title="Attachments" hide-tabs="true">
+  <!-- ion-header-bar align-title="center" class="stable-bg">
     <div class="buttons">
       <a class="button" href="#/tab/feedback">Confirm</a>
     </div>
@@ -7,10 +7,10 @@
     <div class="buttons">
       <a class="button" href="#/tab/feedback">Cancel</a>
     </div>
-  </ion-header-bar>
+  </ion-header-bar -->
   <ion-content ng-controller="AttachmentsCtrl">
     <div class="list text-center">
-      <label class="item item-button-right" ng-click="show()">
+      <label class="item item-button-right" ng-click="takePics()">
         <i class="icon ion-camera" ></i>
         Photo
       </label>
@@ -18,6 +18,9 @@
         <i class="icon ion-videocamera"></i>
         Video
       </label>
+      <p>
+        <img id="showImage" ng-model="feedback.attachments" src="/img/375-200.png">
+      </p>
     </div>
   </ion-content>
 </ion-view>

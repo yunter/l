@@ -26,7 +26,9 @@
     "cordova-plugin-media-capture",
     "cordova-plugin-file",
     "cordova-plugin-globalization",
-    "cordova-plugin-app-preferences"
+    "cordova-plugin-app-preferences",
+    "cordova-plugin-keyboard",
+    "cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
     {
