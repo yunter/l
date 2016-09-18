@@ -1,5 +1,6 @@
 <ion-view view-title="Video List" hide-tabs>
   <ion-content ng-controller="ProductVideoListCtrl">
+    <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <div class="card" ng-repeat="ProductVideo in ProductVideoList">
       <div class="item item-divider">
         {{ProductVideo.name}}
@@ -14,5 +15,10 @@
         </div>
       </div>
     </div>
+    <ion-infinite-scroll
+      ng-if="moreDataCanBeLoaded()"
+      icon="ion-load-c"
+      on-infinite="loadMore()">
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>

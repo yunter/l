@@ -177,7 +177,7 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controlle
                 views: {
                     'tab-feedback': {
                         templateUrl: 'templates/feedback-history.html',
-                        controller: 'FeedbackCtrl'
+                        controller: 'FeedbackHistoryCtrl'
                     }
                 }
             })

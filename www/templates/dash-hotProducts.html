@@ -1,15 +1,18 @@
 <ion-view view-title="Hot Products" hide-tabs="true">
   <ion-content ng-controller="DashHotProductsListCtrl">
-      <ion-refresher
-              pulling-text="Pull to refresh..."
-              on-refresh="doRefresh()">
-      </ion-refresher>
+      <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <div class="hot-products list padding">
+      <p class="text-center item-note" ng-if="showNote == 'None'">No More</p>
       <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}">
         <img ng-src="{{latestProduct.thumbUrl}}" />
         <h2>{{latestProduct.productName}}</h2>
         <div class="item-text-wrap"><p>{{latestProduct.meta_title}}</p></div>
       </a>
     </div>
+    <ion-infinite-scroll
+      ng-if="moreDataCanBeLoaded()"
+      icon="ion-load-c"
+      on-infinite="loadMore()">
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>

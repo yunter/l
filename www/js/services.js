@@ -466,7 +466,7 @@ angular.module('starter.services', [])
                 return err;
             }
         }
-        function getFeedbackList(customerId) {
+        function getFeedbackList(customerId, start, limit) {
             try {
                 var request = {
                     method: 'POST',
@@ -477,7 +477,9 @@ angular.module('starter.services', [])
                         //'Token': 'token'
                     },
                     data: $httpParamSerializer({
-                        customer_id: customerId
+                        customer_id: customerId,
+                        start: start,
+                        limit: limit
                     })
                 };
                 var deferred = $q.defer();       // This will handle your promise
@@ -532,8 +534,8 @@ angular.module('starter.services', [])
             addFeedback: function (uuid, usage, planting, username, phone_number, getAddress, getImageSrc) {
                 return addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc);
             },
-            getFeedbackList: function (customerId) {
-                return getFeedbackList(customerId);
+            getFeedbackList: function (customerId, start, limit) {
+                return getFeedbackList(customerId, start, limit);
             },
             remove: function (feedback) {
                 feedback.splice(feedback.indexOf(feedback), 1);

@@ -47,7 +47,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
             .then(function (result) {
                 if (typeof result == "object") {
                     $scope.IntroTitle = result.data.title;
-                    $scope.IntroDesc = result.data.meta_description;
+                    $scope.IntroDesc  = result.data.meta_description;
                     $scope.IntroDescription = result.data.description;
                 }
             }, function (error) {
@@ -67,7 +67,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
     })
     .controller('DashHotProductsListCtrl', function ($scope, localstorage, ApiHome) {
         //hot products
-        ApiHome.getLatestProducts(0, 10).then(
+        ApiHome.getLatestProducts(1, 6).then(
             function (result) {
                 if (typeof result == "object") {
                     $scope.latestProducts = result.data;
@@ -75,20 +75,50 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
             }, function (error) {
                 alert("ERR:GetLatestProducts, request error.");
             });
+
+        var page = 1;
         $scope.doRefresh = function () {
-            ApiHome.getLatestProducts(0, 30).then(
+            ApiHome.getLatestProducts((++page - 1) * 6, 6).then(
                 function (result) {
                     if (typeof result == "object") {
                         $scope.latestProducts = result.data;
                     }
                 }, function (error) {
-                    alert("ERR:GetLatestProducts, request error.");
+                    alert("ERR:" + error);
+
                 })
                 .finally(function () {
                     // Stop the ion-refresher from spinning
                     $scope.$broadcast('scroll.refreshComplete');
                 });
-        }
+        };
+
+        $scope.moreDataCanBeLoaded = function () {
+          if(page >= 1){
+            return true;
+          } else {
+            return false;
+          }
+        };
+        $scope.loadMore=function () {
+            if(page < 0) {
+              page = 0;
+            }
+            ApiHome.getLatestProducts(page * 6, 6).then(
+              function (result) {
+                if (typeof result == "object") {
+                  $scope.latestProducts = result.data;
+                  $scope.$broadcast('scroll.infiniteScrollComplete');
+
+                }
+              }, function (error) {
+                alert("ERR:" + error);
+
+              });
+        };
+        $scope.$on('$stateChangeSuccess', function() {
+          $scope.loadMore();
+        });
     })
     .controller('ProductsCtrl', function ($scope, $stateParams, localstorage, Products) {
         Products.getProductVideos('DESC', 1, 1).then(
@@ -109,7 +139,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
             });
     })
     .controller('ProductVideoListCtrl', function ($scope, $stateParams, localstorage, Products) {
-        Products.getProductVideos('DESC', 1, 100).then(
+        Products.getProductVideos('DESC', 1, 6).then(
             function (result) {
                 if (typeof result == "object") {
                     $scope.ProductVideoList = result.data;
@@ -117,6 +147,49 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
             }, function (error) {
                 alert("ERR:GetProductVideoList, request error.");
             });
+        var page = 1;
+        $scope.doRefresh = function () {
+          Products.getProductVideos('DESC', ++page, 6).then(
+            function (result) {
+              if (typeof result == "object") {
+                $scope.latestProducts = result.data;
+              }
+            }, function (error) {
+              alert("ERR:" + error);
+
+            })
+            .finally(function () {
+              // Stop the ion-refresher from spinning
+              $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
+
+        $scope.moreDataCanBeLoaded = function () {
+          if(page >= 1){
+            return true;
+          } else {
+            return false;
+          }
+        };
+        $scope.loadMore=function () {
+          if(page < 0) {
+            page = 1;
+          }
+          Products.getProductVideos('DESC', --page, 6).then(
+            function (result) {
+              if (typeof result == "object") {
+                $scope.latestProducts = result.data;
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+
+              }
+            }, function (error) {
+              alert("ERR:" + error);
+
+            });
+        };
+        $scope.$on('$stateChangeSuccess', function() {
+          $scope.loadMore();
+        });
     })
     .controller('ProductListCtrl', function ($scope, $stateParams, localstorage, Products, $ionicScrollDelegate, $rootScope) {
         $rootScope.slideHeader = false;
@@ -240,23 +313,69 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                 });
             }
         };
-        var customerId = localstorage.get('customerId');
-        if(typeof customerId == "undefined" || customerId == '') {
-            customerId = localstorage.get('deviceid');
-        }
-        if(typeof customerId != "undefined" && customerId != '') {
-            Feedback.getFeedbackList(customerId).then(function (result) {
-                if (typeof result == "object") {
-                    $scope.feedbacks = result.data;
-                }
-            }, function (error) {
-                alert("ERR:GetFeedbackList, request error.");
-            });
-        } else {
-            $scope.feedbacks = [];
-        }
     })
+  .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $timeout, Feedback) {
+    var customerId = localstorage.get('customerId');
+    if(typeof customerId == "undefined" || customerId == '') {
+      customerId = localstorage.get('deviceid');
+    }
+    var page = 1;
+    if(typeof customerId != "undefined" && customerId != '') {
+      Feedback.getFeedbackList(customerId, 1, 6).then(function (result) {
+        if (typeof result == "object") {
+          $scope.feedbacks = result.data;
+        }
+      }, function (error) {
+        alert("ERR:GetFeedbackList, request error.");
+      });
 
+      $scope.doRefresh = function () {
+        Feedback.getFeedbackList(customerId, (++page - 1) * 6, 6).then(
+          function (result) {
+            if (typeof result == "object") {
+              $scope.feedbacks = result.data;
+            }
+          }, function (error) {
+            alert("ERR:" + error);
+
+          })
+          .finally(function () {
+            // Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+          });
+      };
+
+      $scope.moreDataCanBeLoaded = function () {
+        if(page >= 1){
+          return true;
+        } else {
+          return false;
+        }
+      };
+      $scope.loadMore=function () {
+        page = --page;
+        if(page < 0) {
+          page = 0;
+        }
+        Feedback.getFeedbackList(customerId, page * 6,  6).then(
+          function (result) {
+            if (typeof result == "object") {
+              $scope.feedbacks = result.data;
+              $scope.$broadcast('scroll.infiniteScrollComplete');
+
+            }
+          }, function (error) {
+            alert("ERR:" + error);
+
+          });
+      };
+      $scope.$on('$stateChangeSuccess', function() {
+        $scope.loadMore();
+      });
+    } else {
+      $scope.feedbacks = {};
+    }
+  })
     .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $state, UIHelper) {
         // Triggered on a button click, or some other target
 

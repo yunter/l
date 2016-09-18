@@ -7,7 +7,8 @@
       </div>
     </div>
   </ion-header-bar>
-  <ion-content ng-controller="FeedbackCtrl">
+  <ion-content ng-controller="FeedbackHistoryCtrl">
+    <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <div class="card" ng-repeat="feedback in feedbacks">
       <div class="item item-divider">
         {{feedback.created}}
@@ -29,5 +30,10 @@
         </p>
       </div>
     </div>
+    <ion-infinite-scroll
+      ng-if="moreDataCanBeLoaded()"
+      icon="ion-load-c"
+      on-infinite="loadMore()">
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>
