@@ -99,6 +99,7 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controlle
                 }
             })
             .state('tab.dash-hotProducts', {
+                cache: false,
                 url: '/hotProducts',
                 views: {
                     'tab-dash': {
@@ -128,6 +129,7 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controlle
             })
             .state('tab.product-list', {
                 url: '/product-list/:categoryId/:hasChild',
+                cache: false,
                 views: {
                     'tab-products': {
                         templateUrl: 'templates/product-list.html',
@@ -257,6 +259,7 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controlle
 
         // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/tab/dash');
+        $translateProvider.useSanitizeValueStrategy('escapeParameters');
 
         //translate
         $translateProvider.useStaticFilesLoader({

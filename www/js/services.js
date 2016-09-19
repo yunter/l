@@ -499,38 +499,8 @@ angular.module('starter.services', [])
                 return err;
             }
         }
-        // Some fake testing data
-        var feedback = [{
-            id: 0,
-            name: 'Ben Sparrow',
-            lastText: 'You on your way?',
-            face: 'img/ben.png'
-        }, {
-            id: 1,
-            name: 'Max Lynx',
-            lastText: 'Hey, it\'s me',
-            face: 'img/max.png'
-        }, {
-            id: 2,
-            name: 'Adam Bradleyson',
-            lastText: 'I should buy a boat',
-            face: 'img/adam.jpg'
-        }, {
-            id: 3,
-            name: 'Perry Governor',
-            lastText: 'Look at my mukluks!',
-            face: 'img/perry.png'
-        }, {
-            id: 4,
-            name: 'Mike Harrington',
-            lastText: 'This is wicked good ice cream.',
-            face: 'img/mike.png'
-        }];
 
         return {
-            all: function () {
-                return feedback;
-            },
             addFeedback: function (uuid, usage, planting, username, phone_number, getAddress, getImageSrc) {
                 return addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc);
             },
@@ -570,95 +540,95 @@ angular.module('starter.services', [])
         }
 
     }])
-    .factory('UIHelper', function($rootScope, $ionicLoading, $ionicPopup, $timeout, $translate){
-    return {
+    .factory('UIHelper',  function($rootScope, $ionicLoading, $ionicPopup, $timeout, $translate){
+      return {
         showAlert: function (captionRes, plainSuffix) {
-            console.log(captionRes);
-            $translate(captionRes).then(function (caption) {
-                if (plainSuffix)
-                    caption+=plainSuffix;
-                $ionicLoading.hide();
-                $ionicPopup.alert({
-                    title: caption
-                })
+          $translate(captionRes).then(function (caption) {
+
+            if (plainSuffix)
+              caption+=plainSuffix;
+            $ionicLoading.hide();
+            $ionicPopup.alert({
+              title: caption
             });
+          });
         },
         promptForPassword: function (onOk, freeChoice) {
-            var titleText = freeChoice ? 'services.uiHelper.password.title.choose' : 'services.uiHelper.password.title.enter';
-            var placeholderText = freeChoice ? 'services.uiHelper.password.placeholder.choose' : 'services.uiHelper.password.placeholder.enter';
-            this.translate([titleText, placeholderText, 'general.btn.ok', 'general.btn.cancel']).then(function (t) {
-                $ionicPopup.prompt({
-                    title: t[0],
-                    inputType: 'password',
-                    inputPlaceholder: t[1],
-                    okText: t[2],
-                    cancelText: t[3]
-                }).then(function (res) {
-                    if (res || res == '') {
-                        onOk(res)
-                    }
-                });
+          var titleText = freeChoice ? 'services.uiHelper.password.title.choose' : 'services.uiHelper.password.title.enter';
+          var placeholderText = freeChoice ? 'services.uiHelper.password.placeholder.choose' : 'services.uiHelper.password.placeholder.enter';
+          this.translate([titleText, placeholderText, 'general.btn.ok', 'general.btn.cancel']).then(function (t) {
+            $ionicPopup.prompt({
+              title: t[0],
+              inputType: 'password',
+              inputPlaceholder: t[1],
+              okText: t[2],
+              cancelText: t[3]
+            }).then(function (res) {
+              if (res || res == '') {
+                onOk(res)
+              }
             });
+          });
         },
         confirmAndRun: function (captionRes, textRes, onConfirm) {
-            this.translate([captionRes, textRes, 'general.btn.ok', 'general.btn.cancel']).then(function (t) {
-                $ionicLoading.hide();
-                var popup = $ionicPopup.confirm({
-                    title: t[0],
-                    template: t[1],
-                    okText: t[2],
-                    cancelText: t[3]
-                });
-                popup.then(function (res) {
-                    if (res) {
-                        onConfirm();
-                    }
-                });
+          this.translate([captionRes, textRes, 'general.btn.ok', 'general.btn.cancel']).then(function (t) {
+            $ionicLoading.hide();
+            var popup = $ionicPopup.confirm({
+              title: t[0],
+              template: t[1],
+              okText: t[2],
+              cancelText: t[3]
             });
+            popup.then(function (res) {
+              if (res) {
+                onConfirm();
+              }
+            });
+          });
         },
         blockScreen: function (textRes, timeoutSec) {
-            $translate(textRes).then(function (text) {
-                $ionicLoading.show({
-                    template: text
-                });
-                $timeout(function () {
-                    $ionicLoading.hide();
-                }, timeoutSec * 1000);
+          $translate(textRes).then(function (text) {
+            $ionicLoading.show({
+              template: text
             });
+            $timeout(function () {
+              $ionicLoading.hide();
+            }, timeoutSec * 1000);
+          });
         },
         shareText: function(captionRes, textRes){
-            $translate([captionRes, textRes]).then(function (translations) {
-                var caption = translations[captionRes];
-                var text = translations[textRes];
-                if (window.plugins) {
-                    window.plugins.socialsharing.share(text, caption);
-                }
-                else {
-                    var subject = caption.replace(' ', '%20').replace('\n', '%0A');
-                    var body = text.replace(' ', '%20').replace('\n', '%0A');
-                    window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
-                }
-            });
+          $translate([captionRes, textRes]).then(function (translations) {
+            var caption = translations[captionRes];
+            var text = translations[textRes];
+            if (window.plugins) {
+              window.plugins.socialsharing.share(text, caption);
+            }
+            else {
+              var subject = caption.replace(' ', '%20').replace('\n', '%0A');
+              var body = text.replace(' ', '%20').replace('\n', '%0A');
+              window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+            }
+          });
         },
         translate : function(keys){
-            var promise = new Promise(function (resolve, reject) {
-                $translate(keys).then(function (translations) {
-                    var t = [];
-                    for (i = 0; i < keys.length; i++) {
-                        var key = keys[i];
-                        t.push(translations[key]);
-                    }
-                    resolve(t);
-                })
-                    .catch(reject);
-            });
-            return promise;
+          var promise = new Promise(function (resolve, reject) {
+            $translate(keys).then(function (translations) {
+              var t = [];
+              for (i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                t.push(translations[key]);
+              }
+              resolve(t);
+            })
+              .catch(reject);
+          });
+          return promise;
         },
         getCurrentLanguage: function () {
-            return $translate.use();
+          return $translate.use();
         },
         changeLanguage: function(newLang){
-            $translate.use(newLang);
+          $translate.use(newLang);
         }
-    };
-});
+      }
+    });
