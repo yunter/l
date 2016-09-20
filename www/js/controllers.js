@@ -1,5 +1,5 @@
 angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
-    .controller('AppCtrl', function ($scope, localstorage, $translate) {
+    .controller('AppCtrl', function ($scope, localstorage, $translate, UIHelper) {
         $scope.platform = ionic.Platform.platform();
         $scope.home = 'Home';
         $scope.about_us = 'About Us';
@@ -291,7 +291,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
             });
     })
 
-    .controller('FeedbackCtrl', function ($scope, $stateParams, localstorage, $ionicPopup, $timeout, UIHelper, Feedback) {
+    .controller('FeedbackCtrl', function ($scope, $state, $stateParams, $ionicPopup, $timeout, localstorage, UIHelper, Feedback) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
         // To listen for when this page is active (for example, to refresh data),
@@ -305,6 +305,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
         $scope.username     = '';
         $scope.phone_number = '';
         $scope.sendFeedback = function () {
+          UIHelper.showAlert('Add success!');
             var title    = 'Please Make a choice';
             var msg      = 'Are you sure submit ? ';
             var uuid     = localstorage.get('uuid');
@@ -317,17 +318,15 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
             var getAddress   = localstorage.get('getAddress');
             var getImageSrc   = localstorage.get('getImageSrc');
             if(typeof getImageSrc != "undefined" && getImageSrc != '') {
-                $scope.$scope.getImageSrc = getImageSrc;
+                $scope.getImageSrc = getImageSrc;
             } else {
                 getImageSrc = '';
             }
             if(typeof getAddress != "undefined" && getAddress != '') {
-                $scope.$scope.address = getAddress;
+                $scope.address = getAddress;
             } else {
                 getAddress = '';
             }
-
-            console.log(UIHelper.getCurrentLanguage());
             if(typeof usage == "undefined" || usage == ''){
                 UIHelper.showAlert('Please fill the Usage.', 'test');
                 return false;
@@ -341,7 +340,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                     function (result) {
                         if (typeof result == "object") {
                             $scope.resetForm('noConfirm');
-                            UIHelper.showAlert('Add success!');
+                            $state.go('tab.feedback-state',{status:'success'});
+                        } else {
+                          UIHelper.showAlert('Add failed!');
                         }
                     }, function (error) {
                         UIHelper.blockScreen("ERR:AddFeedback, request error.", 3);
@@ -351,7 +352,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
 
         $scope.resetForm = function (hasConfirm) {
             var title    = 'Please Make a choice';
-            var msg      = 'Are you sure cancel ? ';
+            var msg      = 'Are you sure Reset ? ';
 
             if(hasConfirm == 'noConfirm') {
                 $scope.usage        = '';
@@ -374,6 +375,13 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
                 });
             }
         };
+    })
+    .controller('FeedbackStateCtrl', function ($scope, $stateParams, localstorage, $state) {
+        var status    = $stateParams.status;
+        $scope.status = status;
+        $scope.goBack = function () {
+          $state.go('tab.feedback');
+        }
     })
     .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback) {
     var customerId = localstorage.get('customerId');
@@ -486,11 +494,11 @@ angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
     })
     .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage) {
         $scope.saveAddress = function(){
-            var getAddress = $scope.feedback.editAddress;
+            var getAddress = $scope.editAddress;
 
             if(getAddress != undefined && getAddress != '') {
-                localstorage.set('getAddress', $scope.feedback.editAddress);
-                $scope.feedback.editAddress = '';
+                localstorage.set('getAddress', $scope.editAddress);
+                $scope.editAddress = '';
             }
             $state.go("tab.feedback");
         }

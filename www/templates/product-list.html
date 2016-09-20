@@ -10,8 +10,8 @@
   <ion-nav-title ng-show="!hasFilters">
     Products List
   </ion-nav-title>
-  <ion-nav-buttons side="right">
-    <a data-tap-disabled="true" class="button button-small button-icon" ng-click="openFilters(hasFilters);" ng-class="{'ion-search':!hasFilters,'ion-close-circled':hasFilters}"></a>
+  <ion-nav-buttons class="button-icon" side="right">
+    <i data-tap-disabled="true" class="button button-small button-icon" ng-click="openFilters(hasFilters);" ng-class="{'ion-search':!hasFilters,'ion-close-circled':hasFilters}"></i>
   </ion-nav-buttons>
   <ion-content>
     <div class="hot-products list padding" ng-if="hasChild == 0" >
@@ -23,11 +23,11 @@
       </a>
     </div>
     <ion-list ng-if="hasChild == 1" >
-      <ion-item ng-repeat="ProductCategory in ProductCategories" class="item-icon-right">
-        <a ng-href="#/tab/product-list/{{ProductCategory.categoryId}}/{{(ProductCategory.categories != null) ? 1 : 0}}" class="dark">
-          <label>{{ProductCategory.categoryName}}</label>
-          <i class="icon ion-chevron-right icon-accessory"></i>
-        </a>
+      <ion-item ng-repeat="ProductCategory in ProductCategories" class="item-icon-right" ng-href="#/tab/product-list/{{ProductCategory.categoryId}}/{{(ProductCategory.categories != null) ? 1 : 0}}">
+          <label>
+            {{ProductCategory.categoryName}}
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </label>
       </ion-item>
     </ion-list>
     <div class="hot-products list padding" ng-if="hasChild == 2" >

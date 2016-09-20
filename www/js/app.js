@@ -165,6 +165,15 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controlle
                     }
                 }
             })
+          .state('tab.feedback-state', {
+                url: '/feedback-state/:status',
+                views: {
+                    'tab-feedback': {
+                        templateUrl: 'templates/feedback-state.html',
+                        controller: 'FeedbackStateCtrl'
+                    }
+                }
+            })
             .state('tab.feedback-detail', {
                 url: '/feedback/:feedbackId',
                 views: {

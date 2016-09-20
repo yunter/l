@@ -20,11 +20,9 @@
       </div>
       <div class="categories">
         <ion-list>
-          <ion-item ng-repeat="ProductCategory in ProductCategories" class="item-icon-right">
-            <a ng-href="#/tab/product-list/{{ProductCategory.categoryId}}/{{(ProductCategory.categories != null) ? 1 : 0}}" class="dark">
-              <label>{{ProductCategory.categoryName}}</label>
-              <i class="icon ion-chevron-right icon-accessory"></i>
-            </a>
+          <ion-item ng-repeat="ProductCategory in ProductCategories" class="item-icon-right" ng-href="#/tab/product-list/{{ProductCategory.categoryId}}/{{(ProductCategory.categories != null) ? 1 : 0}}">
+            <label>{{ProductCategory.categoryName}}</label>
+            <i class="icon ion-chevron-right icon-accessory"></i>
           </ion-item>
         </ion-list>
       </div>

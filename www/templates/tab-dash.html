@@ -2,7 +2,7 @@
   <ion-content>
     <ion-slide-box>
       <ion-slide ng-repeat="banner in banners">
-        <div class="slider-slide-image"><a ng-href="{{banner.link}}"><img ng-src="{{banner.image}}" /></a></div>
+        <div class="slider-slide-image"><a ng-href="{{banner.link}}" data-tap-disabled="true"><img ng-src="{{banner.image}}" /></a></div>
       </ion-slide>
     </ion-slide-box>
     <div class="intro-box padding dark" id="intro-box">
@@ -12,7 +12,7 @@
         {{IntroDesc}}
       </div>
 
-      <a class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more gray" ></i></a>
+      <a data-tap-disabled="true" class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more gray" ></i></a>
     </div>
     <div class="hot-products padding">
       <div style="margin-bottom: 1px;">

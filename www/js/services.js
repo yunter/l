@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
     .constant('ApiHost', {
-        domain: 'http://lamsin.bluemorpho.cn',
+        domain: 'http://ok.cms.debug',
         uri: '/index.php?route=openapi'
     })
     .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, ApiHost) {
@@ -550,23 +550,6 @@ angular.module('starter.services', [])
             $ionicLoading.hide();
             $ionicPopup.alert({
               title: caption
-            });
-          });
-        },
-        promptForPassword: function (onOk, freeChoice) {
-          var titleText = freeChoice ? 'services.uiHelper.password.title.choose' : 'services.uiHelper.password.title.enter';
-          var placeholderText = freeChoice ? 'services.uiHelper.password.placeholder.choose' : 'services.uiHelper.password.placeholder.enter';
-          this.translate([titleText, placeholderText, 'general.btn.ok', 'general.btn.cancel']).then(function (t) {
-            $ionicPopup.prompt({
-              title: t[0],
-              inputType: 'password',
-              inputPlaceholder: t[1],
-              okText: t[2],
-              cancelText: t[3]
-            }).then(function (res) {
-              if (res || res == '') {
-                onOk(res)
-              }
             });
           });
         },

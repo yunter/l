@@ -12,13 +12,13 @@
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label">test</span>
-        <textarea ng-model="usage" name="feedback_usage" placeholder="John" class="item-input-wrapper"></textarea>
+        <textarea ng-model="usage" name="feedback_usage" placeholder="John" class="item-input-wrapper" data-tap-disabled="true"></textarea>
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">info</span>
-        <textarea ng-model="planting" name="feedback_planting" placeholder="Suhr" class="item-input-wrapper"></textarea>
+        <textarea ng-model="planting" name="feedback_planting" placeholder="Suhr" class="item-input-wrapper" data-tap-disabled="true"></textarea>
       </label>
-      <a class="dark" href="#/tab/feedback-attachments">
+      <a class="dark" href="#/tab/feedback-attachments" data-tap-disabled="true">
         <label class="item item-icon-right">
           <p>Attachments</p>
           <input type="text" ng-hide="true" name="getImageSrc" ng-model="getImageSrc">
@@ -27,13 +27,13 @@
       </a>
       <label class="item item-input">
         <span class="input-label ">Username</span>
-        <input ng-model="username" name="feedback_username" type="text" placeholder="username" />
+        <input ng-model="username" name="feedback_username" type="text" placeholder="username"  data-tap-disabled="true"/>
       </label>
       <label class="item item-input">
         <span class="input-label">Phone Number</span>
-        <input ng-model="phone_number" name="feedback_phone_number" type="text" placeholder="Phone Number"/>
+        <input ng-model="phone_number" name="feedback_phone_number" type="text" placeholder="Phone Number" data-tap-disabled="true"/>
       </label>
-      <a class="dark" href="#/tab/feedback-address">
+      <a class="dark" href="#/tab/feedback-address"  data-tap-disabled="true">
         <label class="item item-icon-right">
           <p>Address</p>
           <p ng-model="address"></p>
@@ -42,8 +42,8 @@
       </a>
     </div>
     <div class="row text-center">
-      <div class="col col-33"><a class="button button-block button-outline button-stable" ng-click="resetForm()">Cancel</a></div>
-      <div class="col col-67"><a class="button button-block button-energized" ng-click="sendFeedback()">Submit</a></div>
+      <div class="col col-33"><a data-tap-disabled="true" class="button button-block button-outline button-stable" href="javascript:void(0);" ng-click="resetForm()">Reset</a></div>
+      <div class="col col-67"><a data-tap-disabled="true"  class="button button-block button-energized" href="javascript:void(0);" ng-click="sendFeedback()">Submit</a></div>
     </div>
   </ion-content>
 </ion-view>

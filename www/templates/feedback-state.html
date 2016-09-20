@@ -1,0 +1,20 @@
+<ion-view view-title="Feedback" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
+  <ion-header-bar class="row-no-padding stable-bg" >
+    <div class="tabs-striped has-tabs-top tabs-background-stable">
+      <div class="tabs">
+        <a class="tab-item active" href="#/tab/feedback">Feedback</a>
+        <a class="tab-item" href="#/tab/feedback-history">History</a>
+      </div>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-controller="FeedbackStateCtrl">
+    <div class="text-center padding block">
+      <p class="margin-top-10"><i class="ion ion-checkmark"></i></p>
+      <p class="gray" ng-if="status == 'success'"> Submit Success.</p>
+      <p class="gray" ng-if="status != 'success'"> Submit failed, Please retry.</p>
+    </div>
+    <div class="padding margin-top-10">
+      <button class="button button-block button-full button-balanced" ng-click="goBack();">Back</button>
+    </div>
+  </ion-content>
+</ion-view>
