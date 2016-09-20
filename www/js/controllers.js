@@ -456,7 +456,7 @@ angular.module('starter.controllers', [])
       $scope.feedbacks = {};
     }
   })
-    .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $state, UIHelper) {
+    .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $cordovaImagePicker, $state, UIHelper) {
         // Triggered on a button click, or some other target
 
         $scope.saveImage = function () {
@@ -490,6 +490,24 @@ angular.module('starter.controllers', [])
             }, function(err) {
                 alert("ERR:" + err);
             });
+        };
+
+        $scope.choosePics = function () {
+            var options = {
+              maximumImagesCount: 3,
+              width: 800,
+              height: 800,
+              quality: 80
+            };
+
+            $cordovaImagePicker.getPictures(options)
+              .then(function (results) {
+                for (var i = 0; i < results.length; i++) {
+                  console.log('Image URI: ' + results[i]);
+                }
+              }, function(err) {
+                  alert("ERR:" + err);
+              });
         }
     })
     .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage) {
@@ -507,19 +525,35 @@ angular.module('starter.controllers', [])
         $scope.feedback = Feedback.get($stateParams.feedbackId);
     })
 
-    .controller('AccountCtrl', function ($scope, $stateParams, localstorage) {
+    .controller('AccountCtrl', function ($scope, $ionicActionSheet, $stateParams, localstorage) {
+
     })
+    .controller('AccountAvatarCtrl', function ($scope, $ionicActionSheet, $timeout, $stateParams, localstorage) {
+      $scope.showActions = function() {
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+          buttons: [
+            { text: '<b>Take Photo</b>' },
+            { text: 'Choose from album' }
+          ],
+          titleText: 'Select an Action',
+          cancelText: 'Cancel',
+          cancel: function() {
+            // add cancel code..
+          },
+          buttonClicked: function(index) {
+            return true;
+          }
+        });
 
-    .controller("IntroBoxCtrl", function ($scope, $stateParams, localstorage) {
-        //var ctrl = this;
+        // For example's sake, hide the sheet after two seconds
+        $timeout(function() {
+          hideSheet();
+        }, 2000);
 
-        //ctrl.showIntro = function () {
-        //angular.element(document.getElementById('intro-box')).addClass("intro-box-full");
-        //}
-        $scope.showIntro = function () {
-            return 'yes';
-        }
+      };
     });
+
 if(typeof String.prototype.trim !== 'function') {
   String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g, '');

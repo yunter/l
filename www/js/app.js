@@ -225,7 +225,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 views: {
                     'tab-account': {
                         templateUrl: 'templates/account-avatar.html',
-                        controller: 'AccountCtrl'
+                        controller: 'AccountAvatarCtrl'
                     }
                 }
             })

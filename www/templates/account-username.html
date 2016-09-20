@@ -1,11 +1,9 @@
 <ion-view view-title="Account Username" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
   <ion-header-bar align-title="center" class="stable-bg">
+    <button class="button button-clear button-dark" ng-click="SaveUserName();">Save</button>
+    <h1 class="title">User Name</h1>
     <div class="buttons">
-      <a class="button" href="#/tab/account">Save</a>
-    </div>
-    <h1 class="title">Username</h1>
-    <div class="buttons">
-      <a class="button" href="#/tab/account">Cancel</a>
+      <a class="button button-clear button-dark" href="#/tab/account">Cancel</a>
     </div>
   </ion-header-bar>
   <ion-content ng-controller="AccountCtrl">

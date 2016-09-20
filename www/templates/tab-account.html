@@ -1,4 +1,4 @@
-<ion-view view-title="Me">
+<ion-view view-title="Me" hide-back-button="true">
   <ion-content ng-controller="AccountCtrl">
     <div class="list">
 
@@ -6,10 +6,10 @@
         <label class="item item-icon-right">
           <div class="row row-no-padding">
             <div class="col col-67">
-              test
+              Avatar
             </div>
-            <div class="col col-33 text-right">
-              <img src="img/120-120.png" width="80" height="80"/>
+            <div class="col col-33 text-right" ng-if="avatar != null">
+              <img ng-model="avatar" ng-src="{{avatar}}" width="60" height="60"/>
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -19,10 +19,10 @@
         <label class="item item-icon-right">
           <div class="row row-no-padding">
             <div class="col col-67">
-              Username
+              User Name
             </div>
-            <div class="col col-33 text-right">
-              text
+            <div class="col col-33 text-right" ng-model="username">
+              {{username}}
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -34,8 +34,8 @@
             <div class="col col-67">
               Address
             </div>
-            <div class="col col-33 text-right">
-              text
+            <div class="col col-33 text-right" ng-model="address">
+              {{address}}
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -44,11 +44,11 @@
       <a href="#/tab/account-language">
         <label class="item item-icon-right">
           <div class="row row-no-padding">
-            <div class="col col-67">
+            <div class="col col-67" >
               Language
             </div>
-            <div class="col col-33 text-right">
-              text
+            <div class="col col-33 text-right" ng-model="language">
+              {{language}}
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -59,9 +59,6 @@
           <div class="row row-no-padding">
             <div class="col col-67">
               About
-            </div>
-            <div class="col col-33 text-right">
-              text
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>

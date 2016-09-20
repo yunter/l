@@ -10,20 +10,20 @@
   </ion-header-bar -->
   <ion-content ng-controller="AttachmentsCtrl">
     <div class="list text-center padding-bottom">
+      <label class="item item-button-right" ng-click="choosePics()">
+        <i class="icon ion-images"></i>
+        Choose Photo
+      </label>
       <label class="item item-button-right" ng-click="takePics()">
         <i class="icon ion-camera" ></i>
-        Photo
+        Take Photo
       </label>
-      <!-- label class="item item-button-right" ng-click="showCam()">
-        <i class="icon ion-videocamera"></i>
-        Video
-      </label -->
     </div>
-    <div>
+    <div ng-if="((document.getElementById('showImage').src != '') && (document.getElementById('showImage').src != null))">
       <img class="full-image" id="showImage" ng-model="feedback.attachment" ng-src="">
-    </div>
-    <div class="padding" ng-if="((document.getElementById('showImage').src != '') && (document.getElementById('showImage').src != null))">
-      <button class="button button-full button-balanced" ng-click="saveImage()">Save Image</button>
+      <div class="padding">
+        <button class="button button-full button-balanced" ng-click="saveImage()">Save Image</button>
+      </div>
     </div>
   </ion-content>
 </ion-view>

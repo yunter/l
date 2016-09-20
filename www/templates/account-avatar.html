@@ -1,14 +1,12 @@
-<ion-view view-title="Account Avatar" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
+<ion-view view-title="Account Avatar" hide-nav-bar="true" hide-back-button="true" hide-tabs="true" ng-controller="AccountAvatarCtrl">
   <ion-header-bar align-title="center" class="stable-bg">
-    <div class="buttons">
-      <a class="button" href="#/tab/account">Back</a>
-    </div>
+    <button class="button button-clear button-dark" ng-click="showActions()">Add</button>
     <h1 class="title">Avatar</h1>
     <div class="buttons">
-      <a class="button" href="#/tab/account">Add</a>
+      <a class="button button-clear button-dark" href="#/tab/account">Back</a>
     </div>
   </ion-header-bar>
-  <ion-content ng-controller="AccountCtrl">
+  <ion-content>
     <img src="img/375-200.png" />
   </ion-content>
 </ion-view>
