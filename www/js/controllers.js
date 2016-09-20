@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova', 'ngStorage'])
+angular.module('starter.controllers', [])
     .controller('AppCtrl', function ($scope, localstorage, $translate, UIHelper) {
         $scope.platform = ionic.Platform.platform();
         $scope.home = 'Home';

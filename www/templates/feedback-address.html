@@ -2,9 +2,11 @@
   <ion-content ng-controller="AddressCtrl">
     <div class="list text-center">
       <label class="item item-input item-stacked-label">
-        <textarea data-tap-disabled="true" ng-model="feedback.editAddress" name="feedback_editAddress" placeholder="Input Address here" class="item-input-wrapper"></textarea>
+        <textarea data-tap-disabled="true" ng-model="editAddress" name="feedback_editAddress" placeholder="Input Address here" class="item-input-wrapper"></textarea>
       </label>
-      <button class="button button-full button-balanced" ng-click="saveAddress()">Save Address</button>
+      <div class="padding" ng-if="editAddress != null">
+        <button class="button button-full button-balanced" ng-click="saveAddress();">Save Address</button>
+      </div>
     </div>
   </ion-content>
 </ion-view>

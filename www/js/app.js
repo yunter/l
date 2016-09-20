@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controllers', 'starter.directives', 'starter.services'])
+angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.translate', 'starter.controllers', 'starter.directives', 'starter.services'])
 
     .run(function ($ionicPlatform, $state, $cordovaDevice, $cordovaGlobalization, localstorage, ApiRegDevice) {
         var init = function () {
@@ -266,8 +266,7 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controlle
                 }
             });
 
-        // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/tab/dash');
+
         $translateProvider.useSanitizeValueStrategy('escapeParameters');
 
         //translate
@@ -290,6 +289,9 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'starter.controlle
                 .determinePreferredLanguage();
         }
         $translateProvider.fallbackLanguage("en");
+
+        // if none of the above states are matched, use this as the fallback
+        $urlRouterProvider.otherwise('/tab/dash');
 
     });
 angular.module("pascalprecht.translate")
