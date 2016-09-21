@@ -501,20 +501,34 @@ angular.module('starter.controllers', [])
             };
             $cordovaImagePicker.getPictures(options)
               .then(function (results) {
-                  var image = document.getElementById('imgTest');
-                  var imgs  = '';
+                  $scope.attachment = true;
+                  var image1 = document.getElementById('attachments1');
+                  var image2 = document.getElementById('attachments2');
+                  var image3 = document.getElementById('attachments3');
                 for (var i = 0; i < results.length; i++) {
+                    switch (i) {
+                        case 0:
+                            $scope.convertImgToBase64URL(results[i], function(base64Image){
+                                image1.src = base64Image;
+                            });
+                            break;
+                        case 1:
+                            $scope.convertImgToBase64URL(results[i], function(base64Image){
+                                image2.src = base64Image;
+                            });
 
-                    $scope.convertImgToBase64URL(results[i], function(base64Image){
-                        //window.open(base64Image);
-                        image.src= base64Image;
-                        //$scope.haveImages      = true;
-                        imgs += '<img class="full-image" src="' + base64Image + '" />';
+                            break;
+                        case 2:
+                            $scope.convertImgToBase64URL(results[i], function(base64Image){
+                                image3.src = base64Image;
+                            });
+                            break;
+                        default:
+                            break;
+                    }
 
-                        // Then you'll be able to handle the myimage.png file as base64
-                    });
                 }
-                $scope.attachments = imgs;
+
               }, function(err) {
                   alert("ERR:" + err);
               });
