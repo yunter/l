@@ -463,7 +463,7 @@ angular.module('starter.controllers', [])
             var title    = 'Please Make a choice';
             var msg      = 'Are you sure ? ';
             UIHelper.confirmAndRun(title, msg, function () {
-                $scope.feedback.attachment = '';
+                $scope.attachment = '';
                 $state.go("tab.feedback");
             });
         };
@@ -482,8 +482,9 @@ angular.module('starter.controllers', [])
                 encodingType: 0,
                 correctOrientation:true
             };
-
+            $scope.imageSrc = false;
             $cordovaCamera.getPicture(options).then(function(imageData) {
+                $scope.attachment = true;
                 var image = document.getElementById('showImage');
                 image.src = "data:image/jpeg;base64," + imageData;
                 localstorage.set('getImageSrc', "data:image/jpeg;base64," + imageData);
@@ -491,7 +492,6 @@ angular.module('starter.controllers', [])
                 alert("ERR:" + err);
             });
         };
-
         $scope.choosePics = function () {
             var options = {
               maximumImagesCount: 3,
@@ -499,16 +499,42 @@ angular.module('starter.controllers', [])
               height: 800,
               quality: 80
             };
-
             $cordovaImagePicker.getPictures(options)
               .then(function (results) {
+                  var image = document.getElementById('imgTest');
+                  var imgs  = '';
                 for (var i = 0; i < results.length; i++) {
-                  console.log('Image URI: ' + results[i]);
+
+                    $scope.convertImgToBase64URL(results[i], function(base64Image){
+                        //window.open(base64Image);
+                        image.src= base64Image;
+                        //$scope.haveImages      = true;
+                        imgs += '<img class="full-image" src="' + base64Image + '" />';
+
+                        // Then you'll be able to handle the myimage.png file as base64
+                    });
                 }
+                $scope.attachments = imgs;
               }, function(err) {
                   alert("ERR:" + err);
               });
-        }
+        };
+
+        $scope.convertImgToBase64URL = function (url, callback, outputFormat){
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function(){
+                var canvas = document.createElement('CANVAS'),
+                    ctx = canvas.getContext('2d'), dataURL;
+                canvas.height = this.height;
+                canvas.width = this.width;
+                ctx.drawImage(this, 0, 0);
+                dataURL = canvas.toDataURL(outputFormat);
+                callback(dataURL);
+                canvas = null;
+            };
+            img.src = url;
+        };
     })
     .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage) {
         $scope.saveAddress = function(){
