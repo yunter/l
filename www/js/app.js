@@ -81,6 +81,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             // Each tab has its own nav history stack:
 
             .state('tab.dash', {
+                cache: false,
                 url: '/dash',
                 views: {
                     'tab-dash': {
@@ -90,6 +91,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.dash-intro', {
+                cache: false,
                 url: '/intro',
                 views: {
                     'tab-dash': {
@@ -109,6 +111,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.hot-product-detail', {
+                cache: false,
                 url: '/hot-product-detail/:productId',
                 views: {
                     'tab-dash': {
@@ -119,6 +122,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             })
 
             .state('tab.products', {
+                cache: false,
                 url: '/products',
                 views: {
                     'tab-products': {
@@ -138,6 +142,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.product-video-list', {
+                cache: false,
                 url: '/product-video-list',
                 views: {
                     'tab-products': {
@@ -147,6 +152,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.product-detail', {
+                cache: false,
                 url: '/product-detail/:productId',
                 views: {
                     'tab-products': {
@@ -171,15 +177,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                     'tab-feedback': {
                         templateUrl: 'templates/feedback-state.html',
                         controller: 'FeedbackStateCtrl'
-                    }
-                }
-            })
-            .state('tab.feedback-detail', {
-                url: '/feedback/:feedbackId',
-                views: {
-                    'tab-feedback': {
-                        templateUrl: 'templates/feedback-detail.html',
-                        controller: 'FeedbackDetailCtrl'
                     }
                 }
             })
@@ -234,7 +231,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 views: {
                     'tab-account': {
                         templateUrl: 'templates/account-username.html',
-                        controller: 'AccountCtrl'
+                        controller: 'AccountUsernameCtrl'
                     }
                 }
             })
@@ -252,7 +249,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 views: {
                     'tab-account': {
                         templateUrl: 'templates/account-language.html',
-                        controller: 'AccountCtrl'
+                        controller: 'AccountChooseLanguageCtrl'
                     }
                 }
             })
@@ -261,7 +258,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 views: {
                     'tab-account': {
                         templateUrl: 'templates/account-about.html',
-                        controller: 'AccountCtrl'
+                        controller: 'AccountAboutCtrl'
                     }
                 }
             });

@@ -1,17 +1,13 @@
-<ion-view view-title="Account Username" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
-  <ion-header-bar align-title="center" class="stable-bg">
-    <button class="button button-clear button-dark" ng-click="SaveUserName();">Save</button>
-    <h1 class="title">User Name</h1>
-    <div class="buttons">
-      <a class="button button-clear button-dark" href="#/tab/account">Cancel</a>
-    </div>
-  </ion-header-bar>
-  <ion-content ng-controller="AccountCtrl">
+<ion-view view-title="{{'tabs.account.AccountUsername' | translate}}" hide-tabs="true">
+  <ion-content ng-controller="AccountUsernameCtrl">
     <div class="list text-center">
       <label class="item item-input">
-        <span class="input-label">Username</span>
-        <input type="text" name="feedback_planting" placeholder="Username" class="item-input-wrapper" />
+        <span class="input-label">{{'tabs.feedback.form.username' | translate}}</span>
+        <input type="text" ng-model="account_username" name="account_username" placeholder="{{'tabs.feedback.form.username.placeholder' | translate}}" class="item-input-wrapper" />
       </label>
+    </div>
+    <div class="padding" ng-if="account_username != null">
+      <button class="button button-full button-balanced" ng-click="saveUserName();">{{'general.btn.save' | translate}}</button>
     </div>
   </ion-content>
 </ion-view>

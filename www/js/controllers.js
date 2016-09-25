@@ -1,14 +1,13 @@
 angular.module('starter.controllers', [])
     .controller('AppCtrl', function ($scope, localstorage, $translate, UIHelper) {
-        $scope.platform = ionic.Platform.platform();
-        $scope.home = 'Home';
-        $scope.about_us = 'About Us';
         $scope.changeLanguage = function (key) {
             $translate.use(key);
+            window.localStorage['language'] = key;
+            UIHelper.changeLanguage(key);
+
         };
     })
-    .controller('DashCtrl', function ($scope, localstorage, ApiHome) {
-
+    .controller('DashCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
         ApiHome.getLamsin().then(function (result) {
             if (typeof result == "object") {
                 //banner
@@ -18,11 +17,12 @@ angular.module('starter.controllers', [])
                             $scope.banners = result.data.banners;
                         }
                     }, function (error) {
-                        alert("ERROR:GetSlideShow, request error.");
+                        UIHelper.showAlert('controllers.GetSlideShow.request.error');
                     });
 
                 //intro
                 localstorage.set('IntroId', result.articleConfig.intro);
+                localstorage.set('aboutId', result.articleConfig.about);
 
                 ApiHome.getIntro(result.articleConfig.intro)
                     .then(function (result) {
@@ -31,17 +31,17 @@ angular.module('starter.controllers', [])
                             $scope.IntroDesc = result.data.meta_description;
                         }
                     }, function (error) {
-                        alert("ERROR:GetIntro, request error.");
+                        UIHelper.showAlert('controllers.GetIntro.request.error');
                     });
 
             } else {
-                alert("ERR:01, Service is not available.");
+                UIHelper.showAlert('controllers.getLamsin.Service.err1');
             }
         }, function (error) {
-            alert("ERR:02, request error.");
+            UIHelper.showAlert('controllers.getLamsin.Service.err2');
         });
     })
-    .controller('DashIntroCtrl', function ($scope, localstorage, ApiHome) {
+    .controller('DashIntroCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
         var IntroId = localstorage.get('IntroId');
         ApiHome.getIntro(IntroId)
             .then(function (result) {
@@ -51,10 +51,10 @@ angular.module('starter.controllers', [])
                     $scope.IntroDescription = result.data.description;
                 }
             }, function (error) {
-                alert("ERROR:DashIntro, request error.");
+                UIHelper.showAlert('controllers.GetDashIntro.error');
             });
     })
-    .controller('DashHotProductsCtrl', function ($scope, localstorage, ApiHome) {
+    .controller('DashHotProductsCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
         //hot products
         ApiHome.getLatestProducts(0, 3).then(
             function (result) {
@@ -62,31 +62,20 @@ angular.module('starter.controllers', [])
                     $scope.latestProducts = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetLatestProducts, request error.");
+                UIHelper.showAlert('controllers.GetLatestProducts.error');
             });
     })
-    .controller('DashHotProductsListCtrl', function ($scope, localstorage, $timeout, $ionicLoading, ApiHome) {
+    .controller('DashHotProductsListCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
+        UIHelper.blockScreen('general.common.loading', 1.5);
         // Setup the loader
-        $ionicLoading.show({
-          template: 'Loading...'
-        }).then(function(){
-          //hot products
-          ApiHome.getLatestProducts(0, 5).then(
+        ApiHome.getLatestProducts(0, 5).then(
             function (result) {
-              if (typeof result == "object") {
-                $scope.latestProducts = result.data;
-              }
+                if (typeof result == "object") {
+                    $scope.latestProducts = result.data;
+                }
             }, function (error) {
-              alert("ERR:GetLatestProducts, request error.");
+                UIHelper.showAlert('controllers.GetLatestProducts.error2');
             });
-        });
-
-        // Set a timeout to clear loader, however you would actually call the $ionicLoading.hide();
-        // method whenever everything is ready or loaded.
-        $timeout(function () {
-          $ionicLoading.hide();
-        }, 1500);
-
         var page = 1;
         $scope.doRefresh = function () {
             ApiHome.getLatestProducts((++page - 1) * 5, 5).then(
@@ -124,22 +113,21 @@ angular.module('starter.controllers', [])
 
                 }
               }, function (error) {
-                alert("ERR:" + error);
-
+                  UIHelper.showAlert('controllers.GetLatestProducts.error3');
               });
         };
         $scope.$on('$stateChangeSuccess', function() {
           $scope.loadMore();
         });
     })
-    .controller('ProductsCtrl', function ($scope, $stateParams, localstorage, Products) {
+    .controller('ProductsCtrl', function ($scope, $stateParams, localstorage, Products, UIHelper) {
         Products.getProductVideos('DESC', 1, 1).then(
             function (result) {
                 if (typeof result == "object") {
                     $scope.ProductVideo = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetProductVideo, request error.");
+                UIHelper.showAlert('controllers.GetProductVideos.error');
             });
         Products.getProductCategories(0, 2).then(
             function (result) {
@@ -147,29 +135,19 @@ angular.module('starter.controllers', [])
                     $scope.ProductCategories = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetProductCategories, request error.");
+                UIHelper.showAlert('controllers.GetProductCategories.error');
             });
     })
-    .controller('ProductVideoListCtrl', function ($scope, $state, $stateParams, localstorage, $ionicLoading, $timeout, Products) {
-        // Setup the loader
-        $ionicLoading.show({
-          template: 'Loading...'
-        }).then(function(){
-          Products.getProductVideos('DESC', 0, 5).then(
+    .controller('ProductVideoListCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
+        UIHelper.blockScreen('general.common.loading', 1.5);
+        Products.getProductVideos('DESC', 0, 5).then(
             function (result) {
-              if (typeof result == "object") {
-                $scope.ProductVideoList = result.data;
-              }
+                if (typeof result == "object") {
+                    $scope.ProductVideoList = result.data;
+                }
             }, function (error) {
-              alert("ERR:GetProductVideoList, request error.");
+                UIHelper.showAlert('controllers.GetProductVideos.error');
             });
-        });
-
-        // Set a timeout to clear loader, however you would actually call the $ionicLoading.hide();
-        // method whenever everything is ready or loaded.
-        $timeout(function () {
-          $ionicLoading.hide();
-        }, 1500);
 
         var page = 1;
         $scope.doRefresh = function () {
@@ -215,7 +193,7 @@ angular.module('starter.controllers', [])
           $scope.loadMore();
         });
     })
-    .controller('ProductListCtrl', function ($scope, $state, $stateParams, localstorage, $ionicLoading, $timeout, Products) {
+    .controller('ProductListCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
         var categoryId = $stateParams.categoryId;
         var hasChild = $stateParams.hasChild;
         $scope.hasFilters  = false;
@@ -232,24 +210,15 @@ angular.module('starter.controllers', [])
           var searchKey = searchKey.trim();
           $scope.Products = {};
           if(searchKey) {
-            $ionicLoading.show({
-              template: 'Loading...'
-            }).then(function(){
+              UIHelper.blockScreen('general.common.loading', 1.5);
               Products.getProducts('DESC', 0, 30, '', searchKey).then(
-                function (result) {
-                  if (typeof result == "object") {
-                    $scope.Products = result.data;
-                  }
-                }, function (error) {
-                  alert("ERR:GetProducts, request error.");
-                });
-            });
-
-            // Set a timeout to clear loader, however you would actually call the $ionicLoading.hide();
-            // method whenever everything is ready or loaded.
-            $timeout(function () {
-              $ionicLoading.hide();
-            }, 1500);
+                  function (result) {
+                      if (typeof result == "object") {
+                          $scope.Products = result.data;
+                      }
+                  }, function (error) {
+                      UIHelper.showAlert('controllers.GetProducts.error');
+                  });
           }
           //$state.transitionTo($state.current, $stateParams, {
           //  reload: true, inherit: false, notify: true
@@ -264,7 +233,7 @@ angular.module('starter.controllers', [])
                             $scope.ProductCategories = result.data;
                         }
                     }, function (error) {
-                        alert("ERR:GetProductCategories, request error.");
+                        UIHelper.showAlert('controllers.GetProductCategories.error');
                     });
             } else {
                 Products.getProducts('DESC', 1, 100, categoryId, '').then(
@@ -273,13 +242,13 @@ angular.module('starter.controllers', [])
                             $scope.Products = result.data;
                         }
                     }, function (error) {
-                        alert("ERR:GetProducts, request error.");
+                        UIHelper.showAlert('controllers.GetProducts.error');
                     });
             }
 
         }
     })
-    .controller('ProductDetailCtrl', function ($scope, $stateParams, localstorage, Products) {
+    .controller('ProductDetailCtrl', function ($scope, $stateParams, localstorage, Products, UIHelper) {
         //get product information
         Products.getProductInfo($stateParams.productId).then(
             function (result) {
@@ -287,11 +256,11 @@ angular.module('starter.controllers', [])
                     $scope.productInfo = result.data;
                 }
             }, function (error) {
-                alert("ERR:GetProductInfo, request error.");
+                UIHelper.showAlert('controllers.GetProductInfo.error');
             });
     })
 
-    .controller('FeedbackCtrl', function ($scope, $state, $stateParams, $ionicPopup, $timeout, localstorage, UIHelper, Feedback) {
+    .controller('FeedbackCtrl', function ($scope, $state, $stateParams, $ionicPopup, $timeout, localstorage, Feedback, UIHelper) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
         // To listen for when this page is active (for example, to refresh data),
@@ -304,11 +273,17 @@ angular.module('starter.controllers', [])
 
         $scope.username     = '';
         $scope.phone_number = '';
+        var getImageSrc  = localstorage.get('getImageSrc');
+        if(getImageSrc) {
+            $scope.haveFile = true;
+        } else {
+            $scope.haveFile = false;
+        }
         $scope.sendFeedback = function () {
-          UIHelper.showAlert('Add success!');
-            var title    = 'Please Make a choice';
-            var msg      = 'Are you sure submit ? ';
+            var title    = 'controllers.addFeedback.confirm.title';
+            var msg      = 'controllers.addFeedback.confirm.msg';
             var uuid     = localstorage.get('uuid');
+
             var usage    = $scope.usage;
             var planting = $scope.planting;
 
@@ -316,43 +291,56 @@ angular.module('starter.controllers', [])
             var phone_number = $scope.phone_number;
 
             var getAddress   = localstorage.get('getAddress');
-            var getImageSrc   = localstorage.get('getImageSrc');
-            if(typeof getImageSrc != "undefined" && getImageSrc != '') {
-                $scope.getImageSrc = getImageSrc;
+            var getImageSrc  = localstorage.get('getImageSrc');
+            if(getImageSrc) {
+                $scope.haveFile = true;
             } else {
-                getImageSrc = '';
+                $scope.haveFile = false;
             }
-            if(typeof getAddress != "undefined" && getAddress != '') {
-                $scope.address = getAddress;
-            } else {
-                getAddress = '';
-            }
-            if(typeof usage == "undefined" || usage == ''){
-                UIHelper.showAlert('Please fill the Usage.', 'test');
+            if(!usage) {
+                UIHelper.showAlert('controllers.addFeedback.notice.1');
                 return false;
             }
-            if(typeof planting == "undefined" || planting == ''){
-                UIHelper.showAlert("Please fill the planting.");
+            if(!planting) {
+                UIHelper.showAlert('controllers.addFeedback.notice.2');
                 return false;
             }
+            /***
+            var images       = '';
+            var image1       = localstorage.get('image1');
+            var image2       = localstorage.get('image2');
+            var image3       = localstorage.get('image3');
+            if(getImageSrc) {
+                images += getImageSrc + "#";
+            }
+            if(image1) {
+                images += image1 + "#";
+            }
+            if(image2) {
+                images += image2 + "#";
+            }
+            if(image3) {
+                images += image3 + "#";
+            }
+             **/
             UIHelper.confirmAndRun(title, msg, function () {
                 Feedback.addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc).then(
                     function (result) {
                         if (typeof result == "object") {
                             $scope.resetForm('noConfirm');
-                            $state.go('tab.feedback-state',{status:'success'});
+                            $state.go('tab.feedback-state', {status:'success'});
                         } else {
-                          UIHelper.showAlert('Add failed!');
+                            UIHelper.showAlert('controllers.addFeedback.error');
                         }
                     }, function (error) {
-                        UIHelper.blockScreen("ERR:AddFeedback, request error.", 3);
+                        //alert(error);
                     });
             });
         };
 
         $scope.resetForm = function (hasConfirm) {
-            var title    = 'Please Make a choice';
-            var msg      = 'Are you sure Reset ? ';
+            var title    = 'controllers.addFeedback.confirm.title';
+            var msg      = 'controllers.addFeedback.confirm.msg2';
 
             if(hasConfirm == 'noConfirm') {
                 $scope.usage        = '';
@@ -360,7 +348,9 @@ angular.module('starter.controllers', [])
                 $scope.username     = '';
                 $scope.phone_number = '';
 
-
+                localstorage.set('image1', '');
+                localstorage.set('image2', '');
+                localstorage.set('image3', '');
                 localstorage.set('getImageSrc', '');
                 localstorage.set('getAddress', '');
             } else {
@@ -370,10 +360,15 @@ angular.module('starter.controllers', [])
                     $scope.username     = '';
                     $scope.phone_number = '';
 
-                    localstorage.set('getAddress', '');
+                    localstorage.set('image1', '');
+                    localstorage.set('image2', '');
+                    localstorage.set('image3', '');
                     localstorage.set('getImageSrc', '');
+                    localstorage.set('getAddress', '');
+
                 });
             }
+            localstorage.set('formClear', true);
         };
     })
     .controller('FeedbackStateCtrl', function ($scope, $stateParams, localstorage, $state) {
@@ -383,32 +378,21 @@ angular.module('starter.controllers', [])
           $state.go('tab.feedback');
         }
     })
-    .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback) {
+    .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
     var customerId = localstorage.get('customerId');
     if(typeof customerId == "undefined" || customerId == '') {
       customerId = localstorage.get('deviceid');
     }
     var page = 1;
     if(typeof customerId != "undefined" && customerId != '') {
-      // Setup the loader
-      $ionicLoading.show({
-        template: 'Loading...'
-      }).then(function(){
+        UIHelper.blockScreen('general.common.loading', 1.5);
         Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
-          if (typeof result == "object") {
-            $scope.feedbacks = result.data;
-          }
+            if (typeof result == "object") {
+                $scope.feedbacks = result.data;
+            }
         }, function (error) {
-          alert("ERR:GetFeedbackList, request error.");
+            UIHelper.showAlert('controllers.getFeedbackList.error');
         });
-      });
-
-      // Set a timeout to clear loader, however you would actually call the $ionicLoading.hide();
-      // method whenever everything is ready or loaded.
-      $timeout(function () {
-        $ionicLoading.hide();
-      }, 1500);
-
       $scope.doRefresh = function () {
         Feedback.getFeedbackList(customerId, (++page - 1) * 5, 5).then(
           function (result) {
@@ -458,10 +442,24 @@ angular.module('starter.controllers', [])
   })
     .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $cordovaImagePicker, $state, UIHelper) {
         // Triggered on a button click, or some other target
+        var image = document.getElementById('showImage');
+        /**
+        var image1 = document.getElementById('attachments1');
+        var image2 = document.getElementById('attachments2');
+        var image3 = document.getElementById('attachments3');
+        */
+        if(localstorage.get('formClear') === true) {
+            image.src = '';
+            //image1.src = '';
+            //image2.src = '';
+            //image3.src = '';
+        } else {
+            localstorage.set('formClear', false);
+        }
 
         $scope.saveImage = function () {
-            var title    = 'Please Make a choice';
-            var msg      = 'Are you sure ? ';
+            var title    = 'controllers.addFeedback.confirm.title';
+            var msg      = 'controllers.addFeedback.confirm.msg3';
             UIHelper.confirmAndRun(title, msg, function () {
                 $scope.attachment = '';
                 $state.go("tab.feedback");
@@ -475,62 +473,65 @@ angular.module('starter.controllers', [])
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: true,
                 encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 800,
-                targetHeight: 800,
+                targetWidth: 600,
+                targetHeight: 600,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
-                encodingType: 0,
                 correctOrientation:true
             };
             $scope.imageSrc = false;
             $cordovaCamera.getPicture(options).then(function(imageData) {
                 $scope.attachment = true;
-                var image = document.getElementById('showImage');
                 image.src = "data:image/jpeg;base64," + imageData;
                 localstorage.set('getImageSrc', "data:image/jpeg;base64," + imageData);
             }, function(err) {
-                alert("ERR:" + err);
+                //alert("ERR:" + err);
             });
         };
         $scope.choosePics = function () {
             var options = {
-              maximumImagesCount: 3,
-              width: 800,
-              height: 800,
-              quality: 80
+              maximumImagesCount: 1,
+              width: 600,
+              height: 600,
+              quality: 50
             };
             $cordovaImagePicker.getPictures(options)
               .then(function (results) {
                   $scope.attachment = true;
-                  var image1 = document.getElementById('attachments1');
-                  var image2 = document.getElementById('attachments2');
-                  var image3 = document.getElementById('attachments3');
                 for (var i = 0; i < results.length; i++) {
+                    $scope.convertImgToBase64URL(results[i], function(base64Image){
+                        image.src = base64Image;
+                        localstorage.set('getImageSrc', base64Image);
+                    });
+                    /**
                     switch (i) {
                         case 0:
                             $scope.convertImgToBase64URL(results[i], function(base64Image){
-                                image1.src = base64Image;
+                                image.src = base64Image;
+                                localstorage.set('image1', base64Image);
                             });
                             break;
                         case 1:
                             $scope.convertImgToBase64URL(results[i], function(base64Image){
                                 image2.src = base64Image;
+                                localstorage.set('image2', base64Image);
                             });
-
                             break;
                         case 2:
                             $scope.convertImgToBase64URL(results[i], function(base64Image){
                                 image3.src = base64Image;
+                                localstorage.set('image3', base64Image);
                             });
                             break;
                         default:
                             break;
                     }
+                     **/
 
                 }
 
               }, function(err) {
-                  alert("ERR:" + err);
+                  //alert("ERR:" + err);
               });
         };
 
@@ -550,7 +551,7 @@ angular.module('starter.controllers', [])
             img.src = url;
         };
     })
-    .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage) {
+    .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage, UIHelper) {
         $scope.saveAddress = function(){
             var getAddress = $scope.editAddress;
 
@@ -561,37 +562,168 @@ angular.module('starter.controllers', [])
             $state.go("tab.feedback");
         }
     })
-    .controller('FeedbackDetailCtrl', function ($scope, $stateParams, localstorage, Feedback) {
+    .controller('FeedbackDetailCtrl', function ($scope, $stateParams, localstorage, Feedback, UIHelper) {
         $scope.feedback = Feedback.get($stateParams.feedbackId);
     })
 
-    .controller('AccountCtrl', function ($scope, $ionicActionSheet, $stateParams, localstorage) {
-
+    .controller('AccountCtrl', function ($scope, localstorage, UIHelper) {
     })
-    .controller('AccountAvatarCtrl', function ($scope, $ionicActionSheet, $timeout, $stateParams, localstorage) {
-      $scope.showActions = function() {
-        // Show the action sheet
-        var hideSheet = $ionicActionSheet.show({
-          buttons: [
-            { text: '<b>Take Photo</b>' },
-            { text: 'Choose from album' }
-          ],
-          titleText: 'Select an Action',
-          cancelText: 'Cancel',
-          cancel: function() {
-            // add cancel code..
-          },
-          buttonClicked: function(index) {
-            return true;
-          }
+    .controller('AccountAvatarCtrl', function ($scope, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $timeout, $stateParams, localstorage, UIHelper) {
+
+        $scope.saveAvatar = function () {
+            var title    = 'controllers.addFeedback.confirm.title';
+            var msg      = 'controllers.addFeedback.confirm.msg5';
+            UIHelper.confirmAndRun(title, msg, function () {
+                $state.go("tab.account");
+            });
+        };
+        var avatar    = document.getElementById('avatar');
+        var avatarSrc = localstorage.get('avatar');
+
+        if(avatarSrc){
+            avatar.src = avatarSrc;
+        }
+
+        $scope.takeAvatar = function () {
+            var options = {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 300,
+                targetHeight: 300,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false,
+                correctOrientation:true
+            };
+            $scope.imageSrc = false;
+            $cordovaCamera.getPicture(options).then(function(imageData) {
+                avatar.src = "data:image/jpeg;base64," + imageData;
+                localstorage.set('avatar', "data:image/jpeg;base64," + imageData);
+            }, function(err) {
+                alert("ERR:" + err);
+            });
+        };
+        $scope.chooseAvatar = function () {
+            var options = {
+                maximumImagesCount: 1,
+                width: 300,
+                height: 300,
+                quality: 50
+            };
+            $cordovaImagePicker.getPictures(options)
+                .then(function (results) {
+                    for (var i = 0; i < results.length; i++) {
+                        switch (i) {
+                            case 0:
+                                $scope.convertImgToBase64URL(results[i], function(base64Image){
+                                    avatar.src = base64Image;
+                                    localstorage.set('avatar', base64Image);
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+
+                }, function(err) {
+                    alert("ERR:" + err);
+                });
+        };
+
+        $scope.convertImgToBase64URL = function (url, callback, outputFormat){
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function(){
+                var canvas = document.createElement('CANVAS'),
+                    ctx = canvas.getContext('2d'), dataURL;
+                canvas.height = this.height;
+                canvas.width = this.width;
+                ctx.drawImage(this, 0, 0);
+                dataURL = canvas.toDataURL(outputFormat);
+                callback(dataURL);
+                canvas = null;
+            };
+            img.src = url;
+        };
+        UIHelper.translate(
+            ['controllers.addFeedback.avatar.TakeAnAvatar'
+                , 'controllers.addFeedback.avatar.ChooseFromAlbum'
+                , 'controllers.addFeedback.avatar.ChooseTitle'
+                , 'general.btn.cancel'
+            ]).then(function (t) {
+            $scope.showActions = function() {
+                // Show the action sheet
+                var hideSheet = $ionicActionSheet.show({
+                    buttons: [
+                        { text: '<b>' + t[0] + '</b>' },
+                        { text: t[1] }
+                    ],
+                    titleText: t[2],
+                    cancelText: t[3],
+                    cancel: function() {
+                        // add cancel code..
+                    },
+                    buttonClicked: function(index) {
+                        switch (index) {
+                            case 0:
+                                $scope.takeAvatar();
+                                break;
+                            case 1:
+                                $scope.chooseAvatar();
+                                break;
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                // For example's sake, hide the sheet after two seconds
+                $timeout(function() {
+                    hideSheet();
+                }, 3000);
+
+            };
         });
+    })
+    .controller('AccountUsernameCtrl', function ($scope, $state, $stateParams, localstorage, ApiHome, UIHelper) {
 
-        // For example's sake, hide the sheet after two seconds
-        $timeout(function() {
-          hideSheet();
-        }, 2000);
+        $scope.account_username = localstorage.get('username');
 
-      };
+        $scope.saveUserName = function () {
+            var username = $scope.account_username;
+            if(username) {
+                localstorage.set('username', username);
+                console.log(localstorage.get('username'));
+
+            }
+            $state.go('tab.account');
+        }
+    })
+    .controller('AccountChooseLanguageCtrl', function ($scope, UIHelper) {
+        $scope.languages = {
+            available: ['en', 'zh'],
+            selected: UIHelper.getCurrentLanguage()
+        };
+        $scope.$watch('languages.selected', function (newLang) {
+            window.localStorage['language'] = newLang;
+            UIHelper.changeLanguage(newLang);
+        });
+    })
+    .controller('AccountAboutCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
+        var aboutId = localstorage.get('aboutId');
+        ApiHome.getIntro(aboutId)
+            .then(function (result) {
+                if (typeof result == "object") {
+                    $scope.AboutTitle = result.data.title;
+                    $scope.AboutDesc = result.data.description;
+                }
+            }, function (error) {
+                UIHelper.showAlert('controllers.dashIntro.error');
+            });
     });
 
 if(typeof String.prototype.trim !== 'function') {

@@ -1,19 +1,13 @@
-<ion-view view-title="Account Language" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
-  <ion-header-bar align-title="center" class="stable-bg">
-    <button class="button button-clear button-dark" ng-click="changeLanguage();">Save</button>
-    <h1 class="title">Language</h1>
-    <div class="buttons">
-      <a class="button button-clear button-dark" href="#/tab/account">Cancel</a>
-    </div>
-  </ion-header-bar>
-  <ion-content ng-controller="AccountCtrl">
-    <div class="list">
-      <div class="item item-divider">
-        Candy Bars
-      </div>
-      <a class="item" href="#">
-        Butterfinger
-      </a>
-    </div>
+<ion-view view-title="{{'tabs.account.AccountLanguage' | translate}}" hide-tabs="true">
+  <ion-content ng-controller="AccountChooseLanguageCtrl">
+    <!-- div class="list">
+      <ion-radio ng-model="choiceLang" ng-value="'zh_CN'" ng-click="changeLanguage('zh_CN');">Chinese</ion-radio>
+      <ion-radio ng-model="choiceLang" ng-value="'en_US'" ng-click="changeLanguage('en_US');">English</ion-radio>
+    </div -->
+    <ion-radio ng-repeat="lang in languages.available" class="item"
+               ng-model="languages.selected"
+               ng-value="lang" ng-click="changeLanguage(lang);">
+              {{(lang == "en") ? 'English' : ''}} {{(lang == "zh") ? '中文简体' : ''}}
+    </ion-radio>
   </ion-content>
 </ion-view>

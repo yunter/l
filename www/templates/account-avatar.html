@@ -1,12 +1,18 @@
-<ion-view view-title="Account Avatar" hide-nav-bar="true" hide-back-button="true" hide-tabs="true" ng-controller="AccountAvatarCtrl">
+<ion-view hide-nav-bar="true" hide-back-button="true" hide-tabs="true" ng-controller="AccountAvatarCtrl">
   <ion-header-bar align-title="center" class="stable-bg">
-    <button class="button button-clear button-dark" ng-click="showActions()">Add</button>
-    <h1 class="title">Avatar</h1>
+    <button class="button button-clear button-dark" ng-click="saveAvatar()">{{'general.btn.save' | translate}}</button>
+    <h1 class="title"></h1>
     <div class="buttons">
-      <a class="button button-clear button-dark" href="#/tab/account">Back</a>
+      <a class="button button-clear button-dark" href="#/tab/account">{{'general.common.cancel' | translate}}</a>
     </div>
   </ion-header-bar>
   <ion-content>
-    <img src="img/375-200.png" />
+    <div class="list text-center padding-bottom">
+      <label class="item item-button-right" ng-click="showActions()" data-tap-disabled="true">
+        <i class="icon ion-images"></i>
+        {{'tabs.account.SetAvatar' | translate}}
+      </label>
+    </div>
+    <img class="full-image" src="img/375-200.png" id="avatar" ng-src=""/>
   </ion-content>
 </ion-view>

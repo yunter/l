@@ -1,16 +1,16 @@
-<ion-view view-title="Account Address" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
+<ion-view view-title="{{'tabs.account.address' | translate}}" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
   <ion-header-bar align-title="center" class="stable-bg">
-    <button class="button button-clear button-dark" ng-click="saveAccountAddress();">Save</button>
-    <h1 class="title">Address</h1>
+    <button class="button button-clear button-dark" ng-click="saveAccountAddress();">{{'general.btn.save' | translate}}</button>
+    <h1 class="title"></h1>
     <div class="buttons">
-      <a class="button button-clear button-dark" href="#/tab/account">Cancel</a>
+      <a class="button button-clear button-dark" href="#/tab/account">{{'general.common.cancel' | translate}}</a>
     </div>
   </ion-header-bar>
   <ion-content ng-controller="AddressCtrl">
     <div class="list text-center">
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Address</span>
-        <textarea name="feedback_planting" placeholder="Address" class="item-input-wrapper"></textarea>
+        <span class="input-label">{{'tabs.account.address' | translate}}</span>
+        <textarea name="feedback_planting" placeholder="{{'tabs.feedback.form.address.placeholder' | translate}}" class="item-input-wrapper"></textarea>
       </label>
     </div>
   </ion-content>

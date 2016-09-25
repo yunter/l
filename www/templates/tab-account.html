@@ -1,12 +1,11 @@
-<ion-view view-title="Me" hide-back-button="true">
+<ion-view view-title="{{'tabs.account.view.title' | translate}}" hide-back-button="true">
   <ion-content ng-controller="AccountCtrl">
     <div class="list">
-
       <a href="#/tab/account-avatar">
         <label class="item item-icon-right">
           <div class="row row-no-padding">
             <div class="col col-67">
-              Avatar
+              {{'tabs.account.avatar' | translate}}
             </div>
             <div class="col col-33 text-right" ng-if="avatar != null">
               <img ng-model="avatar" ng-src="{{avatar}}" width="60" height="60"/>
@@ -19,7 +18,7 @@
         <label class="item item-icon-right">
           <div class="row row-no-padding">
             <div class="col col-67">
-              User Name
+              {{'tabs.account.username' | translate}}
             </div>
             <div class="col col-33 text-right" ng-model="username">
               {{username}}
@@ -32,7 +31,7 @@
         <label class="item item-icon-right">
           <div class="row row-no-padding">
             <div class="col col-67">
-              Address
+              {{'tabs.account.address' | translate}}
             </div>
             <div class="col col-33 text-right" ng-model="address">
               {{address}}
@@ -45,7 +44,7 @@
         <label class="item item-icon-right">
           <div class="row row-no-padding">
             <div class="col col-67" >
-              Language
+              {{'tabs.account.language' | translate}}
             </div>
             <div class="col col-33 text-right" ng-model="language">
               {{language}}
@@ -58,7 +57,7 @@
         <label class="item item-icon-right">
           <div class="row row-no-padding">
             <div class="col col-67">
-              About
+              {{'tabs.account.about' | translate}}
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>

@@ -703,7 +703,6 @@ ngCordovaMocks.factory('$cordovaDevice', function () {
      The manufacturer of the device.
      This property should only be used in automated tests.
      */
-    version: version,
 
     getDevice: function () {
       return this.device;
@@ -810,7 +809,7 @@ ngCordovaMocks.factory('$cordovaDeviceMotion', ['$interval', '$q', function ($in
       var watchId = Math.floor((Math.random() * 1000000) + 1);
 
       this.positions = [];
-      self = this;
+      var self = this;
 
       if (this.throwsError) {
         defer.reject('There was an error watching the current acceleration.');

@@ -1,49 +1,49 @@
-<ion-view view-title="Feedback" hide-nav-bar="true" hide-back-button="true">
+<ion-view view-title="{{'tabs.feedback.view.title' | translate}}" hide-nav-bar="true" hide-back-button="true">
   <ion-header-bar class="row-no-padding stable-bg" >
     <div class="tabs-striped has-tabs-top tabs-background-stable">
       <div class="tabs">
-        <a class="tab-item active" href="#/tab/feedback">Feedback</a>
-        <a class="tab-item" href="#/tab/feedback-history">History</a>
+        <a class="tab-item active" href="#/tab/feedback">{{'tabs.feedback.action.feedback' | translate}}</a>
+        <a class="tab-item" href="#/tab/feedback-history">{{'tabs.feedback.action.history' | translate}}</a>
       </div>
     </div>
   </ion-header-bar>
   <ion-content ng-controller="FeedbackCtrl">
-    <div class="text-center padding block">Please tell us about you knows</div>
+    <div class="text-center padding block">{{'tabs.feedback.action.tip' | translate}}</div>
     <div class="list">
       <label class="item item-input item-stacked-label">
-        <span class="input-label">test</span>
-        <textarea ng-model="usage" name="feedback_usage" placeholder="John" class="item-input-wrapper" data-tap-disabled="true"></textarea>
+        <span class="input-label"><span class="assertive">*</span>{{'tabs.feedback.form.usage' | translate}}</span>
+        <textarea ng-model="usage" name="feedback_usage" placeholder="{{'tabs.feedback.form.usage.placeholder' | translate}}" class="item-input-wrapper" data-tap-disabled="true"></textarea>
       </label>
       <label class="item item-input item-stacked-label">
-        <span class="input-label">info</span>
-        <textarea ng-model="planting" name="feedback_planting" placeholder="Suhr" class="item-input-wrapper" data-tap-disabled="true"></textarea>
-      </label>
-      <a class="dark" href="#/tab/feedback-attachments" data-tap-disabled="true">
-        <label class="item item-icon-right">
-          <p>Attachments</p>
-          <input type="text" ng-hide="true" name="getImageSrc" ng-model="getImageSrc">
-          <i class="icon  ion-chevron-right icon-accessory"></i>
-        </label>
-      </a>
-      <label class="item item-input">
-        <span class="input-label ">Username</span>
-        <input ng-model="username" name="feedback_username" type="text" placeholder="username"  data-tap-disabled="true"/>
+        <span class="input-label"><span class="assertive">*</span>{{'tabs.feedback.form.planting' | translate}}</span>
+        <textarea ng-model="planting" name="feedback_planting" placeholder="{{'tabs.feedback.form.planting.placeholder' | translate}}" class="item-input-wrapper" data-tap-disabled="true"></textarea>
       </label>
       <label class="item item-input">
-        <span class="input-label">Phone Number</span>
-        <input ng-model="phone_number" name="feedback_phone_number" type="text" placeholder="Phone Number" data-tap-disabled="true"/>
+        <span class="input-label ">{{'tabs.feedback.form.username' | translate}}</span>
+        <input ng-model="username" name="feedback_username" type="text" placeholder="{{'tabs.feedback.form.username.placeholder' | translate}}"  data-tap-disabled="true"/>
       </label>
-      <a class="dark" href="#/tab/feedback-address"  data-tap-disabled="true">
+      <label class="item item-input">
+        <span class="input-label">{{'tabs.feedback.form.phoneNumber' | translate}}</span>
+        <input ng-model="phone_number" name="feedback_phone_number" type="text" placeholder="{{'tabs.feedback.form.phoneNumber.placeholder' | translate}}" data-tap-disabled="true"/>
+      </label>
+      <a class="dark" href="#/tab/feedback-address" data-tap-disabled="true">
         <label class="item item-icon-right">
-          <p>Address</p>
+          <p>{{'tabs.feedback.form.address' | translate}}</p>
           <p ng-model="address"></p>
           <i class="icon ion-chevron-right icon-accessory"></i>
         </label>
       </a>
+      <a class="dark" href="#/tab/feedback-attachments" data-tap-disabled="true">
+        <label class="item item-icon-right">
+          <p>{{'tabs.feedback.form.attachments' | translate}} <span ng-if="haveFile" class="item-note balanced">{{'tabs.feedback.form.attachments.tip2' | translate}}</span></p>
+          <i class="icon  ion-chevron-right icon-accessory"></i>
+        </label>
+      </a>
+
     </div>
     <div class="row text-center">
-      <div class="col col-33"><a data-tap-disabled="true" class="button button-block button-outline button-stable" href="javascript:void(0);" ng-click="resetForm()">Reset</a></div>
-      <div class="col col-67"><a data-tap-disabled="true"  class="button button-block button-energized" href="javascript:void(0);" ng-click="sendFeedback()">Submit</a></div>
+      <div class="col col-33"><a data-tap-disabled="true" class="button button-block button-outline button-stable" href="javascript:void(0);" ng-click="resetForm()">{{'tabs.feedback.action.reset' | translate}}</a></div>
+      <div class="col col-67"><a data-tap-disabled="true"  class="button button-block button-energized" href="javascript:void(0);" ng-click="sendFeedback()">{{'tabs.feedback.action.submit' | translate}}</a></div>
     </div>
   </ion-content>
 </ion-view>

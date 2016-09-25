@@ -1,4 +1,4 @@
-<ion-view view-title="Attachments" hide-tabs="true">
+<ion-view view-title="{{'tabs.feedback.form.attachments' | translate}}" hide-tabs="true">
   <!-- ion-header-bar align-title="center" class="stable-bg">
     <div class="buttons">
       <a class="button" href="#/tab/feedback">Confirm</a>
@@ -12,23 +12,27 @@
     <div class="list text-center padding-bottom">
       <label class="item item-button-right" ng-click="choosePics()" data-tap-disabled="true">
         <i class="icon ion-images"></i>
-        Choose Photo
+        {{'tabs.feedback.action.ChoosePhoto' | translate}}
       </label>
       <label class="item item-button-right" ng-click="takePics()" data-tap-disabled="true">
         <i class="icon ion-camera" ></i>
-        Take Photo
+        {{'tabs.feedback.action.TakePhoto' | translate}}
       </label>
     </div>
-    <div id="attachments">
+    <!-- div id="attachments">
       <img class="full-image" id="attachments1" ng-model="attachments1" ng-src="">
       <img class="full-image" id="attachments2" ng-model="attachments3" ng-src="">
       <img class="full-image" id="attachments3" ng-model="attachments3" ng-src="">
-    </div>
-    <div>
+    </div  -->
+
+    <div class="text-center">
       <img class="full-image" id="showImage" ng-model="attachment" ng-src="">
       <div class="padding" ng-if="attachment">
-        <button class="button button-full button-balanced" ng-click="saveImage()">Save Image</button>
+        <button class="button button-full button-balanced" ng-click="saveImage()">{{'tabs.feedback.action.SaveImage' | translate}}</button>
       </div>
     </div>
+    <div class="text-center padding">
+        <p class="gray">{{'tabs.feedback.form.attachments.tip' | translate}}</p>
+  </div>
   </ion-content>
 </ion-view>

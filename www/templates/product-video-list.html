@@ -1,4 +1,4 @@
-<ion-view view-title="Video List" hide-tabs>
+<ion-view view-title="{{'tabs.products.VideoList' | translate}}" hide-tabs>
   <ion-content ng-controller="ProductVideoListCtrl">
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <div class="card" ng-repeat="ProductVideo in ProductVideoList">
@@ -8,7 +8,7 @@
       <div class="item item-text-wrap row-no-padding">
         <video controls="controls" poster="img/375-200.png" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
           <source type="video/mp4" ng-src="{{ProductVideo.url}}" />
-          HTML5 video does not support.
+          {{'tabs.products.htmlNotice' | translate}}
         </video>
         <div class="padding">
           {{ProductVideo.intro}}

@@ -1,4 +1,4 @@
-<ion-view view-title="Products List" hide-tabs  ng-controller="ProductListCtrl">
+<ion-view view-title="{{'tabs.products.ProductsList' | translate}}" hide-tabs  ng-controller="ProductListCtrl">
   <ion-nav-buttons side="left" >
     <div class="bar bar-header item-input-inset" ng-if="hasFilters">
       <label class="item-input-wrapper">
@@ -8,7 +8,7 @@
     </div>
   </ion-nav-buttons>
   <ion-nav-title ng-show="!hasFilters">
-    Products List
+    {{'tabs.products.ProductsList' | translate}}
   </ion-nav-title>
   <ion-nav-buttons class="button-icon" side="right">
     <i data-tap-disabled="true" class="button button-small button-icon" ng-click="openFilters(hasFilters);" ng-class="{'ion-search':!hasFilters,'ion-close-circled':hasFilters}"></i>

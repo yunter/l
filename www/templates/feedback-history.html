@@ -1,9 +1,9 @@
-<ion-view view-title="Feedback" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
+<ion-view view-title="{{'tabs.feedback.view.title' | translate}}" hide-nav-bar="true" hide-back-button="true" hide-tabs="true">
   <ion-header-bar class="row-no-padding stable-bg" >
     <div class="tabs-striped has-tabs-top tabs-background-stable">
       <div class="tabs">
-        <a class="tab-item" href="#/tab/feedback">Feedback</a>
-        <a class="tab-item active" href="#/tab/feedback-history">History</a>
+        <a class="tab-item" href="#/tab/feedback">{{'tabs.feedback.action.feedback' | translate}}</a>
+        <a class="tab-item active" href="#/tab/feedback-history">{{'tabs.feedback.action.history' | translate}}</a>
       </div>
     </div>
   </ion-header-bar>
@@ -11,21 +11,21 @@
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <div class="card" ng-repeat="feedback in feedbacks">
       <div class="item item-divider">
-        {{feedback.created}}
+       {{'tabs.feedback.history.datetime' | translate}} {{feedback.created}}
       </div>
       <div class="item item-text-wrap">
         <p>
-          <h4>usage</h4>
+          <h4>{{'tabs.feedback.history.usage' | translate}}</h4>
           {{feedback.content.feedback_usage}}
         </p>
         <hr class="hr-1">
         <p>
-          <h4>planting</h4>
+          <h4>{{'tabs.feedback.history.planting' | translate}}</h4>
           {{feedback.content.feedback_planting}}
         </p>
         <hr class="hr-1">
         <p>
-          <h4>Attachment</h4>
+          <h4>{{'tabs.feedback.history.attachment' | translate}}</h4>
           <img ng-src="{{feedback.content.feedback_getImageSrc}}" class="full-image"/>
         </p>
       </div>

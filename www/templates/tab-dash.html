@@ -1,8 +1,8 @@
-<ion-view view-title="{{home}}" hide-nav-bar="true" hide-back-button="true" ng-controller="DashCtrl">
+<ion-view hide-nav-bar="true" hide-back-button="true" ng-controller="DashCtrl">
   <ion-content>
     <ion-slide-box>
       <ion-slide ng-repeat="banner in banners">
-        <div class="slider-slide-image"><a ng-href="{{banner.link}}" data-tap-disabled="true"><img ng-src="{{banner.image}}" /></a></div>
+        <div class="slider-slide-image gray"><a ng-href="{{banner.link}}" data-tap-disabled="true"><img src="img/375-200.png" ng-src="{{banner.image}}" /></a></div>
       </ion-slide>
     </ion-slide-box>
     <div class="intro-box padding dark" id="intro-box">
@@ -14,11 +14,11 @@
 
       <a data-tap-disabled="true" class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more gray" ></i></a>
     </div>
-    <div class="hot-products padding" data-tap-disabled="true">
-      <div style="margin-bottom: 1px;">
+    <div class="hot-products padding">
+      <div style="margin-bottom: 1px;" data-tap-disabled="true">
         <div class="item item-icon-left item-icon-right">
           <i class="icon ion-bonfire energized"></i>
-          Hot Products
+          {{'tabs.dash.HotProducts' | translate}}
           <a href="#/tab/hotProducts" nav-transition="none" class="icon {{platform != 'android' ? 'ion-ios-list-outline' : 'ion-android-list'}} gray"></a>
         </div>
       </div>

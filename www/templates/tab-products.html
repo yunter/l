@@ -1,22 +1,22 @@
-<ion-view view-title="Products">
+<ion-view view-title="{{'tabs.products.view.title' | translate}}">
   <ion-content ng-controller="ProductsCtrl">
     <div id="product-video">
-      <div class="item item-icon-left item-icon-right">
+      <div class="item item-icon-left item-icon-right" data-tap-disabled="true">
         <i class="icon ion-videocamera"></i>
-        Product Videos
+        {{'tabs.products.ProductVideos' | translate}}
         <a href="#/tab/product-video-list" nav-transition="none" class="icon ion-more gray"></a>
       </div>
       <div class="video-container" ng-repeat="pVideo in ProductVideo">
         <video controls="controls" poster="img/375-200.png" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
             <source type="video/mp4" ng-src="{{pVideo.url}}" />
-            HTML5 video does not support.
+          {{'tabs.products.htmlNotice' | translate}}
         </video>
       </div>
     </div>
     <div class="product-category list">
       <div class="item item-icon-left">
         <i class="icon ion-ios-list energized"></i>
-        Product Categories
+        {{'tabs.products.ProductCategories' | translate}}
       </div>
       <div class="categories">
         <ion-list>
