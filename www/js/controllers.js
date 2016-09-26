@@ -566,10 +566,10 @@ angular.module('starter.controllers', [])
         $scope.feedback = Feedback.get($stateParams.feedbackId);
     })
 
-    .controller('AccountCtrl', function ($scope, localstorage, $ionicPopover, UIHelper) {
+    .controller('AccountCtrl', function ($scope, $state, localstorage, $ionicPopover, Account, UIHelper) {
 
-      $scope.login_phone_number = '';
-      $scope.login_password = '';
+      $scope.loginAccount = {phoneNumber:'', password:'', islogin:false};
+      $scope.accountData  = {customerId:'', username:'', address:'', language:''};
 
       $ionicPopover.fromTemplateUrl('templates/account-login.html', {
         scope: $scope
@@ -606,7 +606,26 @@ angular.module('starter.controllers', [])
       });
 
       $scope.accountLogin = function () {
-        alert($scope.login_phone_number);
+        if(!$scope.loginAccount.phoneNumber || !$scope.loginAccount.password) {
+          UIHelper.showAlert('controllers.account.popover.login.validate');
+        } else {
+          UIHelper.blockScreen('controllers.account.popover.login.loading', 1.5);
+          Account.accountLogin($scope.loginAccount.phoneNumber, $scope.loginAccount.password, '').then(
+            function (result) {
+              if (typeof result == "object") {
+                $scope.loginAccount.islogin   = true;
+                $scope.accountData.username   = result.data.fullname;
+                $scope.accountData.customerId = result.data.uid;
+                localstorage.set('customerId', result.data.uid);
+                localstorage.set('token', result.data.token);
+                localstorage.set('username', result.data.fullname);
+                localstorage.set('phoneNumber', result.data.telephone);
+                $scope.popover.hide();
+              }
+            }, function (error) {
+              UIHelper.showAlert('controllers.account.popover.login.error');
+            });
+        }
       };
     })
     .controller('AccountAvatarCtrl', function ($scope, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $timeout, $stateParams, localstorage, UIHelper) {

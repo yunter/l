@@ -554,7 +554,7 @@ angular.module('starter.services', [])
           return err;
         }
       }
-      function accountLogin(phone_number, password, sms_code) {
+      function accountLogin(phone_number, password, verifyCode) {
         try {
           var request = {
             method: 'POST',
@@ -565,8 +565,8 @@ angular.module('starter.services', [])
               //'Token': 'token'
             },
             data: $httpParamSerializer({
-              phone_number: phone_number,
-              password: password,
+
+              param:'telephone=' + phone_number + '&password=' + password,
               verifyCode: verifyCode
             })
           };

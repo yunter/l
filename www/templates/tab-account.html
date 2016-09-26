@@ -21,8 +21,8 @@
             <div class="col col-67">
               {{'tabs.account.username' | translate}}
             </div>
-            <div class="col col-33 text-right" ng-model="username">
-              {{username}}
+            <div class="col col-33 text-right" ng-model="accountData.username">
+              {{accountData.username}}
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -34,8 +34,8 @@
             <div class="col col-67">
               {{'tabs.account.address' | translate}}
             </div>
-            <div class="col col-33 text-right" ng-model="address">
-              {{address}}
+            <div class="col col-33 text-right" ng-model="accountData.address">
+              {{accountData.address}}
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -47,8 +47,8 @@
             <div class="col col-67" >
               {{'tabs.account.language' | translate}}
             </div>
-            <div class="col col-33 text-right" ng-model="language">
-              {{language}}
+            <div class="col col-33 text-right" ng-model="accountData.language">
+              {{accountData.language}}
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
@@ -65,8 +65,8 @@
         </label>
       </a>
     </div>
-    <div class="padding" ng-if="isLogin();">
-      <button class="button button-full button-balanced" ng-click="accountLogout();">Logout</button>
+    <div class="padding" ng-if="loginAccount.islogin">
+      <button class="button button-full button-balanced" ng-click="accountLogout();">{{'tabs.account.logout' | translate}}</button>
     </div>
   </ion-content>
 </ion-view>
