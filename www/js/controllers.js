@@ -616,10 +616,12 @@ angular.module('starter.controllers', [])
                 $scope.loginAccount.islogin   = true;
                 $scope.accountData.username   = result.data.fullname;
                 $scope.accountData.customerId = result.data.uid;
+                $scope.accountData.avatar     = result.data.custom_field;
                 localstorage.set('customerId', result.data.uid);
                 localstorage.set('token', result.data.token);
                 localstorage.set('username', result.data.fullname);
                 localstorage.set('phoneNumber', result.data.telephone);
+                localstorage.set('avatar', result.data.custom_field);
                 $scope.popover.hide();
               }
             }, function (error) {

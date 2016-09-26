@@ -8,8 +8,8 @@
             <div class="col col-67">
               {{'tabs.account.avatar' | translate}}
             </div>
-            <div class="col col-33 text-right" ng-if="avatar != null">
-              <img ng-model="avatar" ng-src="{{avatar}}" width="60" height="60"/>
+            <div class="col col-33 text-right" ng-if="loginAccount.islogin">
+              <img src="/img/avatar.png" ng-src="{{accountData.avatar}}" width="60" height="60"/>
             </div>
           </div>
           <i class="icon ion-chevron-right icon-accessory"></i>
