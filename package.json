@@ -24,14 +24,14 @@
     "cordova-plugin-camera",
     "cordova-plugin-compat",
     "cordova-plugin-file",
-    "cordova-plugin-globalization",
     "cordova-plugin-app-preferences",
     "cordova-plugin-keyboard",
     "cordova-plugin-file-transfer",
     {
       "locator": "https://github.com/wymsee/cordova-imagePicker.git",
       "id": "cordova-plugin-image-picker"
-    }
+    },
+    "cordova-plugin-globalization"
   ],
   "cordovaPlatforms": [
     {

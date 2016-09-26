@@ -7,7 +7,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.translate', 'starter.controllers', 'starter.directives', 'starter.services'])
 
-    .run(function ($ionicPlatform, $state, $cordovaDevice, $cordovaGlobalization, localstorage, ApiRegDevice) {
+    .run(function ($ionicPlatform, $state, $cordovaDevice, $cordovaGlobalization, $translate, localstorage, ApiRegDevice) {
+
         var init = function () {
             console.log("initializing device");
             try {
@@ -21,6 +22,29 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
         };
 
         $ionicPlatform.ready(function () {
+
+            try{
+              $cordovaGlobalization.getPreferredLanguage(function(language) {
+                $translate.use((language.value).split("-")[0]).then(function(data) {
+                  console.log("SUCCESS -> " + data);
+                }, function(error) {
+                  console.log("ERROR -> " + error);
+                });
+              }, function (e) {
+                console.log(e);
+              });
+            } catch (e) {
+              var language = window.navigator.userLanguage || window.navigator.language;
+              if(language) {
+                $translate.use(language.split("-")[0]).then(function(data) {
+                  console.log("SUCCESS -> " + data);
+                }, function(error) {
+                  console.log("ERROR -> " + error);
+                });
+              }
+              console.log(e);
+            }
+
             //get local language
             //register deivce
             var uuid       = init();
@@ -291,7 +315,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
         $urlRouterProvider.otherwise('/tab/dash');
 
     });
-angular.module("pascalprecht.translate")
+    angular.module("pascalprecht.translate")
     .factory("$translateStaticFilesLoader", ["$q", "$http", function (a, b) {
         return function (c) {
             if (!c || !angular.isString(c.prefix) || !angular.isString(c.suffix))

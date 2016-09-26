@@ -348,9 +348,9 @@ angular.module('starter.controllers', [])
                 $scope.username     = '';
                 $scope.phone_number = '';
 
-                localstorage.set('image1', '');
-                localstorage.set('image2', '');
-                localstorage.set('image3', '');
+                //localstorage.set('image1', '');
+                //localstorage.set('image2', '');
+                //localstorage.set('image3', '');
                 localstorage.set('getImageSrc', '');
                 localstorage.set('getAddress', '');
             } else {
@@ -360,9 +360,9 @@ angular.module('starter.controllers', [])
                     $scope.username     = '';
                     $scope.phone_number = '';
 
-                    localstorage.set('image1', '');
-                    localstorage.set('image2', '');
-                    localstorage.set('image3', '');
+                    //localstorage.set('image1', '');
+                    //localstorage.set('image2', '');
+                    //localstorage.set('image3', '');
                     localstorage.set('getImageSrc', '');
                     localstorage.set('getAddress', '');
 
@@ -566,7 +566,48 @@ angular.module('starter.controllers', [])
         $scope.feedback = Feedback.get($stateParams.feedbackId);
     })
 
-    .controller('AccountCtrl', function ($scope, localstorage, UIHelper) {
+    .controller('AccountCtrl', function ($scope, localstorage, $ionicPopover, UIHelper) {
+
+      $scope.login_phone_number = '';
+      $scope.login_password = '';
+
+      $ionicPopover.fromTemplateUrl('templates/account-login.html', {
+        scope: $scope
+      }).then(function(popover) {
+        $scope.popover = popover;
+      });
+      $scope.openPopover = function ($event, action) {
+        var avatar = localstorage.get('avatar');
+        var token = localstorage.get('token');
+        if (token) {
+          $state.go(action);
+        } else {
+          $scope.popover.show($event);
+        }
+      };
+
+      $scope.closePopover = function () {
+        $scope.popover.hide();
+      };
+
+      //Cleanup the popover when we're done with it!
+      $scope.$on('$destroy', function () {
+        $scope.popover.remove();
+      });
+
+      // Execute action on hide popover
+      $scope.$on('popover.hidden', function () {
+        // Execute action
+      });
+
+      // Execute action on remove popover
+      $scope.$on('popover.removed', function () {
+        // Execute action
+      });
+
+      $scope.accountLogin = function () {
+        alert($scope.login_phone_number);
+      };
     })
     .controller('AccountAvatarCtrl', function ($scope, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $timeout, $stateParams, localstorage, UIHelper) {
 

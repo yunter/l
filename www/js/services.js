@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
     .constant('ApiHost', {
-        domain: 'http://lamsin.bluemorpho.cn',
+        domain: 'http://ok.cms.debug',
         uri: '/index.php?route=openapi'
     })
     .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, ApiHost) {
@@ -519,6 +519,82 @@ angular.module('starter.services', [])
                 return null;
             }
         };
+    })
+    .factory('Account', function ($http, $q, $httpParamSerializer, ApiHost) {
+      function saveUserName(uuid, username, phone_number) {
+        try {
+          var request = {
+            method: 'POST',
+            url: ApiHost.domain + ApiHost.uri + '/feedback/addfeedback',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              //'Deviceid': 'deviceid',
+              //'Token': 'token'
+            },
+            data: $httpParamSerializer({
+              feedback_uuid: uuid,
+              username: username,
+              phone_number: phone_number,
+            })
+          };
+          var deferred = $q.defer();       // This will handle your promise
+          $http(request).then(function (response) {
+            if (typeof response.data === 'object') {
+              deferred.resolve(response.data);
+            } else {
+              deferred.reject(response.data);
+            }
+          }, function (error) {
+            return deferred.reject(error.data);
+          });
+
+          return deferred.promise;
+
+        } catch (err) {
+          return err;
+        }
+      }
+      function accountLogin(phone_number, password, sms_code) {
+        try {
+          var request = {
+            method: 'POST',
+            url: ApiHost.domain + ApiHost.uri + '/account/login',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              //'Deviceid': 'deviceid',
+              //'Token': 'token'
+            },
+            data: $httpParamSerializer({
+              phone_number: phone_number,
+              password: password,
+              verifyCode: verifyCode
+            })
+          };
+          var deferred = $q.defer();       // This will handle your promise
+          $http(request).then(function (response) {
+            if (typeof response.data === 'object') {
+              deferred.resolve(response.data);
+            } else {
+              deferred.reject(response.data);
+            }
+          }, function (error) {
+            return deferred.reject(error.data);
+          });
+
+          return deferred.promise;
+
+        } catch (err) {
+          return err;
+        }
+      }
+      return {
+        saveUserName: function (uuid, username, phone_number) {
+          return saveUserName(uuid, username, phone_number);
+        },
+        accountLogin: function (phone_number, password, sms_code) {
+          return accountLogin(phone_number, password, sms_code);
+        }
+      };
     })
     .factory('localstorage', ['$window', '$localStorage', '$q', function ($window, $localStorage, $q) {
         return {
