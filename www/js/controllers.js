@@ -275,9 +275,9 @@ angular.module('starter.controllers', [])
         $scope.phone_number = '';
         var getImageSrc  = localstorage.get('getImageSrc');
         if(getImageSrc) {
-            $scope.haveFile = true;
+            $scope.fileStatus = {empty:false};
         } else {
-            $scope.haveFile = false;
+            $scope.fileStatus = {empty:true};
         }
         $scope.sendFeedback = function () {
             var title    = 'controllers.addFeedback.confirm.title';
@@ -293,9 +293,9 @@ angular.module('starter.controllers', [])
             var getAddress   = localstorage.get('getAddress');
             var getImageSrc  = localstorage.get('getImageSrc');
             if(getImageSrc) {
-                $scope.haveFile = true;
+                $scope.fileStatus.empty = false;
             } else {
-                $scope.haveFile = false;
+                $scope.fileStatus.empty = true;
             }
             if(!usage) {
                 UIHelper.showAlert('controllers.addFeedback.notice.1');
@@ -353,6 +353,7 @@ angular.module('starter.controllers', [])
                 //localstorage.set('image3', '');
                 localstorage.set('getImageSrc', '');
                 localstorage.set('getAddress', '');
+                $scope.fileStatus.empty = true;
             } else {
                 UIHelper.confirmAndRun(title, msg, function () {
                     $scope.usage        = '';
@@ -462,6 +463,7 @@ angular.module('starter.controllers', [])
             var msg      = 'controllers.addFeedback.confirm.msg3';
             UIHelper.confirmAndRun(title, msg, function () {
                 $scope.attachment = '';
+                $scope.fileStatus.empty = false;
                 $state.go("tab.feedback");
             });
         };
@@ -498,6 +500,7 @@ angular.module('starter.controllers', [])
             $cordovaImagePicker.getPictures(options)
               .then(function (results) {
                   $scope.attachment = true;
+                  $scope.fileStatus.empty = false;
                 for (var i = 0; i < results.length; i++) {
                     $scope.convertImgToBase64URL(results[i], function(base64Image){
                         image.src = base64Image;
