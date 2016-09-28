@@ -26,9 +26,10 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             try{
               $cordovaGlobalization.getPreferredLanguage(function(language) {
                 $translate.use((language.value).split("-")[0]).then(function(data) {
-                  console.log("SUCCESS -> " + data);
+                  localstorage.set('language', data);
+                  console.log("SUCCESS 1 -> " + data);
                 }, function(error) {
-                  console.log("ERROR -> " + error);
+                  console.log("ERROR 1-> " + error);
                 });
               }, function (e) {
                 console.log(e);
@@ -37,15 +38,17 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
               var language = window.navigator.userLanguage || window.navigator.language;
               if(language) {
                 $translate.use(language.split("-")[0]).then(function(data) {
-                  console.log("SUCCESS -> " + data);
+                  localstorage.set('language', data);
+                  console.log("SUCCESS 2 -> " + data);
                 }, function(error) {
-                  console.log("ERROR -> " + error);
+                  console.log("ERROR 2 -> " + error);
                 });
               }
               console.log(e);
             }
 
             //get local language
+
             //register deivce
             var uuid       = init();
             var AppVersion = '1.0';

@@ -3,7 +3,7 @@
     <div class="bar bar-header item-input-inset" ng-if="hasFilters">
       <label class="item-input-wrapper">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" id="searchBar" placeholder="Search Product" ng-model="searchKey" ng-blur="searchProduct(searchKey, 2);">
+        <input type="search" id="searchBar" placeholder="{{'tabs.products.SearchProduct' | translate}}" ng-model="searchKey" ng-blur="searchProduct(searchKey, 2);">
       </label>
     </div>
   </ion-nav-buttons>
@@ -38,6 +38,6 @@
         <i class="icon ion-chevron-right icon-accessory"></i>
       </a>
     </div>
-    <div class="gray text-center" ng-if="Products == '' || ProductCategories == ''">none</div>
+    <div class="gray text-center" ng-if="Products == '' || ProductCategories == ''">{{'tabs.products.ProductsListNone' | translate}}</div>
   </ion-content>
 </ion-view>

@@ -3,19 +3,13 @@ angular.module('starter.services', [])
         domain: 'http://ok.cms.debug',
         uri: '/index.php?route=openapi'
     })
-    .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, ApiHost) {
+    .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, localstorage, ApiHost, Headers) {
         function regDevice(uuid, Platform, sysVersion, AppVersion) {
             try {
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/account/registerdevice',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token',
-                        'Sysversion': sysVersion,
-                        'Sysname': Platform
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         uuid: uuid,
                         appversion: AppVersion,
@@ -48,19 +42,146 @@ angular.module('starter.services', [])
             }
         };
     })
-    .factory('Customer', function ($http, $q, $httpParamSerializer, ApiHost) {
+    .factory('ApiHome', function ($http, $q, $httpParamSerializer, ApiHost, Headers) {
+
+        function getLamsin() {
+          try {
+            var request = {
+              method: 'GET',
+              url: ApiHost.domain + '/lamsin.json'
+              //headers: Headers
+            };
+            var deferred = $q.defer();       // This will handle your promise
+
+            $http(request).then(function (response) {
+              if (typeof response.data === 'object') {
+                deferred.resolve(response.data);
+              } else {
+                deferred.reject(response.data);
+              }
+            }, function (error) {
+              return deferred.reject(error.data);
+            });
+
+            return deferred.promise;
+
+          } catch (err) {
+            return err;
+          }
+        }
+
+        function getSlideShow(bannerId, bWidth, bHeight) {
+          try {
+            var request = {
+              method: 'POST',
+              url: ApiHost.domain + ApiHost.uri + '/slideshow/getshow',
+              headers: Headers,
+              data: $httpParamSerializer({
+                bannerId: bannerId,
+                bWidth: bWidth,
+                bHeight: bHeight
+              })
+
+            };
+            var deferred = $q.defer();       // This will handle your promise
+
+            $http(request).then(function (response) {
+              if (typeof response.data === 'object') {
+                deferred.resolve(response.data);
+              } else {
+                deferred.reject(response.data);
+              }
+            }, function (error) {
+              return deferred.reject(error.data);
+            });
+
+            return deferred.promise;
+
+          } catch (err) {
+            return err;
+          }
+        }
+
+        function getIntro(articleId) {
+          try {
+            var request = {
+              method: 'POST',
+              url: ApiHost.domain + ApiHost.uri + '/articles/getArticle',
+              headers: Headers,
+              data: $httpParamSerializer({
+                article_id: articleId,
+              })
+            };
+            var deferred = $q.defer();       // This will handle your promise
+
+            $http(request).then(function (response) {
+              if (typeof response.data === 'object') {
+                deferred.resolve(response.data);
+              } else {
+                deferred.reject(response.data);
+              }
+            }, function (error) {
+              return deferred.reject(error.data);
+            });
+
+            return deferred.promise;
+
+          } catch (err) {
+            return err;
+          }
+        }
+
+        function getLatestProducts(start, limit) {
+          try {
+            var request = {
+              method: 'POST',
+              url: ApiHost.domain + ApiHost.uri + '/products/getLatestProducts',
+              headers: Headers,
+              data: $httpParamSerializer({
+                start: start,
+                limit: limit
+              })
+            };
+            var deferred = $q.defer();       // This will handle your promise
+            $http(request).then(function (response) {
+              if (typeof response.data === 'object') {
+                deferred.resolve(response.data);
+              } else {
+                deferred.reject(response.data);
+              }
+            }, function (error) {
+              return deferred.reject(error.data);
+            });
+
+            return deferred.promise;
+
+          } catch (err) {
+            return err;
+          }
+        }
+
+        return {
+          getLamsin: function () {
+            return getLamsin();
+          },
+          getSlideShow: function (bannerId, bWidth, bHeight) {
+            return getSlideShow(bannerId, bWidth, bHeight);
+          },
+          getIntro: function (articleId) {
+            return getIntro(articleId);
+          },
+          getLatestProducts: function (start, limit) {
+            return getLatestProducts(start, limit);
+          }
+        };
+      })
+    .factory('Customer', function ($http, $q, $httpParamSerializer, ApiHost, Headers) {
         function login(telephone, password) {
             try {
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/account/login',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token',
-                        'Sysversion': sysVersion,
-                        'Sysname': Platform
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         telephone:telephone,
                         password: password
@@ -89,13 +210,7 @@ angular.module('starter.services', [])
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/account/register',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token',
-                        'Sysversion': sysVersion,
-                        'Sysname': Platform
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         telephone:telephone,
                         password: password
@@ -129,167 +244,13 @@ angular.module('starter.services', [])
             }
         };
     })
-    .factory('ApiHome', function ($http, $q, $httpParamSerializer, ApiHost) {
-
-        function getLamsin() {
-            try {
-                var request = {
-                    method: 'GET',
-                    url: ApiHost.domain + '/lamsin.json',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    }
-                };
-                var deferred = $q.defer();       // This will handle your promise
-
-                $http(request).then(function (response) {
-                    if (typeof response.data === 'object') {
-                        deferred.resolve(response.data);
-                    } else {
-                        deferred.reject(response.data);
-                    }
-                }, function (error) {
-                    return deferred.reject(error.data);
-                });
-
-                return deferred.promise;
-
-            } catch (err) {
-                return err;
-            }
-        }
-
-        function getSlideShow(bannerId, bWidth, bHeight) {
-            try {
-                var request = {
-                    method: 'POST',
-                    url: ApiHost.domain + ApiHost.uri + '/slideshow/getshow',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
-                    data: $httpParamSerializer({
-                        bannerId: bannerId,
-                        bWidth: bWidth,
-                        bHeight: bHeight
-                    })
-
-                };
-                var deferred = $q.defer();       // This will handle your promise
-
-                $http(request).then(function (response) {
-                    if (typeof response.data === 'object') {
-                        deferred.resolve(response.data);
-                    } else {
-                        deferred.reject(response.data);
-                    }
-                }, function (error) {
-                    return deferred.reject(error.data);
-                });
-
-                return deferred.promise;
-
-            } catch (err) {
-                return err;
-            }
-        }
-
-        function getIntro(articleId) {
-            try {
-                var request = {
-                    method: 'POST',
-                    url: ApiHost.domain + ApiHost.uri + '/articles/getArticle',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
-                    data: $httpParamSerializer({
-                        article_id: articleId,
-                    })
-                };
-                var deferred = $q.defer();       // This will handle your promise
-
-                $http(request).then(function (response) {
-                    if (typeof response.data === 'object') {
-                        deferred.resolve(response.data);
-                    } else {
-                        deferred.reject(response.data);
-                    }
-                }, function (error) {
-                    return deferred.reject(error.data);
-                });
-
-                return deferred.promise;
-
-            } catch (err) {
-                return err;
-            }
-        }
-
-        function getLatestProducts(start, limit) {
-            try {
-                var request = {
-                    method: 'POST',
-                    url: ApiHost.domain + ApiHost.uri + '/products/getLatestProducts',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
-                    data: $httpParamSerializer({
-                        start: start,
-                        limit: limit
-                    })
-                };
-                var deferred = $q.defer();       // This will handle your promise
-                $http(request).then(function (response) {
-                    if (typeof response.data === 'object') {
-                        deferred.resolve(response.data);
-                    } else {
-                        deferred.reject(response.data);
-                    }
-                }, function (error) {
-                    return deferred.reject(error.data);
-                });
-
-                return deferred.promise;
-
-            } catch (err) {
-                return err;
-            }
-        }
-
-        return {
-            getLamsin: function () {
-                return getLamsin();
-            },
-            getSlideShow: function (bannerId, bWidth, bHeight) {
-                return getSlideShow(bannerId, bWidth, bHeight);
-            },
-            getIntro: function (articleId) {
-                return getIntro(articleId);
-            },
-            getLatestProducts: function (start, limit) {
-                return getLatestProducts(start, limit);
-            }
-        };
-    })
-
-    .factory('Products', function ($http, $q, $httpParamSerializer, ApiHost) {
+    .factory('Products', function ($http, $q, $httpParamSerializer, ApiHost, Headers) {
         function getProductInfo(productId) {
             try {
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/products/productInfo',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         product_id: productId,
                     })
@@ -316,11 +277,7 @@ angular.module('starter.services', [])
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/videos/getList',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         order: order,
                         page: page,
@@ -349,11 +306,7 @@ angular.module('starter.services', [])
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/products/categories',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         parent: parent,
                         level: level
@@ -381,11 +334,7 @@ angular.module('starter.services', [])
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/products/getProducts',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         order: order,
                         page: page,
@@ -427,18 +376,14 @@ angular.module('starter.services', [])
             }
         };
     })
-    .factory('Feedback', function ($http, $q, $httpParamSerializer, ApiHost) {
+    .factory('Feedback', function ($http, $q, $httpParamSerializer, ApiHost, Headers) {
         // Might use a resource here that returns a JSON array
         function addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc) {
             try {
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/feedback/addfeedback',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         feedback_uuid: uuid,
                         feedback_usage: usage,
@@ -471,11 +416,7 @@ angular.module('starter.services', [])
                 var request = {
                     method: 'POST',
                     url: ApiHost.domain + ApiHost.uri + '/feedback/getFeedbackList',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        //'Deviceid': 'deviceid',
-                        //'Token': 'token'
-                    },
+                    headers: Headers,
                     data: $httpParamSerializer({
                         customer_id: customerId,
                         start: start,
@@ -506,31 +447,16 @@ angular.module('starter.services', [])
             },
             getFeedbackList: function (customerId, start, limit) {
                 return getFeedbackList(customerId, start, limit);
-            },
-            remove: function (feedback) {
-                feedback.splice(feedback.indexOf(feedback), 1);
-            },
-            get: function (feedbackId) {
-                for (var i = 0; i < feedback.length; i++) {
-                    if (feedback[i].id === parseInt(feedbackId)) {
-                        return feedback[i];
-                    }
-                }
-                return null;
             }
         };
     })
-    .factory('Account', function ($http, $q, $httpParamSerializer, ApiHost) {
+    .factory('Account', function ($http, $q, $httpParamSerializer, ApiHost, Headers) {
       function saveUserName(uuid, username, phone_number) {
         try {
           var request = {
             method: 'POST',
             url: ApiHost.domain + ApiHost.uri + '/feedback/addfeedback',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              //'Deviceid': 'deviceid',
-              //'Token': 'token'
-            },
+            headers: Headers,
             data: $httpParamSerializer({
               feedback_uuid: uuid,
               username: username,
@@ -559,11 +485,7 @@ angular.module('starter.services', [])
           var request = {
             method: 'POST',
             url: ApiHost.domain + ApiHost.uri + '/account/login',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              //'Deviceid': 'deviceid',
-              //'Token': 'token'
-            },
+            headers: Headers,
             data: $httpParamSerializer({
 
               param:'telephone=' + phone_number + '&password=' + password,
@@ -616,6 +538,15 @@ angular.module('starter.services', [])
         }
 
     }])
+    .factory('Headers', function (localstorage) {
+      console.log(localstorage.get('language'));
+      return {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Deviceid': localstorage.get('deviceid'),
+        'Token': localstorage.get('token'),
+        'Code': localstorage.get('language')
+      }
+    })
     .factory('UIHelper',  function($rootScope, $ionicLoading, $ionicPopup, $timeout, $translate){
       return {
         showAlert: function (captionRes, plainSuffix) {
