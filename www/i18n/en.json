@@ -1,5 +1,6 @@
 {
   "_meta.version": "0.0.1",
+  "controllers.offline": "Can't connect to netWork",
   "controllers.GetSlideShow.request.error": "GetSlideShow Request Error",
   "controllers.GetIntro.request.error": "GetIntro Request Error",
   "controllers.getLamsin.Service.err1": "Service get Lamsin is not available code 1",

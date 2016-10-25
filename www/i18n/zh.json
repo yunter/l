@@ -1,5 +1,6 @@
 {
   "_meta.version": "0.0.1",
+  "controllers.offline": "连接网络失败...",
   "controllers.GetSlideShow.request.error": "获取轮播图失败",
   "controllers.GetIntro.request.error": "获取介绍失败",
   "controllers.getLamsin.Service.err1": "获取配置文件失败 code 1",

@@ -58,7 +58,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                     .then(function (result) {
                         localstorage.set('deviceid', result.data.deviceid);
                     }, function (error) {
-                        alert(error);
+                        console.log(error);
                     });
             } else {
                 uuid = 'localtest';
@@ -86,7 +86,8 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
     })
     .config(function ($ionicConfigProvider) {
         $ionicConfigProvider.tabs.position('bottom');
-        //$ionicConfigProvider.navBar.alignTitle('center');
+        $ionicConfigProvider.navBar.alignTitle('center');
+        //$ionicConfigProvider.views.maxCache(5);
     })
     .config(function ($stateProvider, $urlRouterProvider, $sceProvider, $translateProvider) {
 
@@ -108,7 +109,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             // Each tab has its own nav history stack:
 
             .state('tab.dash', {
-                cache: false,
                 url: '/dash',
                 views: {
                     'tab-dash': {
@@ -118,7 +118,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.dash-intro', {
-                cache: false,
                 url: '/intro',
                 views: {
                     'tab-dash': {
@@ -128,7 +127,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.dash-hotProducts', {
-                cache: false,
                 url: '/hotProducts',
                 views: {
                     'tab-dash': {
@@ -138,7 +136,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.hot-product-detail', {
-                cache: false,
                 url: '/hot-product-detail/:productId',
                 views: {
                     'tab-dash': {
@@ -149,7 +146,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             })
 
             .state('tab.products', {
-                cache: false,
                 url: '/products',
                 views: {
                     'tab-products': {
@@ -160,7 +156,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             })
             .state('tab.product-list', {
                 url: '/product-list/:categoryId/:hasChild',
-                cache: false,
                 views: {
                     'tab-products': {
                         templateUrl: 'templates/product-list.html',
@@ -169,7 +164,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.product-video-list', {
-                cache: false,
                 url: '/product-video-list',
                 views: {
                     'tab-products': {
@@ -179,7 +173,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.product-detail', {
-                cache: false,
                 url: '/product-detail/:productId',
                 views: {
                     'tab-products': {
@@ -326,10 +319,10 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             var d = a.defer();
             return b({url: [c.prefix, c.key, c.suffix].join(""), method: "GET", params: ""})
                 .success(function (a) {
-                    d.resolve(a)
+                    d.resolve(a);
                 })
                 .error(function () {
-                    d.reject(c.key)
-                }), d.promise
+                    d.reject(c.key);
+                }), d.promise;
         }
     }]);

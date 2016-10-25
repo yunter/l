@@ -1,5 +1,31 @@
 angular.module('starter.controllers', [])
-    .controller('AppCtrl', function ($scope, localstorage, $translate, UIHelper) {
+    .controller('AppCtrl', function ($rootScope, $state, $stateParams, $cordovaNetwork, $scope, localstorage, $translate, UIHelper) {
+        document.addEventListener("deviceready", function () {
+
+            //var type      = $cordovaNetwork.getNetwork();
+            var isOnline  = $cordovaNetwork.isOnline();
+            //var isOffline = $cordovaNetwork.isOffline();
+
+            if(!isOnline) {
+                UIHelper.showAlert('controllers.offline');
+            }
+            // listen for Online event
+            $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+                //var onlineState = networkState;
+                //alert('onlineState: ' + onlineState);
+                $state.transitionTo($state.current, $stateParams, {
+                      reload: true, inherit: false, notify: true
+                });
+            });
+
+            // listen for Offline event
+            $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+                //var offlineState = networkState;
+                //alert('offlineState: ' + offlineState);
+                UIHelper.showAlert('controllers.offline');
+            });
+
+        }, false);
         $scope.changeLanguage = function (key) {
             $translate.use(key);
             window.localStorage['language'] = key;
