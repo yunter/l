@@ -305,7 +305,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 .uniformLanguageTag('bcp47') // enable BCP-47, must be before determinePreferredLanguage!
                 .determinePreferredLanguage();
         }
-        $translateProvider.fallbackLanguage("en");
+        $translateProvider.fallbackLanguage("zh");
 
         // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/tab/dash');
