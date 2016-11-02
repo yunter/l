@@ -63,6 +63,9 @@ a {
 .margin-top-10 {
   margin-top: 10%;
 }
-.margin-left-20{
+.margin-left-20 {
   margin-left: 20%;
+}
+.slide-box {
+  height: 200px;
 }

@@ -33,7 +33,8 @@ angular.module('starter.controllers', [])
 
         };
     })
-    .controller('DashCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
+    .controller('DashCtrl', function ($scope, localstorage, $ionicSlideBoxDelegate , $timeout, ApiHome, UIHelper) {
+        $scope.banners = [];
         ApiHome.getLamsin().then(function (result) {
             if (typeof result == "object") {
                 //banner
@@ -41,6 +42,9 @@ angular.module('starter.controllers', [])
                     .then(function (result) {
                         if (result.data.banners != undefined) {
                             $scope.banners = result.data.banners;
+                            $timeout( function() {
+                                $ionicSlideBoxDelegate.update();
+                            }, 1000);
                         }
                     }, function (error) {
                         UIHelper.showAlert('controllers.GetSlideShow.request.error');
