@@ -494,7 +494,7 @@ angular.module('starter.services', [])
           };
           var deferred = $q.defer();       // This will handle your promise
           $http(request).then(function (response) {
-            if (typeof response.data === 'object') {
+            if (typeof response.data === 'object' && response.data.code == 200) {
               deferred.resolve(response.data);
             } else {
               deferred.reject(response.data);
