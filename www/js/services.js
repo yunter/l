@@ -539,11 +539,8 @@ angular.module('starter.services', [])
 
     }])
     .factory('Headers', function (localstorage) {
-      console.log(localstorage.get('language'));
       return {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Deviceid': localstorage.get('deviceid'),
-        'Token': localstorage.get('token'),
         'Code': localstorage.get('language')
       }
     })

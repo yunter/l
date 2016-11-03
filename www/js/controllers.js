@@ -30,6 +30,11 @@ angular.module('starter.controllers', [])
             $translate.use(key);
             window.localStorage['language'] = key;
             UIHelper.changeLanguage(key);
+            UIHelper.confirmAndRun('Tip', 'Please restart the App', function () {
+                if(ionic.Platform.exitApp){
+                    ionic.Platform.exitApp();
+                }
+            });
 
         };
     })

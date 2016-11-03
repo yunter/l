@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.translate', 'starter.controllers', 'starter.directives', 'starter.services'])
 
-    .run(function ($ionicPlatform, $state, $cordovaDevice, $cordovaGlobalization, $translate, localstorage, ApiRegDevice) {
+    .run(function ($ionicPlatform, $state, $cordovaDevice, $translate, localstorage, ApiRegDevice) {
 
         var init = function () {
             console.log("initializing device");
@@ -22,32 +22,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
         };
 
         $ionicPlatform.ready(function () {
-
-            try{
-              $cordovaGlobalization.getPreferredLanguage(function(language) {
-                $translate.use((language.value).split("-")[0]).then(function(data) {
-                  localstorage.set('language', data);
-                  console.log("SUCCESS 1 -> " + data);
-                }, function(error) {
-                  console.log("ERROR 1-> " + error);
-                });
-              }, function (e) {
-                console.log(e);
-              });
-            } catch (e) {
-              var language = window.navigator.userLanguage || window.navigator.language;
-              if(language) {
-                $translate.use(language.split("-")[0]).then(function(data) {
-                  localstorage.set('language', data);
-                  console.log("SUCCESS 2 -> " + data);
-                }, function(error) {
-                  console.log("ERROR 2 -> " + error);
-                });
-              }
-              console.log(e);
-            }
-
-            //get local language
 
             //register deivce
             var uuid       = init();
@@ -301,9 +275,13 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
         if (typeof lang != "undefined") {
             $translateProvider.preferredLanguage(lang);
         } else {
-            $translateProvider
-                .uniformLanguageTag('bcp47') // enable BCP-47, must be before determinePreferredLanguage!
-                .determinePreferredLanguage();
+            //get local language
+            var language = window.navigator.userLanguage || window.navigator.language;
+            if(language) {
+                lang = language.split("-")[0];
+                window.localStorage['language'] = lang;
+                $translateProvider.preferredLanguage(lang);
+            }
         }
         $translateProvider.fallbackLanguage("zh");
 
