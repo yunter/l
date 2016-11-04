@@ -9,5 +9,8 @@
                ng-value="lang" ng-click="changeLanguage(lang);">
               {{(lang == "en") ? 'English' : ''}} {{(lang == "zh") ? '中文简体' : ''}}
     </ion-radio>
+    <div class="padding assertive text-center">
+      {{'tabs.account.language.tip' | translate }}
+    </div>
   </ion-content>
 </ion-view>
