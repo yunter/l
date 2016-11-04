@@ -30,11 +30,12 @@ angular.module('starter.controllers', [])
             $translate.use(key);
             window.localStorage['language'] = key;
             UIHelper.changeLanguage(key);
-            UIHelper.confirmAndRun('tabs.account.language.tip.title', 'tabs.account.language.tip', function () {
-                if(ionic.Platform.exitApp){
+            if(ionic.Platform.exitApp){
+                UIHelper.confirmAndRun('tabs.account.language.tip.title', 'tabs.account.language.tip', function () {
                     ionic.Platform.exitApp();
-                }
-            });
+                });
+            }
+
 
         };
     })
