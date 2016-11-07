@@ -310,8 +310,7 @@ angular.module('starter.controllers', [])
         $scope.username     = '';
         $scope.phone_number = '';
 
-
-        var customerId    = localstorage.get('getImageSrc');
+        var customerId    = localstorage.get('customerId');
         $scope.customerId = customerId;
         var getImageSrc  = localstorage.get('getImageSrc');
 
