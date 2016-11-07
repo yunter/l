@@ -418,12 +418,12 @@ angular.module('starter.controllers', [])
     })
     .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
     var customerId = localstorage.get('customerId');
-    if(typeof customerId == "undefined" || customerId <= 1) {
+    if(typeof customerId == "undefined" || customerId.length <= 1) {
       customerId = localstorage.get('deviceid');
     }
 
     var page = 1;
-    if(typeof customerId != "undefined" && customerId <= 1) {
+    if(typeof customerId != "undefined" && customerId.length > 1) {
         UIHelper.blockScreen('general.common.loading', 1.5);
         Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
             if (typeof result == "object") {
@@ -509,13 +509,13 @@ angular.module('starter.controllers', [])
 
         $scope.takePics = function () {
             var options = {
-                quality: 50,
+                quality: 60,
                 destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: true,
                 encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 600,
-                targetHeight: 600,
+                targetWidth: 500,
+                targetHeight: 500,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
                 correctOrientation:true
@@ -532,9 +532,9 @@ angular.module('starter.controllers', [])
         $scope.choosePics = function () {
             var options = {
               maximumImagesCount: 1,
-              width: 600,
-              height: 600,
-              quality: 50
+              width: 500,
+              height: 500,
+              quality: 60
             };
             $cordovaImagePicker.getPictures(options)
               .then(function (results) {
