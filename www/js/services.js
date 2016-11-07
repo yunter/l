@@ -378,7 +378,7 @@ angular.module('starter.services', [])
     })
     .factory('Feedback', function ($http, $q, $httpParamSerializer, ApiHost, Headers) {
         // Might use a resource here that returns a JSON array
-        function addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc) {
+        function addFeedback(uuid, usage, planting, customerId, username, phone_number, getAddress, getImageSrc) {
             try {
                 var request = {
                     method: 'POST',
@@ -388,6 +388,7 @@ angular.module('starter.services', [])
                         feedback_uuid: uuid,
                         feedback_usage: usage,
                         feedback_planting: planting,
+                        feedback_customerId: customerId,
                         feedback_username: username,
                         feedback_address: getAddress,
                         feedback_phone_number: phone_number,
@@ -442,8 +443,8 @@ angular.module('starter.services', [])
         }
 
         return {
-            addFeedback: function (uuid, usage, planting, username, phone_number, getAddress, getImageSrc) {
-                return addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc);
+            addFeedback: function (uuid, usage, planting, customerId, username, phone_number, getAddress, getImageSrc) {
+                return addFeedback(uuid, usage, planting, customerId, username, phone_number, getAddress, getImageSrc);
             },
             getFeedbackList: function (customerId, start, limit) {
                 return getFeedbackList(customerId, start, limit);

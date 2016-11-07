@@ -12,21 +12,21 @@
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label"><span class="assertive">*</span>{{'tabs.feedback.form.usage' | translate}}</span>
-        <textarea ng-model="usage" name="feedback_usage" placeholder="{{'tabs.feedback.form.usage.placeholder' | translate}}" class="item-input-wrapper" data-tap-disabled="true"></textarea>
+        <textarea ng-model="usage" name="feedback_usage" placeholder="{{'tabs.feedback.form.usage.placeholder' | translate}}" class="item-input-wrapper item-input-wrapper-height" data-tap-disabled="true"></textarea>
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label"><span class="assertive">*</span>{{'tabs.feedback.form.planting' | translate}}</span>
-        <textarea ng-model="planting" name="feedback_planting" placeholder="{{'tabs.feedback.form.planting.placeholder' | translate}}" class="item-input-wrapper" data-tap-disabled="true"></textarea>
+        <textarea ng-model="planting" name="feedback_planting" placeholder="{{'tabs.feedback.form.planting.placeholder' | translate}}" class="item-input-wrapper item-input-wrapper-height" data-tap-disabled="true"></textarea>
       </label>
-      <label class="item item-input">
+      <label class="item item-input" ng-if="!customerId">
         <span class="input-label ">{{'tabs.feedback.form.username' | translate}}</span>
         <input ng-model="username" name="feedback_username" type="text" placeholder="{{'tabs.feedback.form.username.placeholder' | translate}}"  data-tap-disabled="true"/>
       </label>
-      <label class="item item-input">
+      <label class="item item-input" ng-if="!customerId">
         <span class="input-label">{{'tabs.feedback.form.phoneNumber' | translate}}</span>
         <input ng-model="phone_number" name="feedback_phone_number" type="text" placeholder="{{'tabs.feedback.form.phoneNumber.placeholder' | translate}}" data-tap-disabled="true"/>
       </label>
-      <a class="dark" href="#/tab/feedback-address" data-tap-disabled="true">
+      <a class="dark" href="#/tab/feedback-address" data-tap-disabled="true" ng-if="!customerId">
         <label class="item item-icon-right">
           <p>{{'tabs.feedback.form.address' | translate}}</p>
           <p ng-model="address"></p>

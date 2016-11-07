@@ -309,6 +309,8 @@ angular.module('starter.controllers', [])
 
         $scope.username     = '';
         $scope.phone_number = '';
+
+        $scope.customerId = localstorage.get('customerId');
         var getImageSrc  = localstorage.get('getImageSrc');
 
         if(getImageSrc){
@@ -358,7 +360,7 @@ angular.module('starter.controllers', [])
             }
              **/
             UIHelper.confirmAndRun(title, msg, function () {
-                Feedback.addFeedback(uuid, usage, planting, username, phone_number, getAddress, getImageSrc).then(
+                Feedback.addFeedback(uuid, usage, planting, customerId, username, phone_number, getAddress, getImageSrc).then(
                     function (result) {
                         if (typeof result == "object") {
                             $scope.resetForm('noConfirm');
@@ -418,12 +420,12 @@ angular.module('starter.controllers', [])
     })
     .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
     var customerId = localstorage.get('customerId');
-    if(typeof customerId == "undefined" || customerId.length <= 1) {
+    if(typeof customerId == "undefined" || customerId == '') {
       customerId = localstorage.get('deviceid');
     }
 
     var page = 1;
-    if(typeof customerId != "undefined" && customerId.length > 1) {
+    if(typeof customerId != "undefined" && customerId != '') {
         UIHelper.blockScreen('general.common.loading', 1.5);
         Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
             if (typeof result == "object") {
