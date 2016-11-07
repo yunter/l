@@ -26,7 +26,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             //register deivce
             var uuid       = init();
             var AppVersion = '1.0';
-            var deviceid   = '';
             if (uuid != '' && typeof uuid != "undefined") {
                 ApiRegDevice.regDevice(uuid, $cordovaDevice.getPlatform(), $cordovaDevice.getVersion(), AppVersion)
                     .then(function (result) {
@@ -158,6 +157,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
 
             .state('tab.feedback', {
                 url: '/feedback',
+                cache: false,
                 views: {
                     'tab-feedback': {
                         templateUrl: 'templates/tab-feedback.html',

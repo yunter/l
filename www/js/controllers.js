@@ -418,11 +418,12 @@ angular.module('starter.controllers', [])
     })
     .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
     var customerId = localstorage.get('customerId');
-    if(typeof customerId == "undefined" || customerId == '') {
+    if(typeof customerId == "undefined" || customerId <= 1) {
       customerId = localstorage.get('deviceid');
     }
+
     var page = 1;
-    if(typeof customerId != "undefined" && customerId != '') {
+    if(typeof customerId != "undefined" && customerId <= 1) {
         UIHelper.blockScreen('general.common.loading', 1.5);
         Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
             if (typeof result == "object") {
