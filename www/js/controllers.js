@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-    .controller('AppCtrl', function ($rootScope, $state, $stateParams, $cordovaNetwork, $scope, localstorage, $translate, UIHelper) {
+    .controller('AppCtrl', function ($rootScope, $state, $stateParams, $window, $cordovaNetwork, $scope, localstorage, $translate, UIHelper) {
         document.addEventListener("deviceready", function () {
 
             //var type      = $cordovaNetwork.getNetwork();
@@ -13,9 +13,7 @@ angular.module('starter.controllers', [])
             $rootScope.$on('$cordovaNetwork:online', function (event, networkState) {
                 //var onlineState = networkState;
                 //alert('onlineState: ' + onlineState);
-                $state.transitionTo($state.current, $stateParams, {
-                    reload: true, inherit: false, notify: true
-                });
+                $window.location.reload(true);
             });
 
             // listen for Offline event
@@ -52,7 +50,7 @@ angular.module('starter.controllers', [])
                                 $ionicSlideBoxDelegate.update();
                             }, 1000);
                         }
-                    }, function (error) {
+                    }, function () {
                         UIHelper.showAlert('controllers.GetSlideShow.request.error');
                     });
 
@@ -66,14 +64,14 @@ angular.module('starter.controllers', [])
                             $scope.IntroTitle = result.data.title;
                             $scope.IntroDesc = result.data.meta_description;
                         }
-                    }, function (error) {
+                    }, function () {
                         UIHelper.showAlert('controllers.GetIntro.request.error');
                     });
 
             } else {
                 UIHelper.showAlert('controllers.getLamsin.Service.err1');
             }
-        }, function (error) {
+        }, function () {
             UIHelper.showAlert('controllers.getLamsin.Service.err2');
         });
     })
@@ -86,7 +84,7 @@ angular.module('starter.controllers', [])
                     $scope.IntroDesc = result.data.meta_description;
                     $scope.IntroDescription = result.data.description;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.GetDashIntro.error');
             });
     })
@@ -97,7 +95,7 @@ angular.module('starter.controllers', [])
                 if (typeof result == "object") {
                     $scope.latestProducts = result.data;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.GetLatestProducts.error');
             });
     })
@@ -109,7 +107,7 @@ angular.module('starter.controllers', [])
                 if (typeof result == "object") {
                     $scope.latestProducts = result.data;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.GetLatestProducts.error2');
             });
         var page = 1;
@@ -119,8 +117,8 @@ angular.module('starter.controllers', [])
                     if (typeof result == "object") {
                         $scope.latestProducts = result.data;
                     }
-                }, function (error) {
-                    alert("ERR:" + error);
+                }, function () {
+                    UIHelper.showAlert('controllers.GetLatestProducts.error');
 
                 })
                 .finally(function () {
@@ -148,7 +146,7 @@ angular.module('starter.controllers', [])
                         $scope.$broadcast('scroll.infiniteScrollComplete');
 
                     }
-                }, function (error) {
+                }, function () {
                     UIHelper.showAlert('controllers.GetLatestProducts.error3');
                 });
         };
@@ -162,7 +160,7 @@ angular.module('starter.controllers', [])
                 if (typeof result == "object") {
                     $scope.ProductVideo = result.data;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.GetProductVideos.error');
             });
         Products.getProductCategories(0, 2).then(
@@ -170,7 +168,7 @@ angular.module('starter.controllers', [])
                 if (typeof result == "object") {
                     $scope.ProductCategories = result.data;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.GetProductCategories.error');
             });
     })
@@ -181,7 +179,7 @@ angular.module('starter.controllers', [])
                 if (typeof result == "object") {
                     $scope.ProductVideoList = result.data;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.GetProductVideos.error');
             });
 
@@ -192,8 +190,8 @@ angular.module('starter.controllers', [])
                     if (typeof result == "object") {
                         $scope.latestProducts = result.data;
                     }
-                }, function (error) {
-                    alert("ERR:" + error);
+                }, function () {
+                    UIHelper.showAlert('controllers.GetProductVideos.error');
 
                 })
                 .finally(function () {
@@ -220,8 +218,8 @@ angular.module('starter.controllers', [])
                         $scope.$broadcast('scroll.infiniteScrollComplete');
 
                     }
-                }, function (error) {
-                    alert("ERR:" + error);
+                }, function () {
+                    UIHelper.showAlert('controllers.GetProductVideos.error');
 
                 });
         };
@@ -252,7 +250,7 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $scope.Products = result.data;
                         }
-                    }, function (error) {
+                    }, function () {
                         UIHelper.showAlert('controllers.GetProducts.error');
                     });
             }
@@ -268,7 +266,7 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $scope.ProductCategories = result.data;
                         }
-                    }, function (error) {
+                    }, function () {
                         UIHelper.showAlert('controllers.GetProductCategories.error');
                     });
             } else {
@@ -277,7 +275,7 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $scope.Products = result.data;
                         }
-                    }, function (error) {
+                    }, function () {
                         UIHelper.showAlert('controllers.GetProducts.error');
                     });
             }
@@ -291,12 +289,12 @@ angular.module('starter.controllers', [])
                 if (typeof result == "object") {
                     $scope.productInfo = result.data;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.GetProductInfo.error');
             });
     })
 
-    .controller('FeedbackCtrl', function ($scope, $state, $stateParams, $ionicPopup, $timeout, localstorage, Feedback, UIHelper) {
+    .controller('FeedbackCtrl', function ($scope, $state, $window, $ionicPopup, $timeout, localstorage, Feedback, UIHelper) {
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
         // To listen for when this page is active (for example, to refresh data),
@@ -352,8 +350,8 @@ angular.module('starter.controllers', [])
                         } else {
                             UIHelper.showAlert('controllers.addFeedback.error');
                         }
-                    }, function (error) {
-                        //alert(error);
+                    }, function () {
+                        UIHelper.showAlert('controllers.addFeedback.error');
                     });
             });
         };
@@ -370,6 +368,7 @@ angular.module('starter.controllers', [])
 
                 localstorage.set('getImageSrc', '');
                 localstorage.set('getAddress', '');
+                $window.location.reload(true);
             } else {
                 UIHelper.confirmAndRun(title, msg, function () {
                     $scope.usage = '';
@@ -379,14 +378,13 @@ angular.module('starter.controllers', [])
 
                     localstorage.set('getImageSrc', '');
                     localstorage.set('getAddress', '');
+                    $window.location.reload(true);
 
                 });
             }
-            localstorage.set('formClear', true);
-
-            $state.transitionTo($state.current, $stateParams, {
-                reload: true, inherit: false, notify: true
-            });
+            //$state.go($state.current, $stateParams, {
+            //    reload: true, inherit: false, notify: true
+            //});
         };
     })
     .controller('FeedbackStateCtrl', function ($scope, $stateParams, localstorage, $state) {
@@ -409,7 +407,7 @@ angular.module('starter.controllers', [])
                 if (typeof result == "object") {
                     $scope.feedbacks = result.data;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.getFeedbackList.error');
             });
             $scope.doRefresh = function () {
@@ -418,8 +416,8 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $scope.feedbacks = result.data;
                         }
-                    }, function (error) {
-                        alert("ERR:" + error);
+                    }, function () {
+                        UIHelper.showAlert('controllers.getFeedbackList.error');
 
                     })
                     .finally(function () {
@@ -447,8 +445,8 @@ angular.module('starter.controllers', [])
                             $scope.$broadcast('scroll.infiniteScrollComplete');
 
                         }
-                    }, function (error) {
-                        alert("ERR:" + error);
+                    }, function () {
+                        UIHelper.showAlert('controllers.getFeedbackList.error');
 
                     });
             };
@@ -462,11 +460,11 @@ angular.module('starter.controllers', [])
     .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $cordovaImagePicker, $state, UIHelper) {
         // Triggered on a button click, or some other target
         var image = document.getElementById('showImage');
+        var imageSrc = localstorage.get('getImageSrc');
 
-        if (localstorage.get('formClear') === true) {
-            image.src = '';
-        } else {
-            localstorage.set('formClear', false);
+        if(imageSrc) {
+            image.src = imageSrc;
+            $scope.attachment = true;
         }
 
         $scope.clearImage = function () {
@@ -668,8 +666,8 @@ angular.module('starter.controllers', [])
             $cordovaCamera.getPicture(options).then(function (imageData) {
                 avatar.src = "data:image/jpeg;base64," + imageData;
                 localstorage.set('avatar', "data:image/jpeg;base64," + imageData);
-            }, function (err) {
-                alert("ERR:" + err);
+            }, function () {
+                //alert("ERR:" + err);
             });
         };
         $scope.chooseAvatar = function () {
@@ -695,8 +693,8 @@ angular.module('starter.controllers', [])
 
                     }
 
-                }, function (err) {
-                    alert("ERR:" + err);
+                }, function () {
+                    //alert("ERR:" + err);
                 });
         };
 
@@ -764,8 +762,6 @@ angular.module('starter.controllers', [])
             var username = $scope.account_username;
             if (username) {
                 localstorage.set('username', username);
-                console.log(localstorage.get('username'));
-
             }
             $state.go('tab.account');
         }
@@ -788,7 +784,7 @@ angular.module('starter.controllers', [])
                     $scope.AboutTitle = result.data.title;
                     $scope.AboutDesc = result.data.description;
                 }
-            }, function (error) {
+            }, function () {
                 UIHelper.showAlert('controllers.dashIntro.error');
             });
     });
