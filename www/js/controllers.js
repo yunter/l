@@ -3,23 +3,23 @@ angular.module('starter.controllers', [])
         document.addEventListener("deviceready", function () {
 
             //var type      = $cordovaNetwork.getNetwork();
-            var isOnline  = $cordovaNetwork.isOnline();
+            var isOnline = $cordovaNetwork.isOnline();
             //var isOffline = $cordovaNetwork.isOffline();
 
-            if(!isOnline) {
+            if (!isOnline) {
                 UIHelper.showAlert('controllers.offline');
             }
             // listen for Online event
-            $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+            $rootScope.$on('$cordovaNetwork:online', function (event, networkState) {
                 //var onlineState = networkState;
                 //alert('onlineState: ' + onlineState);
                 $state.transitionTo($state.current, $stateParams, {
-                      reload: true, inherit: false, notify: true
+                    reload: true, inherit: false, notify: true
                 });
             });
 
             // listen for Offline event
-            $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+            $rootScope.$on('$cordovaNetwork:offline', function (event, networkState) {
                 //var offlineState = networkState;
                 //alert('offlineState: ' + offlineState);
                 UIHelper.showAlert('controllers.offline');
@@ -30,7 +30,7 @@ angular.module('starter.controllers', [])
             $translate.use(key);
             window.localStorage['language'] = key;
             UIHelper.changeLanguage(key);
-            if(ionic.Platform.exitApp){
+            if (ionic.Platform.exitApp) {
                 UIHelper.confirmAndRun('tabs.account.language.tip.title', 'tabs.account.language.tip', function () {
                     ionic.Platform.exitApp();
                 });
@@ -39,7 +39,7 @@ angular.module('starter.controllers', [])
 
         };
     })
-    .controller('DashCtrl', function ($scope, localstorage, $ionicSlideBoxDelegate , $timeout, ApiHome, UIHelper) {
+    .controller('DashCtrl', function ($scope, localstorage, $ionicSlideBoxDelegate, $timeout, ApiHome, UIHelper) {
         $scope.banners = [];
         ApiHome.getLamsin().then(function (result) {
             if (typeof result == "object") {
@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
                     .then(function (result) {
                         if (result.data.banners != undefined) {
                             $scope.banners = result.data.banners;
-                            $timeout( function() {
+                            $timeout(function () {
                                 $ionicSlideBoxDelegate.update();
                             }, 1000);
                         }
@@ -83,7 +83,7 @@ angular.module('starter.controllers', [])
             .then(function (result) {
                 if (typeof result == "object") {
                     $scope.IntroTitle = result.data.title;
-                    $scope.IntroDesc  = result.data.meta_description;
+                    $scope.IntroDesc = result.data.meta_description;
                     $scope.IntroDescription = result.data.description;
                 }
             }, function (error) {
@@ -130,30 +130,30 @@ angular.module('starter.controllers', [])
         };
 
         $scope.moreDataCanBeLoaded = function () {
-          if(page >= 1){
-            return true;
-          } else {
-            return false;
-          }
+            if (page >= 1) {
+                return true;
+            } else {
+                return false;
+            }
         };
         $scope.loadMore = function () {
             page = --page;
-            if(page < 0) {
-              page = 0;
+            if (page < 0) {
+                page = 0;
             }
-            ApiHome.getLatestProducts( page * 5, 5).then(
-              function (result) {
-                if (typeof result == "object") {
-                  $scope.latestProducts = result.data;
-                  $scope.$broadcast('scroll.infiniteScrollComplete');
+            ApiHome.getLatestProducts(page * 5, 5).then(
+                function (result) {
+                    if (typeof result == "object") {
+                        $scope.latestProducts = result.data;
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
 
-                }
-              }, function (error) {
-                  UIHelper.showAlert('controllers.GetLatestProducts.error3');
-              });
+                    }
+                }, function (error) {
+                    UIHelper.showAlert('controllers.GetLatestProducts.error3');
+                });
         };
-        $scope.$on('$stateChangeSuccess', function() {
-          $scope.loadMore();
+        $scope.$on('$stateChangeSuccess', function () {
+            $scope.loadMore();
         });
     })
     .controller('ProductsCtrl', function ($scope, $stateParams, localstorage, Products, UIHelper) {
@@ -187,81 +187,81 @@ angular.module('starter.controllers', [])
 
         var page = 1;
         $scope.doRefresh = function () {
-          Products.getProductVideos('DESC', ++page, 5).then(
-            function (result) {
-              if (typeof result == "object") {
-                $scope.latestProducts = result.data;
-              }
-            }, function (error) {
-              alert("ERR:" + error);
+            Products.getProductVideos('DESC', ++page, 5).then(
+                function (result) {
+                    if (typeof result == "object") {
+                        $scope.latestProducts = result.data;
+                    }
+                }, function (error) {
+                    alert("ERR:" + error);
 
-            })
-            .finally(function () {
-              // Stop the ion-refresher from spinning
-              $scope.$broadcast('scroll.refreshComplete');
-            });
+                })
+                .finally(function () {
+                    // Stop the ion-refresher from spinning
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
         };
 
         $scope.moreDataCanBeLoaded = function () {
-          if(page >= 1){
-            return true;
-          } else {
-            return false;
-          }
+            if (page >= 1) {
+                return true;
+            } else {
+                return false;
+            }
         };
         $scope.loadMore = function () {
-          if(page < 0) {
-            page = 1;
-          }
-          Products.getProductVideos('DESC', --page, 5).then(
-            function (result) {
-              if (typeof result == "object") {
-                $scope.latestProducts = result.data;
-                $scope.$broadcast('scroll.infiniteScrollComplete');
+            if (page < 0) {
+                page = 1;
+            }
+            Products.getProductVideos('DESC', --page, 5).then(
+                function (result) {
+                    if (typeof result == "object") {
+                        $scope.latestProducts = result.data;
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
 
-              }
-            }, function (error) {
-              alert("ERR:" + error);
+                    }
+                }, function (error) {
+                    alert("ERR:" + error);
 
-            });
+                });
         };
-        $scope.$on('$stateChangeSuccess', function() {
-          $scope.loadMore();
+        $scope.$on('$stateChangeSuccess', function () {
+            $scope.loadMore();
         });
     })
     .controller('ProductListCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
         var categoryId = $stateParams.categoryId;
         var hasChild = $stateParams.hasChild;
-        $scope.hasFilters  = false;
+        $scope.hasFilters = false;
         $scope.openFilters = function (hasFilters) {
-          if(hasFilters) {
-            $scope.hasFilters = false;
-          } else {
-            $scope.hasFilters = true;
-          }
+            if (hasFilters) {
+                $scope.hasFilters = false;
+            } else {
+                $scope.hasFilters = true;
+            }
         };
         $scope.searchKey = '';
         $scope.searchProduct = function (searchKey, newChild) {
-          $scope.hasChild = newChild;
-          var searchKey = searchKey.trim();
-          $scope.Products = {};
-          if(searchKey) {
-              UIHelper.blockScreen('general.common.loading', 1.5);
-              Products.getProducts('DESC', 0, 30, '', searchKey).then(
-                  function (result) {
-                      if (typeof result == "object") {
-                          $scope.Products = result.data;
-                      }
-                  }, function (error) {
-                      UIHelper.showAlert('controllers.GetProducts.error');
-                  });
-          }
-          //$state.transitionTo($state.current, $stateParams, {
-          //  reload: true, inherit: false, notify: true
-          //});
+            $scope.hasChild = newChild;
+            var searchKey = searchKey.trim();
+            $scope.Products = {};
+            if (searchKey) {
+                UIHelper.blockScreen('general.common.loading', 1.5);
+                Products.getProducts('DESC', 0, 30, '', searchKey).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.Products = result.data;
+                        }
+                    }, function (error) {
+                        UIHelper.showAlert('controllers.GetProducts.error');
+                    });
+            }
+            //$state.transitionTo($state.current, $stateParams, {
+            //  reload: true, inherit: false, notify: true
+            //});
         };
         if (categoryId && hasChild < 2) {
-          $scope.hasChild = hasChild;
+            $scope.hasChild = hasChild;
             if (hasChild == 1) {
                 Products.getProductCategories(categoryId, 1).then(
                     function (result) {
@@ -304,59 +304,59 @@ angular.module('starter.controllers', [])
         //
         //$scope.$on('$ionicView.enter', function(e) {
         //});
-        $scope.usage    = '';
+        $scope.usage = '';
         $scope.planting = '';
 
-        $scope.username     = '';
+        $scope.username = '';
         $scope.phone_number = '';
 
-        var customerId    = localstorage.get('customerId');
+        var customerId = localstorage.get('customerId');
         $scope.customerId = customerId;
-        var getImageSrc  = localstorage.get('getImageSrc');
+        var getImageSrc = localstorage.get('getImageSrc');
 
-        if(getImageSrc){
+        if (getImageSrc) {
             $scope.haveFile = true;
         } else {
             $scope.haveFile = false;
         }
 
         $scope.sendFeedback = function () {
-            var title    = 'controllers.addFeedback.confirm.title';
-            var msg      = 'controllers.addFeedback.confirm.msg';
-            var uuid     = localstorage.get('uuid');
+            var title = 'controllers.addFeedback.confirm.title';
+            var msg = 'controllers.addFeedback.confirm.msg';
+            var uuid = localstorage.get('uuid');
 
-            var usage    = $scope.usage;
+            var usage = $scope.usage;
             var planting = $scope.planting;
 
-            var username     = $scope.username;
+            var username = $scope.username;
             var phone_number = $scope.phone_number;
 
-            var getAddress   = localstorage.get('getAddress');
-            var getImageSrc  = localstorage.get('getImageSrc');
+            var getAddress = localstorage.get('getAddress');
+            var getImageSrc = localstorage.get('getImageSrc');
 
-            if(!usage) {
+            if (!usage) {
                 UIHelper.showAlert('controllers.addFeedback.notice.1');
                 return false;
             }
-            if(!planting) {
+            if (!planting) {
                 UIHelper.showAlert('controllers.addFeedback.notice.2');
                 return false;
             }
             /***
-            var images       = '';
-            var image1       = localstorage.get('image1');
-            var image2       = localstorage.get('image2');
-            var image3       = localstorage.get('image3');
-            if(getImageSrc) {
+             var images       = '';
+             var image1       = localstorage.get('image1');
+             var image2       = localstorage.get('image2');
+             var image3       = localstorage.get('image3');
+             if(getImageSrc) {
                 images += getImageSrc + "#";
             }
-            if(image1) {
+             if(image1) {
                 images += image1 + "#";
             }
-            if(image2) {
+             if(image2) {
                 images += image2 + "#";
             }
-            if(image3) {
+             if(image3) {
                 images += image3 + "#";
             }
              **/
@@ -365,7 +365,7 @@ angular.module('starter.controllers', [])
                     function (result) {
                         if (typeof result == "object") {
                             $scope.resetForm('noConfirm');
-                            $state.go('tab.feedback-state', {status:'success'});
+                            $state.go('tab.feedback-state', {status: 'success'});
                         } else {
                             UIHelper.showAlert('controllers.addFeedback.error');
                         }
@@ -376,13 +376,13 @@ angular.module('starter.controllers', [])
         };
 
         $scope.resetForm = function (hasConfirm) {
-            var title    = 'controllers.addFeedback.confirm.title';
-            var msg      = 'controllers.addFeedback.confirm.msg2';
+            var title = 'controllers.addFeedback.confirm.title';
+            var msg = 'controllers.addFeedback.confirm.msg2';
 
-            if(hasConfirm == 'noConfirm') {
-                $scope.usage        = '';
-                $scope.planting     = '';
-                $scope.username     = '';
+            if (hasConfirm == 'noConfirm') {
+                $scope.usage = '';
+                $scope.planting = '';
+                $scope.username = '';
                 $scope.phone_number = '';
 
                 //localstorage.set('image1', '');
@@ -392,9 +392,9 @@ angular.module('starter.controllers', [])
                 localstorage.set('getAddress', '');
             } else {
                 UIHelper.confirmAndRun(title, msg, function () {
-                    $scope.usage        = '';
-                    $scope.planting     = '';
-                    $scope.username     = '';
+                    $scope.usage = '';
+                    $scope.planting = '';
+                    $scope.username = '';
                     $scope.phone_number = '';
 
                     //localstorage.set('image1', '');
@@ -408,89 +408,89 @@ angular.module('starter.controllers', [])
             localstorage.set('formClear', true);
 
             $state.transitionTo($state.current, $stateParams, {
-                  reload: true, inherit: false, notify: true
+                reload: true, inherit: false, notify: true
             });
         };
     })
     .controller('FeedbackStateCtrl', function ($scope, $stateParams, localstorage, $state) {
-        var status    = $stateParams.status;
+        var status = $stateParams.status;
         $scope.status = status;
         $scope.goBack = function () {
-          $state.go('tab.feedback');
+            $state.go('tab.feedback');
         }
     })
     .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
-    var customerId = localstorage.get('customerId');
-    if(typeof customerId == "undefined" || customerId == '') {
-      customerId = localstorage.get('deviceid');
-    }
+        var customerId = localstorage.get('customerId');
+        if (typeof customerId == "undefined" || customerId == '') {
+            customerId = localstorage.get('deviceid');
+        }
 
-    var page = 1;
-    if(typeof customerId != "undefined" && customerId != '') {
-        UIHelper.blockScreen('general.common.loading', 1.5);
-        Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
-            if (typeof result == "object") {
-                $scope.feedbacks = result.data;
-            }
-        }, function (error) {
-            UIHelper.showAlert('controllers.getFeedbackList.error');
-        });
-      $scope.doRefresh = function () {
-        Feedback.getFeedbackList(customerId, (++page - 1) * 5, 5).then(
-          function (result) {
-            if (typeof result == "object") {
-              $scope.feedbacks = result.data;
-            }
-          }, function (error) {
-            alert("ERR:" + error);
+        var page = 1;
+        if (typeof customerId != "undefined" && customerId != '') {
+            UIHelper.blockScreen('general.common.loading', 1.5);
+            Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
+                if (typeof result == "object") {
+                    $scope.feedbacks = result.data;
+                }
+            }, function (error) {
+                UIHelper.showAlert('controllers.getFeedbackList.error');
+            });
+            $scope.doRefresh = function () {
+                Feedback.getFeedbackList(customerId, (++page - 1) * 5, 5).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.feedbacks = result.data;
+                        }
+                    }, function (error) {
+                        alert("ERR:" + error);
 
-          })
-          .finally(function () {
-            // Stop the ion-refresher from spinning
-            $scope.$broadcast('scroll.refreshComplete');
-          });
-      };
+                    })
+                    .finally(function () {
+                        // Stop the ion-refresher from spinning
+                        $scope.$broadcast('scroll.refreshComplete');
+                    });
+            };
 
-      $scope.moreDataCanBeLoaded = function () {
-        if(page >= 1){
-          return true;
+            $scope.moreDataCanBeLoaded = function () {
+                if (page >= 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+            $scope.loadMore = function () {
+                page = --page;
+                if (page < 0) {
+                    page = 0;
+                }
+                Feedback.getFeedbackList(customerId, page * 5, 5).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.feedbacks = result.data;
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+
+                        }
+                    }, function (error) {
+                        alert("ERR:" + error);
+
+                    });
+            };
+            $scope.$on('$stateChangeSuccess', function () {
+                $scope.loadMore();
+            });
         } else {
-          return false;
+            $scope.feedbacks = {};
         }
-      };
-      $scope.loadMore = function () {
-        page = --page;
-        if(page < 0) {
-          page = 0;
-        }
-        Feedback.getFeedbackList(customerId, page * 5,  5).then(
-          function (result) {
-            if (typeof result == "object") {
-              $scope.feedbacks = result.data;
-              $scope.$broadcast('scroll.infiniteScrollComplete');
-
-            }
-          }, function (error) {
-            alert("ERR:" + error);
-
-          });
-      };
-      $scope.$on('$stateChangeSuccess', function() {
-        $scope.loadMore();
-      });
-    } else {
-      $scope.feedbacks = {};
-    }
-  })
+    })
     .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $cordovaImagePicker, $state, UIHelper) {
         // Triggered on a button click, or some other target
         var image = document.getElementById('showImage');
         /**
-        var image1 = document.getElementById('attachments1');
-        var image2 = document.getElementById('attachments2');
-        var image3 = document.getElementById('attachments3');
-        */
-        if(localstorage.get('formClear') === true) {
+         var image1 = document.getElementById('attachments1');
+         var image2 = document.getElementById('attachments2');
+         var image3 = document.getElementById('attachments3');
+         */
+        if (localstorage.get('formClear') === true) {
             image.src = '';
             //image1.src = '';
             //image2.src = '';
@@ -500,11 +500,11 @@ angular.module('starter.controllers', [])
         }
 
         $scope.clearImage = function () {
-            var title    = 'controllers.addFeedback.confirm.title';
-            var msg      = 'controllers.addFeedback.confirm.msg3';
+            var title = 'controllers.addFeedback.confirm.title';
+            var msg = 'controllers.addFeedback.confirm.msg3';
             UIHelper.confirmAndRun(title, msg, function () {
                 $scope.attachment = '';
-                image.src         = '';
+                image.src = '';
                 localstorage.set('getImageSrc', '');
                 $state.go("tab.feedback");
             });
@@ -521,68 +521,44 @@ angular.module('starter.controllers', [])
                 targetHeight: 500,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
-                correctOrientation:true
+                correctOrientation: true
             };
             $scope.imageSrc = false;
-            $cordovaCamera.getPicture(options).then(function(imageData) {
+            $cordovaCamera.getPicture(options).then(function (imageData) {
                 $scope.attachment = true;
                 image.src = "data:image/jpeg;base64," + imageData;
                 localstorage.set('getImageSrc', "data:image/jpeg;base64," + imageData);
-            }, function(err) {
+            }, function (err) {
                 //alert("ERR:" + err);
             });
         };
         $scope.choosePics = function () {
             var options = {
-              maximumImagesCount: 1,
-              width: 500,
-              height: 500,
-              quality: 60
+                maximumImagesCount: 1,
+                width: 500,
+                height: 500,
+                quality: 60
             };
             $cordovaImagePicker.getPictures(options)
-              .then(function (results) {
-                  $scope.attachment = true;
-                for (var i = 0; i < results.length; i++) {
-                    $scope.convertImgToBase64URL(results[i], function(base64Image){
-                        image.src = base64Image;
-                        localstorage.set('getImageSrc', base64Image);
-                    });
-                    /**
-                    switch (i) {
-                        case 0:
-                            $scope.convertImgToBase64URL(results[i], function(base64Image){
-                                image.src = base64Image;
-                                localstorage.set('image1', base64Image);
-                            });
-                            break;
-                        case 1:
-                            $scope.convertImgToBase64URL(results[i], function(base64Image){
-                                image2.src = base64Image;
-                                localstorage.set('image2', base64Image);
-                            });
-                            break;
-                        case 2:
-                            $scope.convertImgToBase64URL(results[i], function(base64Image){
-                                image3.src = base64Image;
-                                localstorage.set('image3', base64Image);
-                            });
-                            break;
-                        default:
-                            break;
+                .then(function (results) {
+                    $scope.attachment = true;
+                    for (var i = 0; i < results.length; i++) {
+                        $scope.convertImgToBase64URL(results[i], function (base64Image) {
+                            image.src = base64Image;
+                            localstorage.set('getImageSrc', base64Image);
+                        });
+
                     }
-                     **/
 
-                }
-
-              }, function(err) {
-                  //alert("ERR:" + err);
-              });
+                }, function (err) {
+                    //alert("ERR:" + err);
+                });
         };
 
-        $scope.convertImgToBase64URL = function (url, callback, outputFormat){
+        $scope.convertImgToBase64URL = function (url, callback, outputFormat) {
             var img = new Image();
             img.crossOrigin = 'Anonymous';
-            img.onload = function(){
+            img.onload = function () {
                 var canvas = document.createElement('CANVAS'),
                     ctx = canvas.getContext('2d'), dataURL;
                 canvas.height = this.height;
@@ -596,10 +572,10 @@ angular.module('starter.controllers', [])
         };
     })
     .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage, UIHelper) {
-        $scope.saveAddress = function(){
+        $scope.saveAddress = function () {
             var getAddress = $scope.editAddress;
 
-            if(getAddress != undefined && getAddress != '') {
+            if (getAddress != undefined && getAddress != '') {
                 localstorage.set('getAddress', $scope.editAddress);
                 $scope.editAddress = '';
             }
@@ -610,83 +586,98 @@ angular.module('starter.controllers', [])
         $scope.feedback = Feedback.get($stateParams.feedbackId);
     })
 
-    .controller('AccountCtrl', function ($scope, $state, localstorage, $ionicPopover, Account, UIHelper) {
+    .controller('AccountCtrl', function ($scope, $state, $window, localstorage, $ionicHistory, $ionicPopover, Account, UIHelper) {
 
-      $scope.loginAccount = {phoneNumber:'', password:'', islogin:false};
-      $scope.accountData  = {customerId:'', username:'', address:'', language:''};
+        $scope.loginAccount = {phoneNumber: '', password: '', islogin: false};
+        $scope.accountData = {customerId: '', username: '', address: '', language: ''};
 
-      $ionicPopover.fromTemplateUrl('templates/account-login.html', {
-        scope: $scope
-      }).then(function(popover) {
-        $scope.popover = popover;
-      });
-      $scope.openPopover = function ($event, action) {
-        var avatar = localstorage.get('avatar');
-        var token = localstorage.get('token');
-        if (token) {
-          $state.go(action);
-        } else {
-          $scope.popover.show($event);
+        if(localstorage.get('customerId')) {
+            $scope.loginAccount = {islogin: true};
+            $scope.accountData = {
+                customerId: localstorage.get('customerId'),
+                username: localstorage.get('username')
+            };
         }
-      };
+        $ionicPopover.fromTemplateUrl('templates/account-login.html', {
+            scope: $scope
+        }).then(function (popover) {
+            $scope.popover = popover;
+        });
+        $scope.openPopover = function ($event, action) {
+            var avatar = localstorage.get('avatar');
+            var token = localstorage.get('token');
+            if (token) {
+                $state.go(action);
+            } else {
+                $scope.popover.show($event);
+            }
+        };
 
-      $scope.closePopover = function () {
-        $scope.popover.hide();
-      };
+        $scope.closePopover = function () {
+            $scope.popover.hide();
+        };
 
-      //Cleanup the popover when we're done with it!
-      $scope.$on('$destroy', function () {
-        $scope.popover.remove();
-      });
+        //Cleanup the popover when we're done with it!
+        $scope.$on('$destroy', function () {
+            $scope.popover.remove();
+        });
 
-      // Execute action on hide popover
-      $scope.$on('popover.hidden', function () {
-        // Execute action
-      });
+        // Execute action on hide popover
+        $scope.$on('popover.hidden', function () {
+            // Execute action
+        });
 
-      // Execute action on remove popover
-      $scope.$on('popover.removed', function () {
-        // Execute action
-      });
+        // Execute action on remove popover
+        $scope.$on('popover.removed', function () {
+            // Execute action
+        });
 
-      $scope.accountLogin = function () {
-        if(!$scope.loginAccount.phoneNumber || !$scope.loginAccount.password) {
-          UIHelper.showAlert('controllers.account.popover.login.validate');
-        } else {
-          UIHelper.blockScreen('controllers.account.popover.login.loading', 1.5);
-          Account.accountLogin($scope.loginAccount.phoneNumber, $scope.loginAccount.password, '').then(
-            function (result) {
-              if (typeof result == "object") {
-                $scope.loginAccount.islogin   = true;
-                $scope.accountData.username   = result.data.fullname;
-                $scope.accountData.customerId = result.data.uid;
-                $scope.accountData.avatar     = result.data.custom_field;
-                localstorage.set('customerId', result.data.uid);
-                localstorage.set('token', result.data.token);
-                localstorage.set('username', result.data.fullname);
-                localstorage.set('phoneNumber', result.data.telephone);
-                localstorage.set('avatar', result.data.custom_field);
-                $scope.popover.hide();
-              }
-            }, function (error) {
-              UIHelper.showAlert('controllers.account.popover.login.error');
-            });
-        }
-      };
+        $scope.accountLogin = function () {
+            if (!$scope.loginAccount.phoneNumber || !$scope.loginAccount.password) {
+                UIHelper.showAlert('controllers.account.popover.login.validate');
+            } else {
+                UIHelper.blockScreen('controllers.account.popover.login.loading', 1.5);
+                Account.accountLogin($scope.loginAccount.phoneNumber, $scope.loginAccount.password, '').then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.loginAccount.islogin = true;
+                            $scope.accountData.username = result.data.fullname;
+                            $scope.accountData.customerId = result.data.uid;
+                            $scope.accountData.avatar = result.data.custom_field;
+                            localstorage.set('customerId', result.data.uid);
+                            localstorage.set('token', result.data.token);
+                            localstorage.set('username', result.data.fullname);
+                            localstorage.set('phoneNumber', result.data.telephone);
+                            localstorage.set('avatar', result.data.custom_field);
+                            $scope.popover.hide();
+                        }
+                    }, function (error) {
+                        UIHelper.showAlert('controllers.account.popover.login.error');
+                    });
+            }
+        };
+
+        $scope.accountLogout = function () {
+            $window.localStorage.clear();
+            $ionicHistory.clearCache();
+            $ionicHistory.clearHistory();
+            $window.location.reload(true);
+
+        };
     })
     .controller('AccountAvatarCtrl', function ($scope, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $timeout, $stateParams, localstorage, UIHelper) {
 
         $scope.saveAvatar = function () {
-            var title    = 'controllers.addFeedback.confirm.title';
-            var msg      = 'controllers.addFeedback.confirm.msg5';
+            var title = 'controllers.addFeedback.confirm.title';
+            var msg = 'controllers.addFeedback.confirm.msg5';
             UIHelper.confirmAndRun(title, msg, function () {
                 $state.go("tab.account");
             });
         };
-        var avatar    = document.getElementById('avatar');
+        var avatar = document.getElementById('avatar');
         var avatarSrc = localstorage.get('avatar');
 
-        if(avatarSrc){
+        if (avatarSrc) {
             avatar.src = avatarSrc;
         }
 
@@ -701,13 +692,13 @@ angular.module('starter.controllers', [])
                 targetHeight: 300,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
-                correctOrientation:true
+                correctOrientation: true
             };
             $scope.imageSrc = false;
-            $cordovaCamera.getPicture(options).then(function(imageData) {
+            $cordovaCamera.getPicture(options).then(function (imageData) {
                 avatar.src = "data:image/jpeg;base64," + imageData;
                 localstorage.set('avatar', "data:image/jpeg;base64," + imageData);
-            }, function(err) {
+            }, function (err) {
                 alert("ERR:" + err);
             });
         };
@@ -723,7 +714,7 @@ angular.module('starter.controllers', [])
                     for (var i = 0; i < results.length; i++) {
                         switch (i) {
                             case 0:
-                                $scope.convertImgToBase64URL(results[i], function(base64Image){
+                                $scope.convertImgToBase64URL(results[i], function (base64Image) {
                                     avatar.src = base64Image;
                                     localstorage.set('avatar', base64Image);
                                 });
@@ -734,15 +725,15 @@ angular.module('starter.controllers', [])
 
                     }
 
-                }, function(err) {
+                }, function (err) {
                     alert("ERR:" + err);
                 });
         };
 
-        $scope.convertImgToBase64URL = function (url, callback, outputFormat){
+        $scope.convertImgToBase64URL = function (url, callback, outputFormat) {
             var img = new Image();
             img.crossOrigin = 'Anonymous';
-            img.onload = function(){
+            img.onload = function () {
                 var canvas = document.createElement('CANVAS'),
                     ctx = canvas.getContext('2d'), dataURL;
                 canvas.height = this.height;
@@ -760,19 +751,19 @@ angular.module('starter.controllers', [])
                 , 'controllers.addFeedback.avatar.ChooseTitle'
                 , 'general.btn.cancel'
             ]).then(function (t) {
-            $scope.showActions = function() {
+            $scope.showActions = function () {
                 // Show the action sheet
                 var hideSheet = $ionicActionSheet.show({
                     buttons: [
-                        { text: '<b>' + t[0] + '</b>' },
-                        { text: t[1] }
+                        {text: '<b>' + t[0] + '</b>'},
+                        {text: t[1]}
                     ],
                     titleText: t[2],
                     cancelText: t[3],
-                    cancel: function() {
+                    cancel: function () {
                         // add cancel code..
                     },
-                    buttonClicked: function(index) {
+                    buttonClicked: function (index) {
                         switch (index) {
                             case 0:
                                 $scope.takeAvatar();
@@ -788,7 +779,7 @@ angular.module('starter.controllers', [])
                 });
 
                 // For example's sake, hide the sheet after two seconds
-                $timeout(function() {
+                $timeout(function () {
                     hideSheet();
                 }, 3000);
 
@@ -801,7 +792,7 @@ angular.module('starter.controllers', [])
 
         $scope.saveUserName = function () {
             var username = $scope.account_username;
-            if(username) {
+            if (username) {
                 localstorage.set('username', username);
                 console.log(localstorage.get('username'));
 
@@ -832,8 +823,8 @@ angular.module('starter.controllers', [])
             });
     });
 
-if(typeof String.prototype.trim !== 'function') {
-  String.prototype.trim = function() {
-    return this.replace(/^\s+|\s+$/g, '');
-  }
+if (typeof String.prototype.trim !== 'function') {
+    String.prototype.trim = function () {
+        return this.replace(/^\s+|\s+$/g, '');
+    }
 }

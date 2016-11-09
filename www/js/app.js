@@ -60,6 +60,12 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
     .config(function ($ionicConfigProvider) {
         $ionicConfigProvider.tabs.position('bottom');
         $ionicConfigProvider.navBar.alignTitle('center');
+        $ionicConfigProvider.platform.ios.tabs.style('standard');
+        $ionicConfigProvider.platform.ios.tabs.position('bottom');
+        $ionicConfigProvider.platform.android.tabs.style('standard');
+        $ionicConfigProvider.platform.android.tabs.position('bottom');
+        $ionicConfigProvider.platform.ios.views.transition('ios');
+        $ionicConfigProvider.platform.android.views.transition('android');
         //$ionicConfigProvider.views.maxCache(5);
     })
     .config(function ($stateProvider, $urlRouterProvider, $sceProvider, $translateProvider) {
