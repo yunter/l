@@ -342,24 +342,7 @@ angular.module('starter.controllers', [])
                 UIHelper.showAlert('controllers.addFeedback.notice.2');
                 return false;
             }
-            /***
-             var images       = '';
-             var image1       = localstorage.get('image1');
-             var image2       = localstorage.get('image2');
-             var image3       = localstorage.get('image3');
-             if(getImageSrc) {
-                images += getImageSrc + "#";
-            }
-             if(image1) {
-                images += image1 + "#";
-            }
-             if(image2) {
-                images += image2 + "#";
-            }
-             if(image3) {
-                images += image3 + "#";
-            }
-             **/
+
             UIHelper.confirmAndRun(title, msg, function () {
                 Feedback.addFeedback(uuid, usage, planting, customerId, username, phone_number, getAddress, getImageSrc).then(
                     function (result) {
@@ -385,9 +368,6 @@ angular.module('starter.controllers', [])
                 $scope.username = '';
                 $scope.phone_number = '';
 
-                //localstorage.set('image1', '');
-                //localstorage.set('image2', '');
-                //localstorage.set('image3', '');
                 localstorage.set('getImageSrc', '');
                 localstorage.set('getAddress', '');
             } else {
@@ -397,9 +377,6 @@ angular.module('starter.controllers', [])
                     $scope.username = '';
                     $scope.phone_number = '';
 
-                    //localstorage.set('image1', '');
-                    //localstorage.set('image2', '');
-                    //localstorage.set('image3', '');
                     localstorage.set('getImageSrc', '');
                     localstorage.set('getAddress', '');
 
@@ -485,16 +462,9 @@ angular.module('starter.controllers', [])
     .controller('AttachmentsCtrl', function ($scope, localstorage, $cordovaCamera, $cordovaImagePicker, $state, UIHelper) {
         // Triggered on a button click, or some other target
         var image = document.getElementById('showImage');
-        /**
-         var image1 = document.getElementById('attachments1');
-         var image2 = document.getElementById('attachments2');
-         var image3 = document.getElementById('attachments3');
-         */
+
         if (localstorage.get('formClear') === true) {
             image.src = '';
-            //image1.src = '';
-            //image2.src = '';
-            //image3.src = '';
         } else {
             localstorage.set('formClear', false);
         }
