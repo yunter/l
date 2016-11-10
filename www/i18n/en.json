@@ -42,6 +42,7 @@
   "general.common.back": "Back",
   "general.common.cancel": "Cancel",
   "general.common.loading": "Loading...",
+  "general.common.waiting": "Please wait a moment...",
   "services.uiHelper.password.title.enter": "password",
   "tabs.account.language.tip.title": "Tip",
   "tabs.account.language.tip": "After change language，Please restart App",

@@ -26,12 +26,11 @@ angular.module('starter.controllers', [])
         }, false);
         $scope.changeLanguage = function (key) {
             $translate.use(key);
-            window.localStorage['language'] = key;
+            $window.localStorage['language'] = key;
             UIHelper.changeLanguage(key);
             if (ionic.Platform.exitApp) {
-                UIHelper.confirmAndRun('tabs.account.language.tip.title', 'tabs.account.language.tip', function () {
-                    ionic.Platform.exitApp();
-                });
+                UIHelper.showAlert('tabs.account.language.tip');
+                ionic.Platform.exitApp();
             }
 
 
@@ -342,6 +341,7 @@ angular.module('starter.controllers', [])
             }
 
             UIHelper.confirmAndRun(title, msg, function () {
+                UIHelper.blockScreen('general.common.waiting', 10);
                 Feedback.addFeedback(uuid, usage, planting, customerId, username, phone_number, getAddress, getImageSrc).then(
                     function (result) {
                         if (typeof result == "object") {
@@ -368,7 +368,6 @@ angular.module('starter.controllers', [])
 
                 localstorage.set('getImageSrc', '');
                 localstorage.set('getAddress', '');
-                $window.location.reload(true);
             } else {
                 UIHelper.confirmAndRun(title, msg, function () {
                     $scope.usage = '';
@@ -379,7 +378,6 @@ angular.module('starter.controllers', [])
                     localstorage.set('getImageSrc', '');
                     localstorage.set('getAddress', '');
                     $window.location.reload(true);
-
                 });
             }
             //$state.go($state.current, $stateParams, {
@@ -766,13 +764,13 @@ angular.module('starter.controllers', [])
             $state.go('tab.account');
         }
     })
-    .controller('AccountChooseLanguageCtrl', function ($scope, UIHelper) {
+    .controller('AccountChooseLanguageCtrl', function ($scope, $window, UIHelper) {
         $scope.languages = {
             available: ['en', 'zh'],
             selected: UIHelper.getCurrentLanguage()
         };
         $scope.$watch('languages.selected', function (newLang) {
-            window.localStorage['language'] = newLang;
+            $window.localStorage['language'] = newLang;
             UIHelper.changeLanguage(newLang);
         });
     })

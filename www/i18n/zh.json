@@ -42,6 +42,7 @@
   "general.common.back": "返回",
   "general.common.cancel": "取消",
   "general.common.loading": "加载中...",
+  "general.common.waiting": "请稍候...",
   "services.uiHelper.password.title.enter": "密码",
   "tabs.account.language.tip.title": "提示",
   "tabs.account.language.tip": "变更语言后，请重启App",

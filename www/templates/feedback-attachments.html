@@ -1,13 +1,4 @@
 <ion-view view-title="{{'tabs.feedback.form.attachments' | translate}}" hide-tabs="true">
-  <!-- ion-header-bar align-title="center" class="stable-bg">
-    <div class="buttons">
-      <a class="button" href="#/tab/feedback">Confirm</a>
-    </div>
-    <h1 class="title">Attachments</h1>
-    <div class="buttons">
-      <a class="button" href="#/tab/feedback">Cancel</a>
-    </div>
-  </ion-header-bar -->
   <ion-content ng-controller="AttachmentsCtrl">
     <div class="list text-center padding-bottom">
       <label class="item item-button-right" ng-click="choosePics()" data-tap-disabled="true">
@@ -19,11 +10,6 @@
         {{'tabs.feedback.action.TakePhoto' | translate}}
       </label>
     </div>
-    <!-- div id="attachments">
-      <img class="full-image" id="attachments1" ng-model="attachments1" ng-src="">
-      <img class="full-image" id="attachments2" ng-model="attachments3" ng-src="">
-      <img class="full-image" id="attachments3" ng-model="attachments3" ng-src="">
-    </div  -->
 
     <div class="text-center">
       <img class="full-image" id="showImage" ng-model="attachment" ng-src="">

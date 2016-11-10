@@ -163,7 +163,6 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
 
             .state('tab.feedback', {
                 url: '/feedback',
-                cache: false,
                 views: {
                     'tab-feedback': {
                         templateUrl: 'templates/tab-feedback.html',
@@ -191,6 +190,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             })
             .state('tab.feedback-attachments', {
                 url: '/feedback-attachments',
+                cache: false,
                 views: {
                     'tab-feedback': {
                         templateUrl: 'templates/feedback-attachments.html',
