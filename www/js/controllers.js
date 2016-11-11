@@ -99,7 +99,7 @@ angular.module('starter.controllers', [])
             });
     })
     .controller('DashHotProductsListCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
-        UIHelper.blockScreen('general.common.loading', 1.5);
+        //UIHelper.blockScreen('general.common.loading', 1.5);
         // Setup the loader
         ApiHome.getLatestProducts(0, 5).then(
             function (result) {
@@ -172,7 +172,7 @@ angular.module('starter.controllers', [])
             });
     })
     .controller('ProductVideoListCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
-        UIHelper.blockScreen('general.common.loading', 1.5);
+        //UIHelper.blockScreen('general.common.loading', 1.5);
         Products.getProductVideos('DESC', 0, 5).then(
             function (result) {
                 if (typeof result == "object") {
@@ -243,7 +243,7 @@ angular.module('starter.controllers', [])
             var searchKey = searchKey.trim();
             $scope.Products = {};
             if (searchKey) {
-                UIHelper.blockScreen('general.common.loading', 1.5);
+                //UIHelper.blockScreen('general.common.loading', 1.5);
                 Products.getProducts('DESC', 0, 30, '', searchKey).then(
                     function (result) {
                         if (typeof result == "object") {
@@ -301,21 +301,60 @@ angular.module('starter.controllers', [])
         //
         //$scope.$on('$ionicView.enter', function(e) {
         //});
-        $scope.usage = '';
-        $scope.planting = '';
+        $scope.$on('$ionicView.beforeEnter', function () {
+            if(localstorage.get('usage')) {
+                $scope.usage = localstorage.get('usage');
+            } else {
+                $scope.usage = '';
+            }
+            if(localstorage.get('planting')) {
+                $scope.planting = localstorage.get('planting');
+            } else {
+                $scope.planting = '';
+            }
+            if(localstorage.get('username')) {
+                $scope.username = localstorage.get('username');
+            } else {
+                $scope.username = '';
+            }
+            if(localstorage.get('phone_number')) {
+                $scope.phone_number = localstorage.get('phone_number');
+            } else {
+                $scope.phone_number = '';
+            }
+            if(localstorage.get('getAddress')) {
+                $scope.address = localstorage.get('getAddress');
+            } else {
+                $scope.address = '';
+            }
 
-        $scope.username = '';
-        $scope.phone_number = '';
+            var customerId = localstorage.get('customerId');
+            $scope.customerId = customerId;
+            var getImageSrc = localstorage.get('getImageSrc');
 
-        var customerId = localstorage.get('customerId');
-        $scope.customerId = customerId;
-        var getImageSrc = localstorage.get('getImageSrc');
+            if (getImageSrc) {
+                $scope.haveFile = true;
+            } else {
+                $scope.haveFile = false;
+            }
+        });
 
-        if (getImageSrc) {
-            $scope.haveFile = true;
-        } else {
-            $scope.haveFile = false;
-        }
+        $scope.$on('$ionicView.beforeLeave', function () {
+            if($scope.usage) {
+                localstorage.set('usage', $scope.usage);
+            }
+            if($scope.planting) {
+                localstorage.set('planting', $scope.planting);
+            }
+            if($scope.username) {
+                localstorage.set('username', $scope.username);
+            }
+            if($scope.phone_number) {
+                localstorage.set('username', $scope.phone_number);
+            }
+
+
+        });
 
         $scope.sendFeedback = function () {
             var title = 'controllers.addFeedback.confirm.title';
@@ -341,8 +380,8 @@ angular.module('starter.controllers', [])
             }
 
             UIHelper.confirmAndRun(title, msg, function () {
-                UIHelper.blockScreen('general.common.waiting', 10);
-                Feedback.addFeedback(uuid, usage, planting, customerId, username, phone_number, getAddress, getImageSrc).then(
+                //UIHelper.blockScreen('general.common.waiting', 10);
+                Feedback.addFeedback(uuid, usage, planting, $scope.customerId, username, phone_number, getAddress, getImageSrc).then(
                     function (result) {
                         if (typeof result == "object") {
                             $scope.resetForm('noConfirm');
@@ -400,7 +439,7 @@ angular.module('starter.controllers', [])
 
         var page = 1;
         if (typeof customerId != "undefined" && customerId != '') {
-            UIHelper.blockScreen('general.common.loading', 1.5);
+            //UIHelper.blockScreen('general.common.loading', 1.5);
             Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
                 if (typeof result == "object") {
                     $scope.feedbacks = result.data;
@@ -538,12 +577,16 @@ angular.module('starter.controllers', [])
         };
     })
     .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage, UIHelper) {
+        $scope.$on('$ionicView.beforeEnter', function () {
+            if(localstorage.get('getAddress')){
+                $scope.editAddress = localstorage.get('getAddress');
+            }
+        });
         $scope.saveAddress = function () {
             var getAddress = $scope.editAddress;
 
             if (getAddress != undefined && getAddress != '') {
                 localstorage.set('getAddress', $scope.editAddress);
-                $scope.editAddress = '';
             }
             $state.go("tab.feedback");
         }
@@ -602,7 +645,7 @@ angular.module('starter.controllers', [])
             if (!$scope.loginAccount.phoneNumber || !$scope.loginAccount.password) {
                 UIHelper.showAlert('controllers.account.popover.login.validate');
             } else {
-                UIHelper.blockScreen('controllers.account.popover.login.loading', 1.5);
+                //UIHelper.blockScreen('controllers.account.popover.login.loading', 1.5);
                 Account.accountLogin($scope.loginAccount.phoneNumber, $scope.loginAccount.password, '').then(
                     function (result) {
                         if (typeof result == "object") {

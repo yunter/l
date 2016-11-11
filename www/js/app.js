@@ -68,6 +68,20 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
         $ionicConfigProvider.platform.android.views.transition('android');
         //$ionicConfigProvider.views.maxCache(5);
     })
+    .config(function($httpProvider) {
+        $httpProvider.interceptors.push(function($rootScope) {
+            return {
+                request: function(config) {
+                    $rootScope.$broadcast('loading:show')
+                    return config;
+                },
+                response: function(response) {
+                    $rootScope.$broadcast('loading:hide')
+                    return response;
+                }
+            }
+        })
+    })
     .config(function ($stateProvider, $urlRouterProvider, $sceProvider, $translateProvider) {
 
         $sceProvider.enabled(false);
@@ -309,4 +323,13 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                     d.reject(c.key);
                 }), d.promise;
         }
-    }]);
+    }])
+    .run(function($rootScope, $ionicLoading, $translate) {
+        $rootScope.$on('loading:show', function() {
+            $ionicLoading.show({template: $translate('general.common.waiting')});
+        });
+
+        $rootScope.$on('loading:hide', function() {
+            $ionicLoading.hide();
+        });
+    });

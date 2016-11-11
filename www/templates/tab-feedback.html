@@ -29,7 +29,7 @@
       <a class="dark" href="#/tab/feedback-address" data-tap-disabled="true" ng-if="!customerId">
         <label class="item item-icon-right">
           <p>{{'tabs.feedback.form.address' | translate}}</p>
-          <p ng-model="address"></p>
+          <p class="dark" ng-bind-html="address"></p>
           <i class="icon ion-chevron-right icon-accessory"></i>
         </label>
       </a>
