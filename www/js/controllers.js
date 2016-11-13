@@ -746,12 +746,14 @@ angular.module('starter.controllers', [])
     })
     .controller('AccountAvatarCtrl', function ($scope, $state, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $timeout, $stateParams, localstorage, Account, UIHelper) {
 
-        var avatar = document.getElementById('avatar').src;
-        var avatarSrc = localstorage.get('avatar');
+        $scope.$on('$ionicView.afterEnter', function () {
+            var avatar = document.getElementById('avatar');
+            var avatarSrc = localstorage.get('avatar');
 
-        if (avatarSrc) {
-            avatar.src = avatarSrc;
-        }
+            if (avatarSrc) {
+                avatar.src = avatarSrc;
+            }
+        });
 
         $scope.saveAvatar = function () {
             var avatarNew = document.getElementById('avatar').src;
