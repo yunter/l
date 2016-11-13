@@ -254,7 +254,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 views: {
                     'tab-account': {
                         templateUrl: 'templates/account-address.html',
-                        controller: 'AccountCtrl'
+                        controller: 'AccountAddressCtrl'
                     }
                 }
             })

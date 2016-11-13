@@ -43,7 +43,7 @@ angular.module('starter.controllers', [])
                 //banner
                 ApiHome.getSlideShow(result.bannerConfig.id, result.bannerConfig.width, result.bannerConfig.height)
                     .then(function (result) {
-                        if (result.data.banners != undefined) {
+                        if (result.data.banners != "undefined") {
                             $scope.banners = result.data.banners;
                             $timeout(function () {
                                 $ionicSlideBoxDelegate.update();
@@ -302,46 +302,74 @@ angular.module('starter.controllers', [])
         //$scope.$on('$ionicView.enter', function(e) {
         //});
         $scope.$on('$ionicView.beforeEnter', function () {
+
+            $scope.usage        = '';
+            $scope.email        = '';
+            $scope.address      = '';
+            $scope.planting     = '';
+            $scope.username     = '';
+            $scope.phone_number = '';
+            $scope.foreign      = false;
+
+            var customerId    = localstorage.get('customerId');
+            $scope.customerId = (typeof customerId != "undefined") ? customerId : '';
+            var getImageSrc   = localstorage.get('getImageSrc');
+
             if(localstorage.get('usage')) {
-                $scope.usage = localstorage.get('usage');
-            } else {
-                $scope.usage = '';
+                $scope.usage    = localstorage.get('usage');
             }
             if(localstorage.get('planting')) {
                 $scope.planting = localstorage.get('planting');
-            } else {
-                $scope.planting = '';
             }
-            if(localstorage.get('username')) {
-                $scope.username = localstorage.get('username');
-            } else {
-                $scope.username = '';
+            if(localstorage.get('address')) {
+                $scope.address  = localstorage.get('address');
             }
-            if(localstorage.get('phone_number')) {
-                $scope.phone_number = localstorage.get('phone_number');
+            if(localstorage.get('language') != 'zh'){
+                $scope.foreign   = true;
+                if(localstorage.get('email')) {
+                    $scope.email = localstorage.get('email');
+                }
             } else {
-                $scope.phone_number = '';
+                if(localstorage.get('username')) {
+                    $scope.username = localstorage.get('username');
+                }
+                if(localstorage.get('phone_number')) {
+                    $scope.phone_number = localstorage.get('phone_number');
+                }
             }
-            if(localstorage.get('getAddress')) {
-                $scope.address = localstorage.get('getAddress');
-            } else {
-                $scope.address = '';
-            }
-
-            var customerId = localstorage.get('customerId');
-            $scope.customerId = customerId;
-            var getImageSrc = localstorage.get('getImageSrc');
 
             if (getImageSrc) {
                 $scope.haveFile = true;
             } else {
                 $scope.haveFile = false;
             }
+
+            if($scope.customerId != '') {
+                if($scope.foreign) {
+                    $scope.hideInputs = true;
+                    $scope.hideEmailInputs = true;
+                } else {
+                    $scope.hideInputs = true;
+                    $scope.hideEmailInputs = true;
+                }
+            } else {
+                if($scope.foreign) {
+                    $scope.hideInputs = true;
+                    $scope.hideEmailInputs = false;
+                } else {
+                    $scope.hideInputs = false;
+                    $scope.hideEmailInputs = true;
+                }
+            }
+
         });
 
         $scope.$on('$ionicView.beforeLeave', function () {
             if($scope.usage) {
                 localstorage.set('usage', $scope.usage);
+            }
+            if($scope.email) {
+                localstorage.set('email', $scope.email);
             }
             if($scope.planting) {
                 localstorage.set('planting', $scope.planting);
@@ -350,25 +378,23 @@ angular.module('starter.controllers', [])
                 localstorage.set('username', $scope.username);
             }
             if($scope.phone_number) {
-                localstorage.set('username', $scope.phone_number);
+                localstorage.set('phone_number', $scope.phone_number);
             }
-
 
         });
 
         $scope.sendFeedback = function () {
             var title = 'controllers.addFeedback.confirm.title';
-            var msg = 'controllers.addFeedback.confirm.msg';
-            var uuid = localstorage.get('uuid');
-
+            var msg   = 'controllers.addFeedback.confirm.msg';
+            var uuid  = localstorage.get('uuid');
             var usage = $scope.usage;
-            var planting = $scope.planting;
+            var email = $scope.email;
 
-            var username = $scope.username;
+            var planting     = $scope.planting;
+            var username     = $scope.username;
             var phone_number = $scope.phone_number;
-
-            var getAddress = localstorage.get('getAddress');
-            var getImageSrc = localstorage.get('getImageSrc');
+            var getAddress   = localstorage.get('address');
+            var getImageSrc  = localstorage.get('getImageSrc');
 
             if (!usage) {
                 UIHelper.showAlert('controllers.addFeedback.notice.1');
@@ -378,20 +404,50 @@ angular.module('starter.controllers', [])
                 UIHelper.showAlert('controllers.addFeedback.notice.2');
                 return false;
             }
-
+            if(!$scope.foreign) {
+                if (!username) {
+                    UIHelper.showAlert('controllers.addFeedback.notice.5');
+                    return false;
+                }
+                if(!UIHelper.checkPhoneNumber(phone_number)) {
+                    UIHelper.showAlert('controllers.addFeedback.notice.3');
+                    return false;
+                }
+            } else {
+                if(!UIHelper.checkEmail(email)) {
+                    UIHelper.showAlert('controllers.addFeedback.notice.4');
+                    return false;
+                }
+            }
             UIHelper.confirmAndRun(title, msg, function () {
                 //UIHelper.blockScreen('general.common.waiting', 10);
-                Feedback.addFeedback(uuid, usage, planting, $scope.customerId, username, phone_number, getAddress, getImageSrc).then(
-                    function (result) {
-                        if (typeof result == "object") {
-                            $scope.resetForm('noConfirm');
-                            $state.go('tab.feedback-state', {status: 'success'});
-                        } else {
+
+                if(!$scope.foreign) {
+                    Feedback.addFeedback(uuid, usage, planting, $scope.customerId, username, phone_number, getAddress, getImageSrc).then(
+                        function (result) {
+                            if (typeof result == "object") {
+                                $scope.resetForm('noConfirm');
+                                $state.go('tab.feedback-state', {status: 'success'});
+                            } else {
+                                UIHelper.showAlert('controllers.addFeedback.error');
+                            }
+                        }, function () {
                             UIHelper.showAlert('controllers.addFeedback.error');
-                        }
-                    }, function () {
-                        UIHelper.showAlert('controllers.addFeedback.error');
-                    });
+                        });
+                } else {
+                    Feedback.addEmailFeedback(uuid, usage, planting, $scope.customerId, email, getImageSrc).then(
+                        function (result) {
+                            if (typeof result == "object") {
+                                $scope.resetForm('noConfirm');
+                                $state.go('tab.feedback-state', {status: 'success'});
+                            } else {
+                                UIHelper.showAlert('controllers.addFeedback.error');
+                            }
+                        }, function () {
+                            UIHelper.showAlert('controllers.addFeedback.error');
+                        });
+                }
+
             });
         };
 
@@ -404,18 +460,20 @@ angular.module('starter.controllers', [])
                 $scope.planting = '';
                 $scope.username = '';
                 $scope.phone_number = '';
+                $scope.email = '';
 
                 localstorage.set('getImageSrc', '');
-                localstorage.set('getAddress', '');
+                localstorage.set('address', '');
             } else {
                 UIHelper.confirmAndRun(title, msg, function () {
                     $scope.usage = '';
                     $scope.planting = '';
                     $scope.username = '';
                     $scope.phone_number = '';
+                    $scope.email = '';
 
                     localstorage.set('getImageSrc', '');
-                    localstorage.set('getAddress', '');
+                    localstorage.set('address', '');
                     $window.location.reload(true);
                 });
             }
@@ -577,16 +635,16 @@ angular.module('starter.controllers', [])
         };
     })
     .controller('AddressCtrl', function ($scope, $state, $stateParams, localstorage, UIHelper) {
-        $scope.$on('$ionicView.beforeEnter', function () {
-            if(localstorage.get('getAddress')){
-                $scope.editAddress = localstorage.get('getAddress');
+        $scope.$on('$ionicParentView.beforeEnter', function () {
+            if(localstorage.get('address')){
+                $scope.editAddress = localstorage.get('address');
             }
         });
         $scope.saveAddress = function () {
-            var getAddress = $scope.editAddress;
+            var address = $scope.editAddress;
 
-            if (getAddress != undefined && getAddress != '') {
-                localstorage.set('getAddress', $scope.editAddress);
+            if (address != "undefined" && address != '') {
+                localstorage.set('address', $scope.editAddress);
             }
             $state.go("tab.feedback");
         }
@@ -597,16 +655,19 @@ angular.module('starter.controllers', [])
 
     .controller('AccountCtrl', function ($scope, $state, $window, localstorage, $ionicHistory, $ionicPopover, Account, UIHelper) {
 
-        $scope.loginAccount = {phoneNumber: '', password: '', islogin: false};
-        $scope.accountData = {customerId: '', username: '', address: '', language: ''};
+        $scope.$on('$ionicView.beforeEnter', function () {
+            $scope.loginAccount = {phoneNumber: '', password: '', islogin: false};
+            $scope.accountData = {customerId: '', username: '', avatar: '', address: '', language: ''};
+            if(localstorage.get('customerId')) {
+                $scope.loginAccount = {islogin: true};
+                $scope.accountData = {
+                    customerId: localstorage.get('customerId'),
+                    username  : localstorage.get('username'),
+                    avatar    : localstorage.get('avatar'),
+                };
+            }
+        });
 
-        if(localstorage.get('customerId')) {
-            $scope.loginAccount = {islogin: true};
-            $scope.accountData = {
-                customerId: localstorage.get('customerId'),
-                username: localstorage.get('username')
-            };
-        }
         $ionicPopover.fromTemplateUrl('templates/account-login.html', {
             scope: $scope
         }).then(function (popover) {
@@ -655,6 +716,8 @@ angular.module('starter.controllers', [])
                             $scope.accountData.avatar = result.data.custom_field;
                             localstorage.set('customerId', result.data.uid);
                             localstorage.set('token', result.data.token);
+                            localstorage.set('addressId', result.data.address_id);
+                            localstorage.set('address', result.data.address);
                             localstorage.set('username', result.data.fullname);
                             localstorage.set('phoneNumber', result.data.telephone);
                             localstorage.set('avatar', result.data.custom_field);
@@ -674,25 +737,38 @@ angular.module('starter.controllers', [])
 
         };
     })
-    .controller('AccountAvatarCtrl', function ($scope, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $timeout, $stateParams, localstorage, UIHelper) {
+    .controller('AccountAvatarCtrl', function ($scope, $state, $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $timeout, $stateParams, localstorage, Account, UIHelper) {
 
-        $scope.saveAvatar = function () {
-            var title = 'controllers.addFeedback.confirm.title';
-            var msg = 'controllers.addFeedback.confirm.msg5';
-            UIHelper.confirmAndRun(title, msg, function () {
-                $state.go("tab.account");
-            });
-        };
-        var avatar = document.getElementById('avatar');
+        var avatar = document.getElementById('avatar').src;
         var avatarSrc = localstorage.get('avatar');
 
         if (avatarSrc) {
             avatar.src = avatarSrc;
         }
 
+        $scope.saveAvatar = function () {
+            var avatarNew = document.getElementById('avatar').src;
+            if (avatarNew) {
+                localstorage.set('avatar', avatarNew);
+            }
+
+            var customerId = localstorage.get('customerId');
+            if(customerId) {
+                Account.saveAvatar(customerId, avatarNew).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $state.go('tab.account');
+                        } else {
+                            UIHelper.showAlert('controllers.saveAvatar.error');
+                        }
+                    }, function () {
+                        UIHelper.showAlert('controllers.saveAvatar.error');
+                    });
+            }
+        }
         $scope.takeAvatar = function () {
             var options = {
-                quality: 50,
+                quality: 60,
                 destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: true,
@@ -716,7 +792,7 @@ angular.module('starter.controllers', [])
                 maximumImagesCount: 1,
                 width: 300,
                 height: 300,
-                quality: 50
+                quality: 60
             };
             $cordovaImagePicker.getPictures(options)
                 .then(function (results) {
@@ -795,7 +871,7 @@ angular.module('starter.controllers', [])
             };
         });
     })
-    .controller('AccountUsernameCtrl', function ($scope, $state, $stateParams, localstorage, ApiHome, UIHelper) {
+    .controller('AccountUsernameCtrl', function ($scope, $state, $stateParams, localstorage, Account, UIHelper) {
 
         $scope.account_username = localstorage.get('username');
 
@@ -804,7 +880,46 @@ angular.module('starter.controllers', [])
             if (username) {
                 localstorage.set('username', username);
             }
-            $state.go('tab.account');
+
+            var customerId = localstorage.get('customerId');
+            if(customerId) {
+                Account.saveUserName(customerId, username).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $state.go('tab.account');
+                        } else {
+                            UIHelper.showAlert('controllers.saveuUserName.error');
+                        }
+                    }, function () {
+                        UIHelper.showAlert('controllers.saveuUserName.error');
+                    });
+            }
+        }
+    })
+    .controller('AccountAddressCtrl', function ($scope, $state, $stateParams, localstorage, Account, UIHelper) {
+
+        $scope.account_address = localstorage.get('address');
+
+        $scope.saveAddress = function () {
+            var address = $scope.account_address;
+            if (address) {
+                localstorage.set('address', address);
+            }
+
+            var customerId = localstorage.get('customerId');
+            if(customerId) {
+                var addressId = localstorage.get('addressId');
+                Account.saveAddress(customerId, addressId, address).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $state.go('tab.account');
+                        } else {
+                            UIHelper.showAlert('controllers.saveAddress.error');
+                        }
+                    }, function () {
+                        UIHelper.showAlert('controllers.saveAddress.error');
+                    });
+            }
         }
     })
     .controller('AccountChooseLanguageCtrl', function ($scope, $window, UIHelper) {
