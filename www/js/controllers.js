@@ -404,7 +404,7 @@ angular.module('starter.controllers', [])
                 UIHelper.showAlert('controllers.addFeedback.notice.2');
                 return false;
             }
-            if(!$scope.foreign) {
+            if(!$scope.hideInputs) {
                 if (!username) {
                     UIHelper.showAlert('controllers.addFeedback.notice.5');
                     return false;
@@ -413,12 +413,14 @@ angular.module('starter.controllers', [])
                     UIHelper.showAlert('controllers.addFeedback.notice.3');
                     return false;
                 }
-            } else {
+            }
+            if(!$scope.hideEmailInputs) {
                 if(!UIHelper.checkEmail(email)) {
                     UIHelper.showAlert('controllers.addFeedback.notice.4');
                     return false;
                 }
             }
+
             UIHelper.confirmAndRun(title, msg, function () {
                 //UIHelper.blockScreen('general.common.waiting', 10);
 
@@ -489,7 +491,7 @@ angular.module('starter.controllers', [])
             $state.go('tab.feedback');
         }
     })
-    .controller('FeedbackHistoryCtrl', function ($scope, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
+    .controller('FeedbackHistoryCtrl', function ($scope, $state, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
         var customerId = localstorage.get('customerId');
         if (typeof customerId == "undefined" || customerId == '') {
             customerId = localstorage.get('deviceid');
@@ -498,55 +500,60 @@ angular.module('starter.controllers', [])
         var page = 1;
         if (typeof customerId != "undefined" && customerId != '') {
             //UIHelper.blockScreen('general.common.loading', 1.5);
-            Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
-                if (typeof result == "object") {
-                    $scope.feedbacks = result.data;
-                }
-            }, function () {
-                UIHelper.showAlert('controllers.getFeedbackList.error');
-            });
-            $scope.doRefresh = function () {
-                Feedback.getFeedbackList(customerId, (++page - 1) * 5, 5).then(
-                    function (result) {
-                        if (typeof result == "object") {
-                            $scope.feedbacks = result.data;
-                        }
-                    }, function () {
-                        UIHelper.showAlert('controllers.getFeedbackList.error');
 
-                    })
-                    .finally(function () {
-                        // Stop the ion-refresher from spinning
-                        $scope.$broadcast('scroll.refreshComplete');
-                    });
-            };
+            $scope.$on('$ionicView.afterEnter', function () {
+                Feedback.getFeedbackList(customerId, 0, 5).then(function (result) {
+                    if (typeof result == "object") {
+                        $scope.feedbacks = result.data;
+                    }
+                }, function () {
+                    UIHelper.showAlert('controllers.getFeedbackList.error');
+                });
+                $scope.doRefresh = function () {
+                    Feedback.getFeedbackList(customerId, (++page - 1) * 5, 5).then(
+                        function (result) {
+                            if (typeof result == "object") {
+                                $scope.feedbacks = result.data;
+                            }
+                        }, function () {
+                            UIHelper.showAlert('controllers.getFeedbackList.error');
 
-            $scope.moreDataCanBeLoaded = function () {
-                if (page >= 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            };
-            $scope.loadMore = function () {
-                page = --page;
-                if (page < 0) {
-                    page = 0;
-                }
-                Feedback.getFeedbackList(customerId, page * 5, 5).then(
-                    function (result) {
-                        if (typeof result == "object") {
-                            $scope.feedbacks = result.data;
-                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                        })
+                        .finally(function () {
+                            // Stop the ion-refresher from spinning
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+                };
 
-                        }
-                    }, function () {
-                        UIHelper.showAlert('controllers.getFeedbackList.error');
+                $scope.moreDataCanBeLoaded = function () {
+                    if (page >= 1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+                $scope.loadMore = function () {
+                    page = --page;
+                    if (page < 0) {
+                        page = 0;
+                    }
+                    Feedback.getFeedbackList(customerId, page * 5, 5).then(
+                        function (result) {
+                            if (typeof result == "object") {
+                                $scope.feedbacks = result.data;
+                                $scope.$broadcast('scroll.infiniteScrollComplete');
 
-                    });
-            };
-            $scope.$on('$stateChangeSuccess', function () {
-                $scope.loadMore();
+                            }
+                        }, function () {
+                            UIHelper.showAlert('controllers.getFeedbackList.error');
+
+                        });
+                };
+                $scope.$on('$stateChangeSuccess', function () {
+                    if($state.$current.name != 'tab.feedback') {
+                        $scope.loadMore();
+                    }
+                });
             });
         } else {
             $scope.feedbacks = {};
