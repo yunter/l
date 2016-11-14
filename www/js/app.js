@@ -195,6 +195,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             })
             .state('tab.feedback-history', {
                 url: '/feedback-history',
+                cache:false,
                 views: {
                     'tab-feedback': {
                         templateUrl: 'templates/feedback-history.html',

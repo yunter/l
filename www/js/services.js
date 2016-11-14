@@ -429,7 +429,7 @@ angular.module('starter.services', [])
                         feedback_planting: planting,
                         feedback_customerId: customerId,
                         feedback_email: email,
-                        feedback_getImageSrc: getImageSrc,
+                        feedback_getImageSrc: getImageSrc
                     })
                 };
                 var deferred = $q.defer();       // This will handle your promise

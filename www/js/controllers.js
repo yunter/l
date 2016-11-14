@@ -496,7 +496,6 @@ angular.module('starter.controllers', [])
         if (typeof customerId == "undefined" || customerId == '') {
             customerId = localstorage.get('deviceid');
         }
-
         var page = 1;
         if (typeof customerId != "undefined" && customerId != '') {
             //UIHelper.blockScreen('general.common.loading', 1.5);
@@ -768,10 +767,10 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $state.go('tab.account');
                         } else {
-                            UIHelper.showAlert('controllers.saveAvatar.error');
+                            UIHelper.showAlert('controllers.account.saveAvatar.error');
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.saveAvatar.error');
+                        UIHelper.showAlert('controllers.account.saveAvatar.error');
                     });
             }
         }
@@ -897,10 +896,10 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $state.go('tab.account');
                         } else {
-                            UIHelper.showAlert('controllers.saveuUserName.error');
+                            UIHelper.showAlert('controllers.account.saveuUserName.error');
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.saveuUserName.error');
+                        UIHelper.showAlert('controllers.account.saveuUserName.error');
                     });
             }
         }
@@ -923,10 +922,10 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $state.go('tab.account');
                         } else {
-                            UIHelper.showAlert('controllers.saveAddress.error');
+                            UIHelper.showAlert('controllers.account.saveAddress.error');
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.saveAddress.error');
+                        UIHelper.showAlert('controllers.account.saveAddress.error');
                     });
             }
         }
