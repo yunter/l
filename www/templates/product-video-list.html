@@ -1,6 +1,7 @@
 <ion-view view-title="{{'tabs.products.VideoList' | translate}}" hide-tabs>
   <ion-content ng-controller="ProductVideoListCtrl">
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+    <div class="text-center gray padding" ng-if="!ProductVideoList.length">{{'tabs.products.ProductsListNone' | translate}}</div>
     <div class="card" ng-repeat="ProductVideo in ProductVideoList">
       <div class="item item-divider">
         {{ProductVideo.name}}

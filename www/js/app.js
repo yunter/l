@@ -12,10 +12,10 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
         var init = function () {
             console.log("initializing device");
             try {
-                console.log("UUID: " + $cordovaDevice.getUUID());
+                //console.log("UUID: " + $cordovaDevice.getUUID());
                 return $cordovaDevice.getUUID();
             } catch (err) {
-                console.log("Error: " + err.message);
+                //console.log("Error: " + err.message);
                 return '';
             }
 
@@ -31,14 +31,14 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                     .then(function (result) {
                         localstorage.set('deviceid', result.data.deviceid);
                     }, function (error) {
-                        console.log(error);
+                        //console.log(error);
                     });
             } else {
                 uuid = 'localtest';
                 ApiRegDevice.regDevice('localtest', 'browser', '1.0', AppVersion).then(function (result) {
                     localstorage.set('deviceid', result.data.deviceid);
                 }, function (error) {
-                    console.log(error);
+                    //console.log(error);
                 });
 
             }
@@ -66,6 +66,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
         $ionicConfigProvider.platform.android.tabs.position('bottom');
         $ionicConfigProvider.platform.ios.views.transition('ios');
         $ionicConfigProvider.platform.android.views.transition('android');
+        $ionicConfigProvider.views.swipeBackEnabled(false);
         //$ionicConfigProvider.views.maxCache(5);
     })
     .config(function($httpProvider) {
@@ -314,7 +315,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
     .factory("$translateStaticFilesLoader", ["$q", "$http", function (a, b) {
         return function (c) {
             if (!c || !angular.isString(c.prefix) || !angular.isString(c.suffix))
-                throw new Error("Couldn't load static files, no prefix or suffix specified!");
+                throw new Error("Couldn't load static files, no prefix or suffix specified");
             var d = a.defer();
             return b({url: [c.prefix, c.key, c.suffix].join(""), method: "GET", params: ""})
                 .success(function (a) {

@@ -67,6 +67,7 @@
   "tabs.account.view.title": "Me",
   "tabs.account.title": "Me",
   "tabs.feedback.history.datetime": "Submit Datetime",
+  "tabs.feedback.history.none": "None",
   "tabs.feedback.history.usage": "Product usage case",
   "tabs.feedback.history.planting": "Requirement or Planting Situation",
   "tabs.feedback.history.attachment": "Attachment",

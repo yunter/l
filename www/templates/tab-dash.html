@@ -11,9 +11,9 @@
       <div>
         {{IntroDesc}}
       </div>
-
       <a data-tap-disabled="true" class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more gray" ></i></a>
     </div>
+    <div class="padding light text-center energized-bg" ng-if="offline"> {{'controllers.offline'| translate}} </div>
     <div class="hot-products padding">
       <div style="margin-bottom: 1px;" data-tap-disabled="true">
         <div class="item item-icon-left item-icon-right">
@@ -23,6 +23,7 @@
         </div>
       </div>
       <div class="list" ng-controller="DashHotProductsCtrl">
+        <div class="text-center gray padding" ng-if="!latestProducts.length">{{'tabs.products.ProductsListNone' | translate}}</div>
         <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}">
           <img ng-src="{{latestProduct.thumbUrl}}" />
           <h2>{{latestProduct.productName}}</h2>

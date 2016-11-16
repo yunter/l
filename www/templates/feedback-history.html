@@ -9,6 +9,7 @@
   </ion-header-bar>
   <ion-content ng-controller="FeedbackHistoryCtrl">
     <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+    <div class="text-center gray padding" ng-if="!feedbacks.length">{{'tabs.feedback.history.none' | translate}}</div>
     <div class="card" ng-repeat="feedback in feedbacks">
       <div class="item item-divider">
        {{'tabs.feedback.history.datetime' | translate}} {{feedback.created}}

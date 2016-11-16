@@ -2,25 +2,20 @@ angular.module('starter.controllers', [])
     .controller('AppCtrl', function ($rootScope, $state, $stateParams, $window, $cordovaNetwork, $scope, localstorage, $translate, UIHelper) {
         document.addEventListener("deviceready", function () {
 
-            //var type      = $cordovaNetwork.getNetwork();
             var isOnline = $cordovaNetwork.isOnline();
-            //var isOffline = $cordovaNetwork.isOffline();
+            $rootScope.offline = false;
 
             if (!isOnline) {
-                UIHelper.showAlert('controllers.offline');
+                $rootScope.offline = true;
             }
             // listen for Online event
-            $rootScope.$on('$cordovaNetwork:online', function (event, networkState) {
-                //var onlineState = networkState;
-                //alert('onlineState: ' + onlineState);
+            $rootScope.$on('$cordovaNetwork:online', function () {
                 $window.location.reload(true);
             });
 
             // listen for Offline event
-            $rootScope.$on('$cordovaNetwork:offline', function (event, networkState) {
-                //var offlineState = networkState;
-                //alert('offlineState: ' + offlineState);
-                UIHelper.showAlert('controllers.offline');
+            $rootScope.$on('$cordovaNetwork:offline', function () {
+                $rootScope.offline = true;
             });
 
         }, false);
@@ -50,7 +45,7 @@ angular.module('starter.controllers', [])
                             }, 1000);
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.GetSlideShow.request.error');
+                        UIHelper.blockScreen('controllers.GetSlideShow.request.error', 3);
                     });
 
                 //intro
@@ -64,14 +59,14 @@ angular.module('starter.controllers', [])
                             $scope.IntroDesc = result.data.meta_description;
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.GetIntro.request.error');
+                        UIHelper.blockScreen('controllers.GetIntro.request.error', 3);
                     });
 
             } else {
-                UIHelper.showAlert('controllers.getLamsin.Service.err1');
+                UIHelper.blockScreen('controllers.getLamsin.Service.err1', 3);
             }
         }, function () {
-            UIHelper.showAlert('controllers.getLamsin.Service.err2');
+            UIHelper.blockScreen('controllers.getLamsin.Service.err2', 3);
         });
     })
     .controller('DashIntroCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
@@ -84,7 +79,7 @@ angular.module('starter.controllers', [])
                     $scope.IntroDescription = result.data.description;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.GetDashIntro.error');
+                UIHelper.blockScreen('controllers.GetDashIntro.error', 3);
             });
     })
     .controller('DashHotProductsCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
@@ -95,7 +90,7 @@ angular.module('starter.controllers', [])
                     $scope.latestProducts = result.data;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.GetLatestProducts.error');
+                UIHelper.blockScreen('controllers.GetLatestProducts.error', 3);
             });
     })
     .controller('DashHotProductsListCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
@@ -107,7 +102,7 @@ angular.module('starter.controllers', [])
                     $scope.latestProducts = result.data;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.GetLatestProducts.error2');
+                UIHelper.blockScreen('controllers.GetLatestProducts.error2', 3);
             });
         var page = 1;
         $scope.doRefresh = function () {
@@ -117,7 +112,7 @@ angular.module('starter.controllers', [])
                         $scope.latestProducts = result.data;
                     }
                 }, function () {
-                    UIHelper.showAlert('controllers.GetLatestProducts.error');
+                    UIHelper.blockScreen('controllers.GetLatestProducts.error', 3);
 
                 })
                 .finally(function () {
@@ -146,7 +141,7 @@ angular.module('starter.controllers', [])
 
                     }
                 }, function () {
-                    UIHelper.showAlert('controllers.GetLatestProducts.error3');
+                    UIHelper.blockScreen('controllers.GetLatestProducts.error3', 3);
                 });
         };
         $scope.$on('$stateChangeSuccess', function () {
@@ -160,7 +155,7 @@ angular.module('starter.controllers', [])
                     $scope.ProductVideo = result.data;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.GetProductVideos.error');
+                UIHelper.blockScreen('controllers.GetProductVideos.error', 3);
             });
         Products.getProductCategories(0, 2).then(
             function (result) {
@@ -168,7 +163,7 @@ angular.module('starter.controllers', [])
                     $scope.ProductCategories = result.data;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.GetProductCategories.error');
+                UIHelper.blockScreen('controllers.GetProductCategories.error', 3);
             });
     })
     .controller('ProductVideoListCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
@@ -179,7 +174,7 @@ angular.module('starter.controllers', [])
                     $scope.ProductVideoList = result.data;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.GetProductVideos.error');
+                UIHelper.blockScreen('controllers.GetProductVideos.error', 3);
             });
 
         var page = 1;
@@ -190,7 +185,7 @@ angular.module('starter.controllers', [])
                         $scope.latestProducts = result.data;
                     }
                 }, function () {
-                    UIHelper.showAlert('controllers.GetProductVideos.error');
+                    UIHelper.blockScreen('controllers.GetProductVideos.error', 3);
 
                 })
                 .finally(function () {
@@ -218,7 +213,7 @@ angular.module('starter.controllers', [])
 
                     }
                 }, function () {
-                    UIHelper.showAlert('controllers.GetProductVideos.error');
+                    UIHelper.blockScreen('controllers.GetProductVideos.error', 3);
 
                 });
         };
@@ -250,7 +245,7 @@ angular.module('starter.controllers', [])
                             $scope.Products = result.data;
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.GetProducts.error');
+                        UIHelper.blockScreen('controllers.GetProducts.error', 3);
                     });
             }
             //$state.transitionTo($state.current, $stateParams, {
@@ -266,7 +261,7 @@ angular.module('starter.controllers', [])
                             $scope.ProductCategories = result.data;
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.GetProductCategories.error');
+                        UIHelper.blockScreen('controllers.GetProductCategories.error', 3);
                     });
             } else {
                 Products.getProducts('DESC', 1, 100, categoryId, '').then(
@@ -275,7 +270,7 @@ angular.module('starter.controllers', [])
                             $scope.Products = result.data;
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.GetProducts.error');
+                        UIHelper.blockScreen('controllers.GetProducts.error', 3);
                     });
             }
 
@@ -289,7 +284,7 @@ angular.module('starter.controllers', [])
                     $scope.productInfo = result.data;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.GetProductInfo.error');
+                UIHelper.blockScreen('controllers.GetProductInfo.error', 3);
             });
     })
 
@@ -431,10 +426,10 @@ angular.module('starter.controllers', [])
                                 $scope.resetForm('noConfirm');
                                 $state.go('tab.feedback-state', {status: 'success'});
                             } else {
-                                UIHelper.showAlert('controllers.addFeedback.error');
+                                UIHelper.blockScreen('controllers.addFeedback.error', 3);
                             }
                         }, function () {
-                            UIHelper.showAlert('controllers.addFeedback.error');
+                            UIHelper.blockScreen('controllers.addFeedback.error', 3);
                         });
                 } else {
                     Feedback.addEmailFeedback(uuid, usage, planting, $scope.customerId, email, getImageSrc).then(
@@ -443,10 +438,10 @@ angular.module('starter.controllers', [])
                                 $scope.resetForm('noConfirm');
                                 $state.go('tab.feedback-state', {status: 'success'});
                             } else {
-                                UIHelper.showAlert('controllers.addFeedback.error');
+                                UIHelper.blockScreen('controllers.addFeedback.error', 3);
                             }
                         }, function () {
-                            UIHelper.showAlert('controllers.addFeedback.error');
+                            UIHelper.blockScreen('controllers.addFeedback.error', 3);
                         });
                 }
 
@@ -506,7 +501,7 @@ angular.module('starter.controllers', [])
                         $scope.feedbacks = result.data;
                     }
                 }, function () {
-                    UIHelper.showAlert('controllers.getFeedbackList.error');
+                    UIHelper.blockScreen('controllers.getFeedbackList.error', 3);
                 });
                 $scope.doRefresh = function () {
                     Feedback.getFeedbackList(customerId, (++page - 1) * 5, 5).then(
@@ -515,7 +510,7 @@ angular.module('starter.controllers', [])
                                 $scope.feedbacks = result.data;
                             }
                         }, function () {
-                            UIHelper.showAlert('controllers.getFeedbackList.error');
+                            UIHelper.blockScreen('controllers.getFeedbackList.error', 3);
 
                         })
                         .finally(function () {
@@ -544,7 +539,7 @@ angular.module('starter.controllers', [])
 
                             }
                         }, function () {
-                            UIHelper.showAlert('controllers.getFeedbackList.error');
+                            UIHelper.blockScreen('controllers.getFeedbackList.error', 3);
 
                         });
                 };
@@ -730,7 +725,7 @@ angular.module('starter.controllers', [])
                             $scope.popover.hide();
                         }
                     }, function (error) {
-                        UIHelper.showAlert('controllers.account.popover.login.error');
+                        UIHelper.blockScreen('controllers.account.popover.login.error', 3);
                     });
             }
         };
@@ -767,10 +762,10 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $state.go('tab.account');
                         } else {
-                            UIHelper.showAlert('controllers.account.saveAvatar.error');
+                            UIHelper.blockScreen('controllers.account.saveAvatar.error', 3);
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.account.saveAvatar.error');
+                        UIHelper.blockScreen('controllers.account.saveAvatar.error', 3);
                     });
             }
         }
@@ -896,10 +891,10 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $state.go('tab.account');
                         } else {
-                            UIHelper.showAlert('controllers.account.saveuUserName.error');
+                            UIHelper.blockScreen('controllers.account.saveuUserName.error', 3);
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.account.saveuUserName.error');
+                        UIHelper.blockScreen('controllers.account.saveuUserName.error', 3);
                     });
             }
         }
@@ -922,10 +917,10 @@ angular.module('starter.controllers', [])
                         if (typeof result == "object") {
                             $state.go('tab.account');
                         } else {
-                            UIHelper.showAlert('controllers.account.saveAddress.error');
+                            UIHelper.blockScreen('controllers.account.saveAddress.error', 3);
                         }
                     }, function () {
-                        UIHelper.showAlert('controllers.account.saveAddress.error');
+                        UIHelper.blockScreen('controllers.account.saveAddress.error', 3);
                     });
             }
         }
@@ -949,7 +944,7 @@ angular.module('starter.controllers', [])
                     $scope.AboutDesc = result.data.description;
                 }
             }, function () {
-                UIHelper.showAlert('controllers.dashIntro.error');
+                UIHelper.blockScreen('controllers.dashIntro.error', 3);
             });
     });
 
