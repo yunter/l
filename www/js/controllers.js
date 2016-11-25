@@ -56,7 +56,13 @@ angular.module('starter.controllers', [])
                     .then(function (result) {
                         if (typeof result == "object") {
                             $scope.IntroTitle = result.data.title;
-                            $scope.IntroDesc = result.data.meta_description;
+
+                            if(localstorage.get('language') == 'zh') {
+                                var introDesc = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + result.data.meta_description;
+                            } else {
+                                var introDesc = result.data.meta_description;
+                            }
+                            $scope.IntroDesc = introDesc;
                         }
                     }, function () {
                         UIHelper.blockScreen('controllers.GetIntro.request.error', 3);

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.lamsin.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Lamsin</name>
+<widget id="com.cnsprayer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>CNSprayer</name>
   <description>
-        An lamsin project.
+        An CNSprayer.net project.
     </description>
-  <author email="shinrun@163.com" href="http://bluemorpho.cn/">
+  <author email="shinrun@163.com" href="http://www.bluemorpho.cn/">
       Bluemorpho.cn
     </author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-intent href="http:*"/>
+  <allow-intent href="https:*"/>
   <allow-intent href="tel:*"/>
   <allow-intent href="sms:*"/>
   <allow-intent href="mailto:*"/>
