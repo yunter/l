@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.cnsprayer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>CNSprayer</name>
+  <name>LAMSIN</name>
   <description>
-        An CNSprayer.net project.
+    A project of Taizhou Luqiao Qiyong Agriculture Machinery Co., Ltd.
     </description>
   <author email="shinrun@163.com" href="http://www.bluemorpho.cn/">
-      Bluemorpho.cn
+      BlueMorpho.cn
     </author>
   <content src="index.html"/>
   <access origin="*"/>

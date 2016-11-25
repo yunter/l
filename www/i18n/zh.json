@@ -1,5 +1,5 @@
 {
-  "_meta.version": "0.0.1",
+  "_meta.version": "1.0",
   "controllers.offline": "连接网络失败...",
   "controllers.GetSlideShow.request.error": "获取轮播图失败",
   "controllers.GetIntro.request.error": "获取介绍失败",
