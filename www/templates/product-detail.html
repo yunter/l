@@ -1,7 +1,7 @@
 <ion-view view-title="{{'tabs.products.ProductDetail' | translate}}" hide-tabs="true">
   <ion-content>
     <div class="padding" ng-controller="ProductDetailCtrl">
-      <h4 ng-bind="productInfo.name"></h4>
+      <h4 class="stable-bg padding" ng-bind="productInfo.name"></h4>
       <p>
         <img class="full-image" ng-src="{{productInfo.image}}" />
       </p>

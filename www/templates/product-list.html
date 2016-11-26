@@ -18,7 +18,7 @@
       <a class="item item-borderless item-icon-right row-no-padding" ng-repeat="Product in Products" href="#/tab/product-detail/{{Product.productId}}">
         <img ng-src="{{Product.thumbUrl}}" />
         <h2>{{Product.productName}}</h2>
-        <p ng-bind-html="Product.productIntro"></p>
+        <div class="item-text-wrap" ><p ng-bind-html="Product.productIntro"></p></div>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </a>
     </div>
@@ -34,7 +34,7 @@
       <a class="item item-borderless item-icon-right row-no-padding" ng-repeat="Product in Products" href="#/tab/product-detail/{{Product.productId}}">
         <img ng-src="{{Product.thumbUrl}}" />
         <h2>{{Product.productName}}</h2>
-        <p ng-bind-html="Product.productIntro"></p>
+        <div class="item-text-wrap"><p ng-bind-html="Product.productIntro"></p></div>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </a>
     </div>
