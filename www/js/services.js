@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
     .constant('ApiHost', {
-        domain: 'http://ok.cms.debug',
+        domain: 'http://lamsin.bluemorpho.cn',
         uri: '/index.php?route=openapi'
     })
     .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, localstorage, ApiHost, Headers) {
@@ -663,6 +663,11 @@ angular.module('starter.services', [])
                     $ionicLoading.hide();
                     $ionicPopup.alert({
                         title: caption
+                    });
+                }, function () {
+                    $ionicLoading.hide();
+                    $ionicPopup.alert({
+                        title: captionRes
                     });
                 });
             },
