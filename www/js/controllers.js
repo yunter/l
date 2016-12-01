@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-    .controller('AppCtrl', function ($rootScope, $state, $stateParams, $window, $cordovaNetwork, $scope, localstorage, $translate, UIHelper) {
+    .controller('AppCtrl', function ($rootScope, $scope, $state, $stateParams, $window, $cordovaNetwork, localstorage, $translate, UIHelper) {
         document.addEventListener("deviceready", function () {
 
             var isOnline = $cordovaNetwork.isOnline();
@@ -30,8 +30,26 @@ angular.module('starter.controllers', [])
 
 
         };
+
     })
-    .controller('DashCtrl', function ($scope, localstorage, $ionicSlideBoxDelegate, $timeout, ApiHome, UIHelper) {
+    .controller('DashCtrl', function ($scope, $cordovaBadge, $window, localstorage, $ionicSlideBoxDelegate, $timeout, ApiHome, UIHelper) {
+        $scope.$on('$ionicView.enter', function () {
+            document.addEventListener("deviceready", function () {
+                $cordovaBadge.hasPermission().then(function() {
+                    $cordovaBadge.get().then(function(badge) {
+                        if(badge) {
+                            $window.plugins.jPushPlugin.setBadge(0);
+                            $window.plugins.jPushPlugin.resetBadge();
+                            $window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
+                        }
+                    }, function(err) {
+                        // You do not have permission.
+                    });
+                }, function(no) {
+                    // You do not have permission
+                });
+            });
+        });
         $scope.banners = [];
         ApiHome.getLamsin().then(function (result) {
             if (typeof result == "object") {
@@ -40,9 +58,7 @@ angular.module('starter.controllers', [])
                     .then(function (result) {
                         if (result.data.banners != "undefined") {
                             $scope.banners = result.data.banners;
-                            $timeout(function () {
-                                $ionicSlideBoxDelegate.update();
-                            }, 1000);
+                            $ionicSlideBoxDelegate.update();
                         }
                     }, function () {
                         UIHelper.blockScreen('controllers.GetSlideShow.request.error', 3);
@@ -282,11 +298,19 @@ angular.module('starter.controllers', [])
 
         }
     })
-    .controller('ProductDetailCtrl', function ($scope, $stateParams, localstorage, Products, UIHelper) {
+    .controller('ProductDetailCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
+
+        $scope.goProductList = function () {
+            $state.go('tab.products');
+        };
         //get product information
         Products.getProductInfo($stateParams.productId).then(
             function (result) {
                 if (typeof result == "object") {
+                    if(!result.data.name) {
+                        $state.goBack();
+                        UIHelper.blockScreen('controllers.GetProductInfo.none', 3);
+                    }
                     $scope.productInfo = result.data;
                 }
             }, function () {

@@ -32,7 +32,19 @@
       "id": "cordova-plugin-image-picker"
     },
     "cordova-plugin-globalization",
-    "cordova-plugin-network-information"
+    "cordova-plugin-network-information",
+    {
+      "id": "jpush-phonegap-plugin",
+      "locator": "jpush-phonegap-plugin",
+      "variables": {
+        "API_KEY": "cfd8f64f1187e69d2755184d"
+      }
+    },
+    {
+      "locator": "https://github.com/katzer/cordova-plugin-badge.git",
+      "id": "cordova-plugin-badge"
+    },
+    "cordova-plugin-app-event"
   ],
   "cordovaPlatforms": [
     {

@@ -682,6 +682,22 @@ angular.module('starter.services', [])
                     });
                 });
             },
+            confirmNotification: function (captionRes, textRes, onConfirm) {
+                this.translate([captionRes, textRes, 'general.msg.confirm.ok', 'general.btn.cancel']).then(function (t) {
+                    $ionicLoading.hide();
+                    var popup = $ionicPopup.confirm({
+                        title: t[0],
+                        template: t[1],
+                        okText: t[2],
+                        cancelText: t[3]
+                    });
+                    popup.then(function (res) {
+                        if (res) {
+                            onConfirm();
+                        }
+                    });
+                });
+            },
             blockScreen: function (textRes, timeoutSec) {
                 $translate(textRes).then(function (text) {
                     $ionicLoading.show({

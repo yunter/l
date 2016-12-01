@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.translate', 'starter.controllers', 'starter.directives', 'starter.services'])
 
-    .run(function ($ionicPlatform, $state, $cordovaDevice, $translate, localstorage, ApiRegDevice) {
+    .run(function ($ionicPlatform, $state, $cordovaDevice, $translate, localstorage, ApiRegDevice, UIHelper) {
 
         var init = function () {
             console.log("initializing device");
@@ -55,6 +55,84 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
             }
             localstorage.set('uuid', uuid);
 
+            try{
+                window.plugins.jPushPlugin.init();
+                window.plugins.jPushPlugin.setDebugMode(true);
+                window.plugins.jPushPlugin.getRegistrationID(function(data) {
+                    try {
+                        console.log("JPushPlugin:registrationID is " + data);
+                    } catch(exception) {
+                        console.log(exception);
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+            try {
+                document.addEventListener("jpush.receiveNotification", function () {
+                    var alertContent;
+                    if(device.platform == "Android") {
+                        alertContent = event.alert;
+                    } else {
+                        alertContent = event.aps.alert;
+                    }
+
+                    if(alertContent.indexOf("#") != -1) {
+                        var arr   = alertContent.split("#");
+                        var title = 'general.msg.confirm.title';
+                        var msg   = arr[1];
+                        UIHelper.confirmNotification(title, msg, function () {
+                            $state.go('tab.product-detail', {productId:arr[0]});
+                        });
+                    } else {
+                        if(alertContent == 'New products was added') {
+                            $state.go('tab.dash-hotProducts');
+                            UIHelper.blockScreen(alertContent, 5);
+                        } else {
+                            UIHelper.showAlert(alertContent);
+                        }
+                    }
+                }, false);
+            } catch (error){
+                console.log(error);
+            }
+            try {
+                document.addEventListener("jpush.openNotification", function () {
+                    var alertContent;
+                    if(device.platform == "Android") {
+                        alertContent = event.alert;
+                    } else {
+                        alertContent = event.aps.alert;
+                    }
+                    if(alertContent.indexOf("#") != -1) {
+                        var arr   = alertContent.split("#");
+                        var title = 'general.msg.confirm.title';
+                        var msg   = arr[1];
+                        UIHelper.confirmNotification(title, msg, function () {
+                            $state.go('tab.product-detail', {productId:arr[0]});
+                        });
+                    } else {
+                        if(alertContent == 'New products was added') {
+                            $state.go('tab.dash-hotProducts');
+                            UIHelper.blockScreen(alertContent, 5);
+                        } else {
+                            UIHelper.showAlert(alertContent);
+                        }
+                    }
+
+                    window.plugins.jPushPlugin.getApplicationIconBadgeNumber(function(data) {
+                        if(data > 0 ) {
+                            var badgeNum = data - 1;
+                            window.plugins.jPushPlugin.setBadge(badgeNum);
+                            window.plugins.jPushPlugin.resetBadge();
+                            window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badgeNum);
+                            window.plugins.jPushPlugin.setLatestNotificationNum(badgeNum);
+                        }
+                    });
+                }, false);
+            } catch (error) {
+                console.log(error);
+            }
         });
     })
     .config(function ($ionicConfigProvider) {
