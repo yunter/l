@@ -6,10 +6,13 @@
         {{'tabs.products.ProductVideos' | translate}}
         <a href="#/tab/product-video-list" nav-transition="none" class="icon ion-more gray"></a>
       </div>
-      <div class="text-center gray padding" ng-if="!ProductVideo.length">{{'tabs.products.ProductsListNone' | translate}}</div>
+      <div class="text-center gray padding" ng-if="!ProductVideo.length">
+        <i class="ion ion-videocamera ion-videocamera-size-12em gray"></i>
+        <p>{{'tabs.products.ProductsListNone' | translate}}</p>
+      </div>
       <div class="video-container" ng-repeat="pVideo in ProductVideo">
         <video controls="controls" poster="img/375-200.png" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer">
-            <source type="video/mp4" ng-src="{{pVideo.url}}" />
+          <source type="video/mp4" ng-src="{{pVideo.url}}" />
           {{'tabs.products.htmlNotice' | translate}}
         </video>
       </div>
