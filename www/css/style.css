@@ -72,3 +72,6 @@ a {
 .item-input-wrapper-height {
   height: 80px;
 }
+.ion-checkmark-size-3em {
+  font-size: 3em;
+}

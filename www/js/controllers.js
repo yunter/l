@@ -117,6 +117,9 @@ angular.module('starter.controllers', [])
     })
     .controller('DashHotProductsListCtrl', function ($scope, localstorage, ApiHome, UIHelper) {
         //UIHelper.blockScreen('general.common.loading', 1.5);
+        $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+            viewData.enableBack = true;
+        });
         // Setup the loader
         ApiHome.getLatestProducts(0, 5).then(
             function (result) {
@@ -170,7 +173,7 @@ angular.module('starter.controllers', [])
             $scope.loadMore();
         });
     })
-    .controller('ProductsCtrl', function ($scope, $stateParams, localstorage, Products, UIHelper) {
+    .controller('ProductsCtrl', function ($scope, $stateParams, $ionicHistory, localstorage, Products, UIHelper) {
         Products.getProductVideos('DESC', 1, 1).then(
             function (result) {
                 if (typeof result == "object") {
@@ -299,7 +302,9 @@ angular.module('starter.controllers', [])
         }
     })
     .controller('ProductDetailCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
-
+        $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+            viewData.enableBack = true;
+        });
         $scope.goProductList = function () {
             $state.go('tab.products');
         };

@@ -86,8 +86,11 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                         });
                     } else {
                         if(alertContent == 'New products was added') {
-                            $state.go('tab.dash-hotProducts');
-                            UIHelper.blockScreen(alertContent, 5);
+                            var title = 'general.msg.confirm.title';
+                            var msg   = alertContent;
+                            UIHelper.confirmNotification(title, msg, function () {
+                                $state.go('tab.dash-hotProducts');
+                            });
                         } else {
                             UIHelper.showAlert(alertContent);
                         }
@@ -113,8 +116,11 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                         });
                     } else {
                         if(alertContent == 'New products was added') {
-                            $state.go('tab.dash-hotProducts');
-                            UIHelper.blockScreen(alertContent, 5);
+                            var title = 'general.msg.confirm.title';
+                            var msg   = alertContent;
+                            UIHelper.confirmNotification(title, msg, function () {
+                                $state.go('tab.dash-hotProducts');
+                            });
                         } else {
                             UIHelper.showAlert(alertContent);
                         }

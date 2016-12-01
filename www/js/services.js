@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
     .constant('ApiHost', {
-        domain: 'http://lamsin.bluemorpho.cn',
+        domain: 'http://ok.cms.debug',
         uri: '/index.php?route=openapi'
     })
     .factory('ApiRegDevice', function ($http, $q, $httpParamSerializer, localstorage, ApiHost, Headers) {
