@@ -12,7 +12,7 @@
       <h4 class="text-center">{{IntroTitle}}</h4>
 
       <div ng-bind-html="IntroDesc"></div>
-      <a data-tap-disabled="true" class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more gray" ></i></a>
+      <a ng-if="IntroDesc.length" data-tap-disabled="true" class="bar button button-full button-icon" nav-transition="enter" href="#/tab/intro"><i class="icon ion-more gray" ></i></a>
     </div>
     <div class="padding light text-center assertive-bg" ng-if="offline"> {{'controllers.offline'| translate}} </div>
     <div class="hot-products padding">
