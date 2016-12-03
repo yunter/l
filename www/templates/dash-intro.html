@@ -2,7 +2,7 @@
   <ion-content ng-controller="DashIntroCtrl">
     <div class="padding">
       <h4 ng-bind-html="IntroTitle" class="text-center"></h4>
-      <div ng-bind-html="IntroDescription"></div>
+      <div ng-app="htmlLink" ng-bind-html="IntroDescription | addTargetBlank"></div>
     </div>
   </ion-content>
 </ion-view>

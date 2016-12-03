@@ -1,6 +1,6 @@
 <ion-view view-title="{{'tabs.account.AccountAbout' | translate}}" hide-tabs="true">
   <ion-content ng-controller="AccountAboutCtrl" >
-    <div class="padding" ng-bind-html="AboutDesc">
+    <div class="padding" ng-bind-html="AboutDesc | addTargetBlank">
     </div>
   </ion-content>
 </ion-view>
