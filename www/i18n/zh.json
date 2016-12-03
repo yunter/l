@@ -44,6 +44,7 @@
   "controllers.account.saveAddress.error" : "保存失败, code 3",
   "general.btn.cancel": "取消",
   "general.btn.ok": "确认",
+  "general.alert.title": "提示",
   "general.msg.confirm.ok": "去看看",
   "general.msg.confirm.title": "消息提示",
   "general.btn.share": "分享",

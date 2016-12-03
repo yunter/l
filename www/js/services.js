@@ -655,19 +655,19 @@ angular.module('starter.services', [])
     })
     .factory('UIHelper', function ($rootScope, $ionicLoading, $ionicPopup, $timeout, $translate) {
         return {
-            showAlert: function (captionRes, plainSuffix) {
-                $translate(captionRes).then(function (caption) {
-
-                    if (plainSuffix)
-                        caption += plainSuffix;
-                    $ionicLoading.hide();
+            showAlert: function (captionRes) {
+                $ionicLoading.hide();
+                this.translate([captionRes, 'general.btn.ok', 'general.alert.title']).then(function (t) {
                     $ionicPopup.alert({
-                        title: caption
+                        title: t[2],
+                        template: '<p class="text-center">' + t[0] + '</p>',
+                        okText: t[1]
                     });
                 }, function () {
-                    $ionicLoading.hide();
                     $ionicPopup.alert({
-                        title: captionRes
+                        title: t[2],
+                        template: '<p class="text-center">' + t[0] + '</p>',
+                        okText: t[1]
                     });
                 });
             },
@@ -676,7 +676,7 @@ angular.module('starter.services', [])
                     $ionicLoading.hide();
                     var popup = $ionicPopup.confirm({
                         title: t[0],
-                        template: t[1],
+                        template: '<p class="text-center">' + t[1] + '</p>',
                         okText: t[2],
                         cancelText: t[3]
                     });
@@ -692,7 +692,7 @@ angular.module('starter.services', [])
                     $ionicLoading.hide();
                     var popup = $ionicPopup.confirm({
                         title: t[0],
-                        template: t[1],
+                        template: '<p class="text-center">' + t[1] + '</p>',
                         okText: t[2],
                         cancelText: t[3]
                     });

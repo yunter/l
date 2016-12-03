@@ -44,6 +44,7 @@
   "controllers.account.saveAddress.error" : "Something wrong happened, Code 3",
   "general.btn.cancel": "Cancel",
   "general.btn.ok": "OK",
+  "general.alert.title": "Prompt",
   "general.msg.confirm.ok": "View",
   "general.msg.confirm.title": "Notification",
   "general.btn.share": "Share",
