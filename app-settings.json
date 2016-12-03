@@ -1,0 +1,16 @@
+[
+    {
+        "type":"group",
+        "title":"Common",
+        "items":[{
+			"title":"Title",
+			"type":"textfield",
+			"key":"title"
+		}, {
+			"title":"Debug",
+			"type":"toggle",
+			"default":false,
+			"key":"debug"
+		}]
+    }
+]

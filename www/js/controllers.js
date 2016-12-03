@@ -521,7 +521,8 @@ angular.module('starter.controllers', [])
             $state.go('tab.feedback');
         }
     })
-    .controller('FeedbackHistoryCtrl', function ($scope, $state, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper) {
+    .controller('FeedbackHistoryCtrl', function ($scope, $state, $stateParams, localstorage, $ionicLoading, $timeout, Feedback, UIHelper, ApiHost) {
+        $scope.hostURL = ApiHost.domain;
         var customerId = localstorage.get('customerId');
         if (typeof customerId == "undefined" || customerId == '') {
             customerId = localstorage.get('deviceid');
