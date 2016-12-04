@@ -15,7 +15,7 @@
   </ion-nav-buttons>
   <ion-content>
     <div class="hot-products list padding" ng-if="hasChild == 0" >
-      <a class="item item-borderless item-icon-right row-no-padding" ng-repeat="Product in Products" href="#/tab/product-detail/{{Product.productId}}">
+      <a class="item item-borderless item-icon-right row-no-padding" ng-repeat="Product in Products" href="#/tab/product-detail/{{Product.productId}}/{{false}}">
         <img ng-src="{{Product.thumbUrl}}" />
         <h2>{{Product.productName}}</h2>
         <div class="item-text-wrap" ><p ng-bind-html="Product.productIntro"></p></div>
@@ -31,7 +31,7 @@
       </ion-item>
     </ion-list>
     <div class="hot-products list padding" ng-if="hasChild == 2" >
-      <a class="item item-borderless item-icon-right row-no-padding" ng-repeat="Product in Products" href="#/tab/product-detail/{{Product.productId}}">
+      <a class="item item-borderless item-icon-right row-no-padding" ng-repeat="Product in Products" href="#/tab/product-detail/{{Product.productId}}/{{false}}">
         <img ng-src="{{Product.thumbUrl}}" />
         <h2>{{Product.productName}}</h2>
         <div class="item-text-wrap"><p ng-bind-html="Product.productIntro"></p></div>

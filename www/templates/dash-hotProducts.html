@@ -2,7 +2,7 @@
   <ion-content ng-controller="DashHotProductsListCtrl">
       <ion-refresher on-refresh="doRefresh()"></ion-refresher>
     <div class="hot-products list padding">
-      <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}">
+      <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}/{{false}}">
         <img ng-src="{{latestProduct.thumbUrl}}" />
         <h2>{{latestProduct.productName}}</h2>
         <div class="item-text-wrap"><p>{{latestProduct.meta_title}}</p></div>

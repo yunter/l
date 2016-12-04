@@ -302,9 +302,12 @@ angular.module('starter.controllers', [])
         }
     })
     .controller('ProductDetailCtrl', function ($scope, $state, $stateParams, localstorage, Products, UIHelper) {
-        $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-            viewData.enableBack = true;
-        });
+
+        if($stateParams.formNotification == 'false') {
+            $scope.formNotificat = false;
+        } else {
+            $scope.formNotificat = true;
+        }
         $scope.goProductList = function () {
             $state.go('tab.products');
         };

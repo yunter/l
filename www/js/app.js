@@ -82,7 +82,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                         var title = 'general.msg.confirm.title';
                         var msg   = arr[1];
                         UIHelper.confirmNotification(title, msg, function () {
-                            $state.go('tab.product-detail', {productId:arr[0]});
+                            $state.go('tab.product-detail', {productId:arr[0], formNotification:true});
                         });
                     } else {
                         if(alertContent == 'New products was added') {
@@ -112,7 +112,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                         var title = 'general.msg.confirm.title';
                         var msg   = arr[1];
                         UIHelper.confirmNotification(title, msg, function () {
-                            $state.go('tab.product-detail', {productId:arr[0]});
+                            $state.go('tab.product-detail', {productId:arr[0], formNotification:true});
                         });
                     } else {
                         if(alertContent == 'New products was added') {
@@ -214,7 +214,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.hot-product-detail', {
-                url: '/hot-product-detail/:productId',
+                url: '/hot-product-detail/:productId/:formNotification',
                 views: {
                     'tab-dash': {
                         templateUrl: 'templates/product-detail.html',
@@ -251,7 +251,7 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                 }
             })
             .state('tab.product-detail', {
-                url: '/product-detail/:productId',
+                url: '/product-detail/:productId/:formNotification',
                 views: {
                     'tab-products': {
                         templateUrl: 'templates/product-detail.html',

@@ -25,7 +25,7 @@
       </div>
       <div class="list" ng-controller="DashHotProductsCtrl">
         <div class="text-center gray padding" ng-if="!latestProducts.length">{{'tabs.products.ProductsListNone' | translate}}</div>
-        <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}">
+        <a class="item item-borderless row-no-padding" ng-repeat="latestProduct in latestProducts" ng-href="#/tab/hot-product-detail/{{latestProduct.productId}}/{{false}}">
           <img ng-src="{{latestProduct.thumbUrl}}" />
           <h2>{{latestProduct.productName}}</h2>
           <div class="item-text-wrap"><p>{{latestProduct.meta_title}}</p></div>
