@@ -344,6 +344,15 @@ angular.module('starter', ['ionic','ngCordova', 'ngStorage', 'pascalprecht.trans
                     }
                 }
             })
+            .state('tab.account-msg', {
+                url: '/account-msg',
+                views: {
+                    'tab-account': {
+                        templateUrl: 'templates/account-msg.html',
+                        controller: 'AccountMsgCtrl'
+                    }
+                }
+            })
             .state('tab.account-language', {
                 url: '/account-language',
                 views: {

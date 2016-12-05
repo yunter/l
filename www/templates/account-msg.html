@@ -1,0 +1,21 @@
+<ion-view view-title="{{'tabs.account.message.view.title' | translate}}" hide-tabs="true">
+  <ion-content ng-controller="AccountMsgCtrl">
+    <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+    <div class="text-center gray padding margin-top-10" ng-if="!messages.length">{{'tabs.account.message.none' | translate}}</div>
+    <div class="card" ng-repeat="message in messages">
+      <div class="item item-divider">
+       {{'tabs.account.message.datetime' | translate}} {{message.date_added}}
+      </div>
+      <div class="item item-text-wrap">
+        <p>
+          {{message.text}}
+        </p>
+      </div>
+    </div>
+    <ion-infinite-scroll
+      ng-if="moreDataCanBeLoaded()"
+      icon="ion-load-c"
+      on-infinite="loadMore()">
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-view>

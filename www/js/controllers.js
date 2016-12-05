@@ -985,6 +985,61 @@ angular.module('starter.controllers', [])
             }, function () {
                 UIHelper.blockScreen('controllers.dashIntro.error', 3);
             });
+    })
+    .controller('AccountMsgCtrl', function ($scope, $state, $stateParams, $ionicLoading, $timeout, Account, UIHelper) {
+        var page = 1;
+        $scope.$on('$ionicView.afterEnter', function () {
+            Account.getMsgList(0, 10).then(function (result) {
+                if (typeof result == "object") {
+                    $scope.messages = result.data;
+                }
+            }, function () {
+                UIHelper.blockScreen('controllers.getMsgList.error', 3);
+            });
+            $scope.doRefresh = function () {
+                Account.getMsgList((++page - 1) * 10, 10).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.messages = result.data;
+                        }
+                    }, function () {
+                        UIHelper.blockScreen('controllers.getMsgList.error', 3);
+
+                    })
+                    .finally(function () {
+                        // Stop the ion-refresher from spinning
+                        $scope.$broadcast('scroll.refreshComplete');
+                    });
+            };
+
+            $scope.moreDataCanBeLoaded = function () {
+                if (page >= 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+            $scope.loadMore = function () {
+                page = --page;
+                if (page < 0) {
+                    page = 0;
+                }
+                Account.getMsgList(page * 10, 10).then(
+                    function (result) {
+                        if (typeof result == "object") {
+                            $scope.messages = result.data;
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+
+                        }
+                    }, function () {
+                        UIHelper.blockScreen('controllers.getMsgList.error', 3);
+
+                    });
+            };
+            $scope.$on('$stateChangeSuccess', function () {
+                $scope.loadMore();
+            });
+        });
     });
 
 if (typeof String.prototype.trim !== 'function') {

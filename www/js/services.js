@@ -552,6 +552,7 @@ angular.module('starter.services', [])
                 return err;
             }
         }
+
         function saveAvatar(customerId, avatar) {
             try {
                 var request = {
@@ -612,6 +613,35 @@ angular.module('starter.services', [])
             }
         }
 
+        function getMsgList(start, limit) {
+            try {
+                var request = {
+                    method: 'POST',
+                    url: ApiHost.domain + ApiHost.uri + '/message/getMessageList',
+                    headers: Headers,
+                    data: $httpParamSerializer({
+                        start: start,
+                        limit: limit
+                    })
+                };
+                var deferred = $q.defer();       // This will handle your promise
+                $http(request).then(function (response) {
+                    if (typeof response.data === 'object') {
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.reject(response.data);
+                    }
+                }, function (error) {
+                    return deferred.reject(error.data);
+                });
+
+                return deferred.promise;
+
+            } catch (err) {
+                return err;
+            }
+        }
+
         return {
             accountLogin: function (phone_number, password, sms_code) {
                 return accountLogin(phone_number, password, sms_code);
@@ -624,6 +654,9 @@ angular.module('starter.services', [])
             },
             saveAddress: function (customerId, addressId, address) {
                 return saveAddress(customerId, addressId, address);
+            },
+            getMsgList: function (start, limit) {
+                return getMsgList(start, limit);
             }
         };
     })
