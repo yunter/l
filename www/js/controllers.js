@@ -1037,7 +1037,9 @@ angular.module('starter.controllers', [])
                     });
             };
             $scope.$on('$stateChangeSuccess', function () {
-                $scope.loadMore();
+                if($state.$current.name == 'tab.account-msg') {
+                    $scope.loadMore();
+                }
             });
         });
     });
