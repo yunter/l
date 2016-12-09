@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-    .controller('AppCtrl', function ($rootScope, $scope, $state, $stateParams, $window, $cordovaNetwork, localstorage, $translate, UIHelper) {
+    .controller('AppCtrl', function ($rootScope, $scope, $cordovaDevice, $timeout, $state, $stateParams, $window, $cordovaNetwork, localstorage, $translate, UIHelper) {
         document.addEventListener("deviceready", function () {
 
             var isOnline = $cordovaNetwork.isOnline();
@@ -23,9 +23,11 @@ angular.module('starter.controllers', [])
             $translate.use(key);
             $window.localStorage['language'] = key;
             UIHelper.changeLanguage(key);
-            if (ionic.Platform.exitApp) {
-                UIHelper.showAlert('tabs.account.language.tip');
-                ionic.Platform.exitApp();
+            UIHelper.showAlert('tabs.account.language.tip');
+            if ($cordovaDevice.getPlatform() == "Android") {
+                $timeout(function () {
+                    ionic.Platform.exitApp();
+                }, 3000);
             }
 
 
