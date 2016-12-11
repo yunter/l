@@ -599,7 +599,7 @@ angular.module('starter.controllers', [])
         var image = document.getElementById('showImage');
         var imageSrc = localstorage.get('getImageSrc');
 
-        if(imageSrc) {
+        if(imageSrc =! "" && imageSrc != "undefined") {
             image.src = imageSrc;
             $scope.attachment = true;
         }
